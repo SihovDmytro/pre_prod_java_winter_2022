@@ -1,18 +1,22 @@
 package com.task1.subtask1;
 
+import com.task1.subtask2.MyList;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.Objects;
 
 public class Main {
 
     public static void main(String[] args) {
-//        Product product = new Product(new BigDecimal("565.55"),"abrakadabra");
-//        Product food = new Food(new BigDecimal("11.999"),"f",545,111,new GregorianCalendar());
-//        Product cannedFood = new CannedFood();
-//        System.out.println(product);
-//        System.out.println(food);
-//        System.out.println(cannedFood);
+        MyList<String> list = new MyList<>(1);
+        list.add("a");
+        list.add("b");
+        list.add(null);
+        list.add("d");
+        list.add("e");
 
     }
 }

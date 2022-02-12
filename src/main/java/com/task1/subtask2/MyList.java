@@ -1,17 +1,13 @@
 package com.task1.subtask2;
 
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class MyList<T> implements List<T> {
     private Object[] array;
     private int size = 0;
     private static final int DEFAULT_CAPACITY = 5;
-
     public MyList() {
         array = new Object[DEFAULT_CAPACITY];
     }
@@ -41,19 +37,22 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new MyIterator<>();
+    }
+
+    public Iterator<T> iterator(Predicate<T> predicate) {
+        return new MyIteratorWithPredicate<>(predicate);
     }
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(array,size);
+        return Arrays.copyOf(array, size);
     }
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        if(a.length < size)
-        {
-            return Arrays.copyOf(a,size);
+        if (a.length < size) {
+            return Arrays.copyOf(a, size);
         }
         System.arraycopy(array, 0, a, 0, size);
         return a;
@@ -70,7 +69,7 @@ public class MyList<T> implements List<T> {
     public void add(int index, T element) {
         checkIndex(index);
         checkCapacity(1);
-        System.arraycopy(array, index, array,index+1,size - index);
+        System.arraycopy(array, index, array, index + 1, size - index);
         array[index] = element;
         size++;
     }
@@ -79,9 +78,9 @@ public class MyList<T> implements List<T> {
     public boolean addAll(Collection<? extends T> c) {
         Object[] newElements = c.toArray();
         checkCapacity(newElements.length);
-        System.arraycopy(newElements,0,array,size,newElements.length);
-        size+= newElements.length;
-        return newElements.length!=0;
+        System.arraycopy(newElements, 0, array, size, newElements.length);
+        size += newElements.length;
+        return newElements.length != 0;
     }
 
     @Override
@@ -89,10 +88,10 @@ public class MyList<T> implements List<T> {
         checkIndex(index);
         Object[] newElements = c.toArray();
         checkCapacity(newElements.length);
-        System.arraycopy(array,index,array,index+newElements.length,size-index);
-        System.arraycopy(newElements,0,array,index,newElements.length);
+        System.arraycopy(array, index, array, index + newElements.length, size - index);
+        System.arraycopy(newElements, 0, array, index, newElements.length);
         size += newElements.length;
-        return newElements.length!=0;
+        return newElements.length != 0;
     }
 
     @Override
@@ -127,80 +126,78 @@ public class MyList<T> implements List<T> {
     @Override
     public boolean removeAll(Collection<?> c) {
         Object[] elements = c.toArray();
-        boolean modifyed=false;
+        boolean modified = false;
         for (Object element : elements) {
             int index = indexOf(element);
             if (index != -1) {
                 remove(index);
-                modifyed = true;
+                modified = true;
             }
         }
-        return modifyed;
+        return modified;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        boolean modifyed=false;
-        int countOfRetained=0;
-        int i=0;
+        boolean modifyed = false;
+        int countOfRetained = 0;
+        int i = 0;
         Object[] array2 = new Object[array.length];
-        for(;i< size;i++)
-        {
-            if(c.contains(array[i]))
-            {
-                array2[countOfRetained++]=array[i];
+        for (; i < size; i++) {
+            if (c.contains(array[i])) {
+                array2[countOfRetained++] = array[i];
             }
         }
-        if(countOfRetained>0) {
+        if (countOfRetained > 0) {
             System.arraycopy(array2, 0, array, 0, array.length);
             size = countOfRetained;
-            modifyed=true;
+            modifyed = true;
         }
         return modifyed;
     }
 
     @Override
     public void clear() {
-        for(int i=0;i<size;i++)
-        {
-            array[i]=null;
+        for (int i = 0; i < size; i++) {
+            array[i] = null;
         }
-        size=0;
+        size = 0;
     }
 
     @Override
     public T get(int index) {
-        return null;
+        checkIndex(index);
+        return (T) array[index];
     }
 
     @Override
     public T set(int index, T element) {
-        return null;
+        checkIndex(index);
+        T oldElement = (T) array[index];
+        array[index] = element;
+        return oldElement;
     }
 
     @Override
     public T remove(int index) {
         checkIndex(index);
         T removed = (T) array[index];
-        System.arraycopy(array,index+1, array,index,size-index-1);
-        array[size--]=null;
+        System.arraycopy(array, index + 1, array, index, size - index - 1);
+        array[size--] = null;
         return removed;
     }
 
     @Override
     public int indexOf(Object o) {
-        if(o==null) {
+        if (o == null) {
             for (int i = 0; i < size; i++) {
-                if(array[i]==null)
-                {
+                if (array[i] == null) {
                     return i;
                 }
             }
-        }
-        else{
+        } else {
             for (int i = 0; i < size; i++) {
-                if(array[i].equals(o))
-                {
+                if (array[i].equals(o)) {
                     return i;
                 }
             }
@@ -210,7 +207,20 @@ public class MyList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        if (o == null) {
+            for (int i = size - 1; i >= 0; i--) {
+                if (array[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = size - 1; i >= 0; i--) {
+                if (array[i].equals(o)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -229,13 +239,76 @@ public class MyList<T> implements List<T> {
     }
 
     private void checkCapacity(int count) {
-        if (array.length < size+count) {
-            array = Arrays.copyOf(array, (array.length+count)*2);
+        if (array.length < size + count) {
+            array = Arrays.copyOf(array, (array.length + count) * 2);
         }
 
     }
 
-    private void checkIndex(int index){
-        if(index < 0 || index > size) throw new IndexOutOfBoundsException("Size = "+size);
+    private void checkIndex(int index) {
+        if (index < 0 || index > size) throw new IndexOutOfBoundsException("Size = " + size);
+    }
+
+    class MyIterator<T1> implements Iterator<T1> {
+        private int index = 0;
+
+        public MyIterator() {
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T1 next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return (T1) array[index++];
+        }
+
+        public boolean hasNext(Predicate<T> predicate) {
+            return index < size && predicate.test((T) array[index]);
+        }
+
+        public T next(Predicate<T> predicate) {
+            if (!hasNext(predicate)) {
+                throw new NoSuchElementException();
+            }
+            return (T) array[index++];
+        }
+    }
+
+    class MyIteratorWithPredicate<T1> implements Iterator<T1> {
+        private int index = 0;
+        private Predicate<T1> predicate;
+
+        public MyIteratorWithPredicate(Predicate<T1> predicate) {
+            this.predicate = predicate;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (index >= size) return false;
+            int i = index;
+            for (; i < size; i++) {
+                if (predicate.test((T1) array[i]))
+                    return true;
+            }
+            return false;
+        }
+
+        @Override
+        public T1 next() {
+            int i = index;
+            for (; i < size; i++) {
+                if (predicate.test((T1) array[i])) {
+                    index = i + 1;
+                    return (T1) array[index - 1];
+                }
+            }
+            throw new NoSuchElementException();
+        }
     }
 }
