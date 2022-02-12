@@ -7,9 +7,11 @@ public class CannedFood extends Food {
     int canWeight;
     String manufacturer;
 
-    public CannedFood(){}
+    public CannedFood() {
+    }
+
     public CannedFood(BigDecimal price, String name, int calories, int weight, Calendar expirationDate, int canWeight, String manufacturer) {
-        super(price,name, calories, weight, expirationDate);
+        super(price, name, calories, weight, expirationDate);
         this.canWeight = canWeight;
         this.manufacturer = manufacturer;
     }

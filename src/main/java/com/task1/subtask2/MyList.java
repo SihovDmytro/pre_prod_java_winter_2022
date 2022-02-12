@@ -1,13 +1,19 @@
 package com.task1.subtask2;
 
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 public class MyList<T> implements List<T> {
     private Object[] array;
     private int size = 0;
     private static final int DEFAULT_CAPACITY = 5;
+
     public MyList() {
         array = new Object[DEFAULT_CAPACITY];
     }
@@ -197,7 +203,7 @@ public class MyList<T> implements List<T> {
             }
         } else {
             for (int i = 0; i < size; i++) {
-                if (array[i].equals(o)) {
+                if (o.equals(array[i])) {
                     return i;
                 }
             }

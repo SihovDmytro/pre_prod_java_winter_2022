@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Food extends Product{
+public class Food extends Product {
     int calories;
     int weight;
     Calendar expirationDate;
 
     public Food(BigDecimal price, String name, int calories, int weight, Calendar expirationDate) {
-        super(price,name);
+        super(price, name);
         this.calories = calories;
         this.weight = weight;
         this.expirationDate = expirationDate;
@@ -72,7 +72,7 @@ public class Food extends Product{
                 ", name='" + name +
                 ", calories=" + calories +
                 ", weight=" + weight +
-                ", expirationDate=" + new SimpleDateFormat("dd.MM.yyyy").format(expirationDate.getTime()) + '\''+
+                ", expirationDate=" + new SimpleDateFormat("dd.MM.yyyy").format(expirationDate.getTime()) + '\'' +
                 '}';
     }
 }
