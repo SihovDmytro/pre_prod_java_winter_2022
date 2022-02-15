@@ -37,8 +37,8 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean contains(Object o) {
-        return indexOf(o) != -1;
+    public boolean contains(Object object) {
+        return indexOf(object) != -1;
     }
 
     @Override
@@ -56,18 +56,18 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] a) {
-        if (a.length < size) {
-            return Arrays.copyOf(a, size);
+    public <T1> T1[] toArray(T1[] toArray) {
+        if (toArray.length < size) {
+            return Arrays.copyOf(toArray, size);
         }
-        System.arraycopy(array, 0, a, 0, size);
-        return a;
+        System.arraycopy(array, 0, toArray, 0, size);
+        return toArray;
     }
 
     @Override
-    public boolean add(T t) {
+    public boolean add(T element) {
         checkCapacity(1);
-        array[size++] = t;
+        array[size++] = element;
         return true;
     }
 
@@ -81,8 +81,8 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c) {
-        Object[] newElements = c.toArray();
+    public boolean addAll(Collection<? extends T> collection) {
+        Object[] newElements = collection.toArray();
         checkCapacity(newElements.length);
         System.arraycopy(newElements, 0, array, size, newElements.length);
         size += newElements.length;
@@ -90,9 +90,9 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends T> c) {
+    public boolean addAll(int index, Collection<? extends T> collection) {
         checkIndex(index);
-        Object[] newElements = c.toArray();
+        Object[] newElements = collection.toArray();
         checkCapacity(newElements.length);
         System.arraycopy(array, index, array, index + newElements.length, size - index);
         System.arraycopy(newElements, 0, array, index, newElements.length);
@@ -101,8 +101,8 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean remove(Object o) {
-        if (o == null) {
+    public boolean remove(Object object) {
+        if (object == null) {
             for (int i = 0; i < size; i++)
                 if (array[i] == null) {
                     remove(i);
@@ -110,7 +110,7 @@ public class MyList<T> implements List<T> {
                 }
         } else {
             for (int i = 0; i < size; i++)
-                if (o.equals(array[i])) {
+                if (object.equals(array[i])) {
                     remove(i);
                     return true;
                 }
@@ -119,9 +119,9 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
+    public boolean containsAll(Collection<?> collection) {
         boolean check = true;
-        Object[] elements = c.toArray();
+        Object[] elements = collection.toArray();
         for (Object element : elements) {
             if (indexOf(element) == -1)
                 check = false;
@@ -130,8 +130,8 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
-        Object[] elements = c.toArray();
+    public boolean removeAll(Collection<?> collection) {
+        Object[] elements = collection.toArray();
         boolean modified = false;
         for (Object element : elements) {
             int index = indexOf(element);
@@ -144,13 +144,13 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(Collection<?> collection) {
         boolean modifyed = false;
         int countOfRetained = 0;
         int i = 0;
         Object[] array2 = new Object[array.length];
         for (; i < size; i++) {
-            if (c.contains(array[i])) {
+            if (collection.contains(array[i])) {
                 array2[countOfRetained++] = array[i];
             }
         }
@@ -194,8 +194,8 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public int indexOf(Object o) {
-        if (o == null) {
+    public int indexOf(Object object) {
+        if (object == null) {
             for (int i = 0; i < size; i++) {
                 if (array[i] == null) {
                     return i;
@@ -203,7 +203,7 @@ public class MyList<T> implements List<T> {
             }
         } else {
             for (int i = 0; i < size; i++) {
-                if (o.equals(array[i])) {
+                if (object.equals(array[i])) {
                     return i;
                 }
             }
@@ -212,8 +212,8 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public int lastIndexOf(Object o) {
-        if (o == null) {
+    public int lastIndexOf(Object object) {
+        if (object == null) {
             for (int i = size - 1; i >= 0; i--) {
                 if (array[i] == null) {
                     return i;
@@ -221,7 +221,7 @@ public class MyList<T> implements List<T> {
             }
         } else {
             for (int i = size - 1; i >= 0; i--) {
-                if (array[i].equals(o)) {
+                if (array[i].equals(object)) {
                     return i;
                 }
             }
@@ -272,17 +272,6 @@ public class MyList<T> implements List<T> {
                 throw new NoSuchElementException();
             }
             return (T1) array[index++];
-        }
-
-        public boolean hasNext(Predicate<T> predicate) {
-            return index < size && predicate.test((T) array[index]);
-        }
-
-        public T next(Predicate<T> predicate) {
-            if (!hasNext(predicate)) {
-                throw new NoSuchElementException();
-            }
-            return (T) array[index++];
         }
     }
 
