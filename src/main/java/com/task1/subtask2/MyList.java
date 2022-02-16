@@ -43,11 +43,11 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new MyIterator<>();
+        return new MyIterator();
     }
 
     public Iterator<T> iterator(Predicate<T> predicate) {
-        return new MyIteratorWithPredicate<>(predicate);
+        return new MyIteratorWithPredicate(predicate);
     }
 
     @Override
@@ -83,9 +83,9 @@ public class MyList<T> implements List<T> {
     @Override
     public boolean addAll(Collection<? extends T> collection) {
         Object[] newElements = collection.toArray();
-        checkCapacity(newElements.length);
-        System.arraycopy(newElements, 0, array, size, newElements.length);
-        size += newElements.length;
+        for (Object element : newElements) {
+            add((T) element);
+        }
         return newElements.length != 0;
     }
 
@@ -252,10 +252,10 @@ public class MyList<T> implements List<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index > size) throw new IndexOutOfBoundsException("Size = " + size);
+        if (index < 0 || index > size) throw new IndexOutOfBoundsException();
     }
 
-    class MyIterator<T1> implements Iterator<T1> {
+    class MyIterator implements Iterator<T> {
         private int index = 0;
 
         public MyIterator() {
@@ -267,19 +267,19 @@ public class MyList<T> implements List<T> {
         }
 
         @Override
-        public T1 next() {
+        public T next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            return (T1) array[index++];
+            return (T) array[index++];
         }
     }
 
-    class MyIteratorWithPredicate<T1> implements Iterator<T1> {
+    class MyIteratorWithPredicate implements Iterator<T> {
         private int index = 0;
-        private Predicate<T1> predicate;
+        private Predicate<T> predicate;
 
-        public MyIteratorWithPredicate(Predicate<T1> predicate) {
+        public MyIteratorWithPredicate(Predicate<T> predicate) {
             this.predicate = predicate;
         }
 
@@ -288,19 +288,19 @@ public class MyList<T> implements List<T> {
             if (index >= size) return false;
             int i = index;
             for (; i < size; i++) {
-                if (predicate.test((T1) array[i]))
+                if (predicate.test((T) array[i]))
                     return true;
             }
             return false;
         }
 
         @Override
-        public T1 next() {
+        public T next() {
             int i = index;
             for (; i < size; i++) {
-                if (predicate.test((T1) array[i])) {
+                if (predicate.test((T) array[i])) {
                     index = i + 1;
-                    return (T1) array[index - 1];
+                    return (T) array[index - 1];
                 }
             }
             throw new NoSuchElementException();

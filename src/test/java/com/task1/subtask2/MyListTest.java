@@ -20,51 +20,57 @@ class MyListTest {
     }
 
     @Test
-    void addToEnd() {
+    void addElementToEnd() {
         list.add("c");
         list.add("d");
+
         int indexOfLastElement = list.size() - 1;
         int indexOfElementBeforeLast = list.size() - 2;
+
         boolean check = list.get(indexOfLastElement).equals("d") && list.get(indexOfElementBeforeLast).equals("c") && list.size() == 5;
 
         Assertions.assertTrue(check);
     }
 
     @Test
-    void AddToPosition() {
+    void addElementToPosition() {
         list.add(1, "c");
         list.add(1, "d");
 
         boolean check = list.get(1).equals("d") && list.get(2).equals("c") && list.size() == 5;
+
         Assertions.assertTrue(check);
     }
 
     @Test
-    void AddToPositionWhenIndexOutOfBounds() {
+    void addElementToPositionWhenIndexOutOfBounds() {
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.add(-40, "a"));
     }
 
 
     @Test
-    void removeByIndex() {
+    void removeElementByIndex() {
         boolean check = list.remove(1) == null && list.size() == 2;
+
         Assertions.assertTrue(check);
     }
 
     @Test
-    void removeByIndexWhenIndexOutOfBounds() {
+    void removeElementByIndexWhenIndexOutOfBounds() {
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.remove(5));
     }
 
     @Test
-    void RemoveObjectWhenObjectExists() {
+    void removeElementWhenExists() {
         boolean check = list.remove(null) && list.remove("b") && list.size() == 1;
+
         Assertions.assertTrue(check);
     }
 
     @Test
-    void RemoveObjectWhenObjectDoesNotExist() {
+    void removeElementWhenDoesNotExist() {
         boolean check = !list.remove("null") && list.size() == 3;
+
         Assertions.assertTrue(check);
     }
 
@@ -72,6 +78,7 @@ class MyListTest {
     void getElementByIndex() {
         String expected = null;
         String actual = list.get(1);
+
         Assertions.assertEquals(expected, actual);
     }
 
@@ -82,8 +89,9 @@ class MyListTest {
 
 
     @Test
-    void iterator() {
+    void iteratorShouldIterate() {
         Iterator<String> iterator = list.iterator((a) -> a != null);
+
         boolean check = iterator.next().equals("a") && iterator.next().equals("b") && !iterator.hasNext();
 
         Assertions.assertTrue(check);
@@ -92,6 +100,7 @@ class MyListTest {
     @Test
     void iteratorDoesNotHaveNext() {
         Iterator<String> iterator = list.iterator((a) -> a != null);
+
         iterator.next();
         iterator.next();
 
