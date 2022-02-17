@@ -20,7 +20,7 @@ class MyListTest {
     }
 
     @Test
-    void addElementToEnd() {
+    void shouldAddElementToEndOfListWhenAddMethodCalled() {
         list.add("c");
         list.add("d");
 
@@ -33,7 +33,7 @@ class MyListTest {
     }
 
     @Test
-    void addElementToPosition() {
+    void shouldAddElementAtSpecifiedPositionWhenAddMethodCalled() {
         list.add(1, "c");
         list.add(1, "d");
 
@@ -43,39 +43,39 @@ class MyListTest {
     }
 
     @Test
-    void addElementToPositionWhenIndexOutOfBounds() {
+    void shouldThrowIndexOutOfBoundsExceptionWhenAddMethodCalled() {
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.add(-40, "a"));
     }
 
 
     @Test
-    void removeElementByIndex() {
+    void shouldRemoveElementFromListWhenRemoveByIndexMethodCalled() {
         boolean check = list.remove(1) == null && list.size() == 2;
 
         Assertions.assertTrue(check);
     }
 
     @Test
-    void removeElementByIndexWhenIndexOutOfBounds() {
+    void shouldThrowIndexOutOfBoundsExceptionWhenRemoveByIndexMethodCalled() {
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.remove(5));
     }
 
     @Test
-    void removeElementWhenExists() {
+    void shouldRemoveElementFromListWhenRemoveObjectMethodCalled() {
         boolean check = list.remove(null) && list.remove("b") && list.size() == 1;
 
         Assertions.assertTrue(check);
     }
 
     @Test
-    void removeElementWhenDoesNotExist() {
+    void shouldReturnFalseWhenObjectToRemoveDoesNotExist() {
         boolean check = !list.remove("null") && list.size() == 3;
 
         Assertions.assertTrue(check);
     }
 
     @Test
-    void getElementByIndex() {
+    void shouldReturnElementFromListWhenGetMethodCalled() {
         String expected = null;
         String actual = list.get(1);
 
@@ -83,13 +83,13 @@ class MyListTest {
     }
 
     @Test
-    void getElementByIndexWhenIndexDoesNotExist() {
+    void shouldThrowIndexOutOfBoundsExceptionWhenGetMethodCalled() {
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
     }
 
 
     @Test
-    void iteratorShouldIterate() {
+    void shouldReturnFollowingElementWhenNextMethodCalled() {
         Iterator<String> iterator = list.iterator((a) -> a != null);
 
         boolean check = iterator.next().equals("a") && iterator.next().equals("b") && !iterator.hasNext();
@@ -98,7 +98,7 @@ class MyListTest {
     }
 
     @Test
-    void iteratorDoesNotHaveNext() {
+    void shouldThrowNoSuchElementExceptionWhenNextMethodCalled() {
         Iterator<String> iterator = list.iterator((a) -> a != null);
 
         iterator.next();
