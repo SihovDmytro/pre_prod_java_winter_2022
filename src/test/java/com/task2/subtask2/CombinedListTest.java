@@ -1,21 +1,20 @@
 package com.task2.subtask2;
 
-import com.task1.subtask2.MyList;
+import com.task1.subtask2.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
-class MyCombinedListTest {
-    List<String> list;
+class CombinedListTest {
+    java.util.List<String> list;
 
 
     @BeforeEach
     void setUp() {
-        List<String> unmodifiableList = new MyList<>(3);
+        java.util.List<String> unmodifiableList = new List<>(3);
         unmodifiableList.add("a");
         unmodifiableList.add(null);
         unmodifiableList.add("b");
