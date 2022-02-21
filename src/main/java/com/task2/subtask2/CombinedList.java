@@ -8,13 +8,13 @@ public class CombinedList<T> implements List<T> {
     private final List<T> modifiableList;
 
     public CombinedList(List<T> unmodifiableList) {
-        modifiableList = new com.task1.subtask2.MyList<>();
+        modifiableList = new com.task1.subtask2.List<>();
         this.unmodifiableList = unmodifiableList;
     }
 
     public CombinedList() {
-        modifiableList = new com.task1.subtask2.MyList<>();
-        this.unmodifiableList = new com.task1.subtask2.MyList<>();
+        modifiableList = new com.task1.subtask2.List<>();
+        this.unmodifiableList = new com.task1.subtask2.List<>();
     }
 
     @Override

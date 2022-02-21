@@ -1,24 +1,19 @@
 package com.task1.subtask2;
 
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Predicate;
 
-public class MyList<T> implements List<T> {
+public class List<T> implements java.util.List<T> {
     private Object[] array;
     private int size = 0;
     private static final int DEFAULT_CAPACITY = 5;
 
-    public MyList() {
+    public List() {
         array = new Object[DEFAULT_CAPACITY];
     }
 
-    public MyList(int capacity) {
+    public List(int capacity) {
         if (capacity > 0)
             array = new Object[capacity];
         else {
@@ -42,12 +37,12 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new MyIterator();
+    public java.util.Iterator<T> iterator() {
+        return new Iterator();
     }
 
-    public Iterator<T> iterator(Predicate<T> predicate) {
-        return new MyIteratorWithPredicate(predicate);
+    public java.util.Iterator<T> iterator(Predicate<T> predicate) {
+        return new IteratorWithPredicate(predicate);
     }
 
     @Override
@@ -240,7 +235,7 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
+    public java.util.List<T> subList(int fromIndex, int toIndex) {
         return null;
     }
 
@@ -255,10 +250,10 @@ public class MyList<T> implements List<T> {
         if (index < 0 || index > size) throw new IndexOutOfBoundsException();
     }
 
-    class MyIterator implements Iterator<T> {
+    class Iterator implements java.util.Iterator<T> {
         private int index = 0;
 
-        public MyIterator() {
+        public Iterator() {
         }
 
         @Override
@@ -275,11 +270,11 @@ public class MyList<T> implements List<T> {
         }
     }
 
-    class MyIteratorWithPredicate implements Iterator<T> {
+    class IteratorWithPredicate implements java.util.Iterator<T> {
         private int index = 0;
         private Predicate<T> predicate;
 
-        public MyIteratorWithPredicate(Predicate<T> predicate) {
+        public IteratorWithPredicate(Predicate<T> predicate) {
             this.predicate = predicate;
         }
 
