@@ -19,7 +19,7 @@ class MyCombinedListTest {
         unmodifiableList.add("a");
         unmodifiableList.add(null);
         unmodifiableList.add("b");
-        list = new MyCombinedList<>(unmodifiableList);
+        list = new CombinedList<>(unmodifiableList);
     }
     @Test
     void shouldReturnListSize()
