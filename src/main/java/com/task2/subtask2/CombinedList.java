@@ -1,23 +1,18 @@
 package com.task2.subtask2;
 
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
-public class MyCombinedList<T> implements List<T> {
+public class CombinedList<T> implements List<T> {
     private final List<T> unmodifiableList;
     private final List<T> modifiableList;
 
-    public MyCombinedList(List<T> unmodifiableList) {
+    public CombinedList(List<T> unmodifiableList) {
         modifiableList = new com.task1.subtask2.MyList<>();
         this.unmodifiableList = unmodifiableList;
     }
 
-    public MyCombinedList() {
+    public CombinedList() {
         modifiableList = new com.task1.subtask2.MyList<>();
         this.unmodifiableList = new com.task1.subtask2.MyList<>();
     }
@@ -38,8 +33,8 @@ public class MyCombinedList<T> implements List<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new MyIterator();
+    public java.util.Iterator<T> iterator() {
+        return new CombinedIterator();
     }
 
     @Override
@@ -92,18 +87,31 @@ public class MyCombinedList<T> implements List<T> {
         for (Object element : elements) {
             if (indexOf(element) == -1)
                 check = false;
+            break;
         }
         return check;
     }
 
     @Override
     public boolean removeAll(Collection<?> collection) {
+        for (Object element : collection) {
+            int index = unmodifiableList.indexOf(element);
+            if (index != -1) {
+                throw new UnsupportedOperationException();
+            }
+        }
         return modifiableList.removeAll(collection);
+
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-
+        for (Object element : collection) {
+            int index = unmodifiableList.indexOf(element);
+            if (index == -1) {
+                throw new UnsupportedOperationException();
+            }
+        }
         return modifiableList.retainAll(collection);
     }
 
@@ -145,23 +153,23 @@ public class MyCombinedList<T> implements List<T> {
 
     @Override
     public ListIterator<T> listIterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public ListIterator<T> listIterator(int index) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
-    class MyIterator implements Iterator<T> {
+    class CombinedIterator implements Iterator<T> {
         private int cursor = 0;
 
-        MyIterator() {
+        CombinedIterator() {
         }
 
         @Override
