@@ -1,19 +1,24 @@
 package com.task1.subtask2;
 
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-public class List<T> implements java.util.List<T> {
+public class ArrayList<T> implements List<T> {
     private Object[] array;
     private int size = 0;
     private static final int DEFAULT_CAPACITY = 5;
 
-    public List() {
+    public ArrayList() {
         array = new Object[DEFAULT_CAPACITY];
     }
 
-    public List(int capacity) {
+    public ArrayList(int capacity) {
         if (capacity > 0)
             array = new Object[capacity];
         else {
@@ -37,11 +42,11 @@ public class List<T> implements java.util.List<T> {
     }
 
     @Override
-    public java.util.Iterator<T> iterator() {
-        return new Iterator();
+    public Iterator<T> iterator() {
+        return new SimpleIterator();
     }
 
-    public java.util.Iterator<T> iterator(Predicate<T> predicate) {
+    public Iterator<T> iterator(Predicate<T> predicate) {
         return new IteratorWithPredicate(predicate);
     }
 
@@ -140,7 +145,7 @@ public class List<T> implements java.util.List<T> {
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        boolean modifyed = false;
+        boolean modified = false;
         int countOfRetained = 0;
         int i = 0;
         Object[] array2 = new Object[array.length];
@@ -152,9 +157,9 @@ public class List<T> implements java.util.List<T> {
         if (countOfRetained > 0) {
             System.arraycopy(array2, 0, array, 0, array.length);
             size = countOfRetained;
-            modifyed = true;
+            modified = true;
         }
-        return modifyed;
+        return modified;
     }
 
     @Override
@@ -235,7 +240,7 @@ public class List<T> implements java.util.List<T> {
     }
 
     @Override
-    public java.util.List<T> subList(int fromIndex, int toIndex) {
+    public List<T> subList(int fromIndex, int toIndex) {
         return null;
     }
 
@@ -250,10 +255,10 @@ public class List<T> implements java.util.List<T> {
         if (index < 0 || index > size) throw new IndexOutOfBoundsException();
     }
 
-    class Iterator implements java.util.Iterator<T> {
+    class SimpleIterator implements Iterator<T> {
         private int index = 0;
 
-        public Iterator() {
+        public SimpleIterator() {
         }
 
         @Override
@@ -270,7 +275,7 @@ public class List<T> implements java.util.List<T> {
         }
     }
 
-    class IteratorWithPredicate implements java.util.Iterator<T> {
+    class IteratorWithPredicate implements Iterator<T> {
         private int index = 0;
         private Predicate<T> predicate;
 
