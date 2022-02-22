@@ -70,8 +70,7 @@ public class CopyOnWriteList<T> implements List<T> {
     @Override
     public void add(int index, T element) {
         Object[] oldArray = getArray();
-        if (index < 0 || index > getArray().length)
-            throw new IndexOutOfBoundsException("Max index = " + (oldArray.length));
+        checkIndexForAddMethods(index,oldArray);
         Object[] newArray = new Object[oldArray.length + 1];
         int shift = oldArray.length - index;
         System.arraycopy(oldArray, 0, newArray, 0, index);
@@ -96,8 +95,7 @@ public class CopyOnWriteList<T> implements List<T> {
         if (collection.size() == 0) return false;
         Object[] oldArray = getArray();
         Object[] elementsToAdd = collection.toArray();
-        if (index < 0 || index > getArray().length)
-            throw new IndexOutOfBoundsException("Max index = " + (oldArray.length));
+        checkIndexForAddMethods(index,oldArray);
         Object[] newArray = copyAndIncrementLength(oldArray,collection.size());
         System.arraycopy(newArray, index, newArray, index + elementsToAdd.length, oldArray.length - index - 1);
         System.arraycopy(elementsToAdd, 0, newArray, index, elementsToAdd.length);
@@ -275,6 +273,10 @@ public class CopyOnWriteList<T> implements List<T> {
 
     private static void checkIndex(int index, Object[] objects) {
         if (index < 0 || index >= objects.length) throw new IndexOutOfBoundsException();
+    }
+
+    private static void checkIndexForAddMethods(int index, Object[] objects) {
+        if (index < 0 || index > objects.length) throw new IndexOutOfBoundsException();
     }
 
     private Object[] copyAndIncrementLength( Object[] oldArray, int count)
