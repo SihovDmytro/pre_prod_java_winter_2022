@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import java.util.concurrent.locks.ReentrantLock;
-
 
 public class CopyOnWriteList<T> implements List<T> {
 
@@ -63,73 +61,48 @@ public class CopyOnWriteList<T> implements List<T> {
 
     @Override
     public boolean add(T element) {
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] oldArray = getArray();
-            Object[] newArray = Arrays.copyOf(oldArray, oldArray.length + 1);
-            newArray[oldArray.length] = element;
+            Object[] newArray = copyAndIncrementLength(getArray(),1);
+            newArray[newArray.length-1] = element;
             setArray(newArray);
             return true;
-        } finally {
-            reentrantLock.unlock();
-        }
     }
 
     @Override
     public void add(int index, T element) {
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] oldArray = getArray();
-            if (index < 0 || index > getArray().length)
-                throw new IndexOutOfBoundsException("Max index = " + (oldArray.length));
-            Object[] newArray = new Object[oldArray.length + 1];
-            int shift = oldArray.length - index;
-            System.arraycopy(oldArray, 0, newArray, 0, index);
-            newArray[index] = element;
-            System.arraycopy(oldArray, index, newArray, index + 1, shift );
-            setArray(newArray);
-        } finally {
-            reentrantLock.unlock();
-        }
+        Object[] oldArray = getArray();
+        if (index < 0 || index > getArray().length)
+            throw new IndexOutOfBoundsException("Max index = " + (oldArray.length));
+        Object[] newArray = new Object[oldArray.length + 1];
+        int shift = oldArray.length - index;
+        System.arraycopy(oldArray, 0, newArray, 0, index);
+        newArray[index] = element;
+        System.arraycopy(oldArray, index, newArray, index + 1, shift );
+        setArray(newArray);
     }
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
         if (collection.size() == 0) return false;
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] oldArray = getArray();
-            Object[] elementsToAdd = collection.toArray();
-            Object[] newArray = Arrays.copyOf(oldArray, oldArray.length + collection.size());
-            System.arraycopy(elementsToAdd, 0, newArray, oldArray.length, elementsToAdd.length);
-            setArray(newArray);
-            return true;
-        } finally {
-            reentrantLock.unlock();
-        }
+        Object[] oldArray = getArray();
+        Object[] elementsToAdd = collection.toArray();
+        Object[] newArray = copyAndIncrementLength(oldArray, collection.size());
+        System.arraycopy(elementsToAdd, 0, newArray, oldArray.length, elementsToAdd.length);
+        setArray(newArray);
+        return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> collection) {
         if (collection.size() == 0) return false;
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] oldArray = getArray();
-            Object[] elementsToAdd = collection.toArray();
-            if (index < 0 || index > getArray().length)
-                throw new IndexOutOfBoundsException("Max index = " + (oldArray.length));
-            Object[] newArray = Arrays.copyOf(oldArray, oldArray.length + collection.size());
-            System.arraycopy(newArray, index, newArray, index + elementsToAdd.length, oldArray.length - index - 1);
-            System.arraycopy(elementsToAdd, 0, newArray, index, elementsToAdd.length);
-            setArray(newArray);
-            return true;
-        } finally {
-            reentrantLock.unlock();
-        }
+        Object[] oldArray = getArray();
+        Object[] elementsToAdd = collection.toArray();
+        if (index < 0 || index > getArray().length)
+            throw new IndexOutOfBoundsException("Max index = " + (oldArray.length));
+        Object[] newArray = copyAndIncrementLength(oldArray,collection.size());
+        System.arraycopy(newArray, index, newArray, index + elementsToAdd.length, oldArray.length - index - 1);
+        System.arraycopy(elementsToAdd, 0, newArray, index, elementsToAdd.length);
+        setArray(newArray);
+        return true;
     }
 
     @Override
@@ -157,58 +130,40 @@ public class CopyOnWriteList<T> implements List<T> {
     @Override
     public boolean removeAll(Collection<?> collection) {
         if (collection.size() == 0) return false;
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] oldArray = getArray();
-            Object[] newArray = new Object[oldArray.length];
-            int sizeOfNewArray = 0;
-            boolean modified = false;
-            for (int i = 0; i < oldArray.length; i++) {
-                if (!collection.contains(oldArray[i])) {
-                    newArray[sizeOfNewArray++] = oldArray[i];
-                } else modified = true;
-            }
-
-            setArray(Arrays.copyOf(newArray, sizeOfNewArray));
-            return modified;
-        } finally {
-            reentrantLock.unlock();
+        Object[] oldArray = getArray();
+        Object[] newArray = new Object[oldArray.length];
+        int sizeOfNewArray = 0;
+        boolean modified = false;
+        for (int i = 0; i < oldArray.length; i++) {
+            if (!collection.contains(oldArray[i])) {
+                newArray[sizeOfNewArray++] = oldArray[i];
+            } else modified = true;
         }
+
+        setArray(Arrays.copyOf(newArray, sizeOfNewArray));
+        return modified;
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
         if (collection.size() == 0) return false;
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] oldArray = getArray();
-            Object[] newArray = new Object[oldArray.length];
-            int sizeOfNewArray = 0;
-            boolean modified = false;
-            for (int i = 0; i < oldArray.length; i++) {
-                if (collection.contains(oldArray[i])) {
-                    newArray[sizeOfNewArray++] = oldArray[i];
-                } else modified = true;
-            }
-
-            setArray(Arrays.copyOf(newArray, sizeOfNewArray));
-            return modified;
-        } finally {
-            reentrantLock.unlock();
+        Object[] oldArray = getArray();
+        Object[] newArray = new Object[oldArray.length];
+        int sizeOfNewArray = 0;
+        boolean modified = false;
+        for (int i = 0; i < oldArray.length; i++) {
+            if (collection.contains(oldArray[i])) {
+                newArray[sizeOfNewArray++] = oldArray[i];
+            } else modified = true;
         }
+
+        setArray(Arrays.copyOf(newArray, sizeOfNewArray));
+        return modified;
     }
 
     @Override
     public void clear() {
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            setArray(new Object[0]);
-        } finally {
-            reentrantLock.unlock();
-        }
+        setArray(new Object[0]);
     }
 
     @Override
@@ -220,36 +175,24 @@ public class CopyOnWriteList<T> implements List<T> {
 
     @Override
     public T set(int index, T newElement) {
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] objects = getArray();
-            checkIndex(index, objects);
-            Object oldElement = objects[index];
-            objects[index] = newElement;
-            setArray(objects);
-            return (T) oldElement;
-        } finally {
-            reentrantLock.unlock();
-        }
+        Object[] objects = getArray();
+        checkIndex(index, objects);
+        Object oldElement = objects[index];
+        objects[index] = newElement;
+        setArray(objects);
+        return (T) oldElement;
     }
 
     @Override
     public T remove(int index) {
-        ReentrantLock reentrantLock = new ReentrantLock();
-        reentrantLock.lock();
-        try {
-            Object[] objects = getArray();
-            checkIndex(index, objects);
-            Object removedElement = objects[index];
-            Object[] newArray = new Object[objects.length - 1];
-            System.arraycopy(objects, 0, newArray, 0, index);
-            System.arraycopy(objects, index + 1, newArray, index, objects.length - index - 1);
-            setArray(newArray);
-            return (T) removedElement;
-        } finally {
-            reentrantLock.unlock();
-        }
+        Object[] objects = getArray();
+        checkIndex(index, objects);
+        Object removedElement = objects[index];
+        Object[] newArray = new Object[objects.length - 1];
+        System.arraycopy(objects, 0, newArray, 0, index);
+        System.arraycopy(objects, index + 1, newArray, index, objects.length - index - 1);
+        setArray(newArray);
+        return (T) removedElement;
     }
 
     @Override
@@ -332,6 +275,11 @@ public class CopyOnWriteList<T> implements List<T> {
 
     private static void checkIndex(int index, Object[] objects) {
         if (index < 0 || index >= objects.length) throw new IndexOutOfBoundsException();
+    }
+
+    private Object[] copyAndIncrementLength( Object[] oldArray, int count)
+    {
+        return Arrays.copyOf(oldArray, oldArray.length + count);
     }
 
 }
