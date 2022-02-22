@@ -1,20 +1,27 @@
 package com.task2.subtask2;
 
 
-import java.util.*;
+import com.task1.subtask2.ArrayList;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class CombinedList<T> implements List<T> {
     private final List<T> unmodifiableList;
     private final List<T> modifiableList;
 
     public CombinedList(List<T> unmodifiableList) {
-        modifiableList = new com.task1.subtask2.List<>();
+        modifiableList = new ArrayList<>();
         this.unmodifiableList = unmodifiableList;
     }
 
     public CombinedList() {
-        modifiableList = new com.task1.subtask2.List<>();
-        this.unmodifiableList = new com.task1.subtask2.List<>();
+        modifiableList = new ArrayList<>();
+        this.unmodifiableList = new ArrayList<>();
     }
 
     @Override
@@ -33,7 +40,7 @@ public class CombinedList<T> implements List<T> {
     }
 
     @Override
-    public java.util.Iterator<T> iterator() {
+    public Iterator<T> iterator() {
         return new CombinedIterator();
     }
 

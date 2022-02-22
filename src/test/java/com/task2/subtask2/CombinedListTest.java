@@ -1,31 +1,32 @@
 package com.task2.subtask2;
 
-import com.task1.subtask2.List;
+import com.task1.subtask2.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 class CombinedListTest {
-    java.util.List<String> list;
+    List<String> list;
 
 
     @BeforeEach
     void setUp() {
-        java.util.List<String> unmodifiableList = new List<>(3);
+        List<String> unmodifiableList = new ArrayList<>(3);
         unmodifiableList.add("a");
         unmodifiableList.add(null);
         unmodifiableList.add("b");
         list = new CombinedList<>(unmodifiableList);
     }
+
     @Test
-    void shouldReturnListSize()
-    {
+    void shouldReturnListSize() {
         list.add("c");
 
-        Assertions.assertEquals(4,list.size());
+        Assertions.assertEquals(4, list.size());
     }
 
     @Test

@@ -17,11 +17,11 @@ public class CopyOnWriteList<T> implements List<T> {
         array = new Object[0];
     }
 
-    private Object[] getArray() {
+    final Object[] getArray() {
         return array;
     }
 
-    private void setArray(Object[] newArray) {
+    final void setArray(Object[] newArray) {
         array = newArray;
     }
 
@@ -70,10 +70,10 @@ public class CopyOnWriteList<T> implements List<T> {
             Object[] newArray = Arrays.copyOf(oldArray, oldArray.length + 1);
             newArray[oldArray.length] = element;
             setArray(newArray);
+            return true;
         } finally {
             reentrantLock.unlock();
         }
-        return true;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class CopyOnWriteList<T> implements List<T> {
             int shift = oldArray.length - index;
             System.arraycopy(oldArray, 0, newArray, 0, index);
             newArray[index] = element;
-            System.arraycopy(oldArray, index, newArray, index + 1, shift + 1);
+            System.arraycopy(oldArray, index, newArray, index + 1, shift );
             setArray(newArray);
         } finally {
             reentrantLock.unlock();
@@ -163,17 +163,14 @@ public class CopyOnWriteList<T> implements List<T> {
             Object[] oldArray = getArray();
             Object[] newArray = new Object[oldArray.length];
             int sizeOfNewArray = 0;
-            boolean modified =false;
-            for (int i = 0; i < oldArray.length; i++)
-            {
-                if(!collection.contains(oldArray[i]))
-                {
-                    newArray[sizeOfNewArray++]=oldArray[i];
-                }
-                else modified=true;
+            boolean modified = false;
+            for (int i = 0; i < oldArray.length; i++) {
+                if (!collection.contains(oldArray[i])) {
+                    newArray[sizeOfNewArray++] = oldArray[i];
+                } else modified = true;
             }
 
-            setArray(Arrays.copyOf(newArray,sizeOfNewArray));
+            setArray(Arrays.copyOf(newArray, sizeOfNewArray));
             return modified;
         } finally {
             reentrantLock.unlock();
@@ -189,17 +186,14 @@ public class CopyOnWriteList<T> implements List<T> {
             Object[] oldArray = getArray();
             Object[] newArray = new Object[oldArray.length];
             int sizeOfNewArray = 0;
-            boolean modified =false;
-            for (int i = 0; i < oldArray.length; i++)
-            {
-                if(collection.contains(oldArray[i]))
-                {
-                    newArray[sizeOfNewArray++]=oldArray[i];
-                }
-                else modified=true;
+            boolean modified = false;
+            for (int i = 0; i < oldArray.length; i++) {
+                if (collection.contains(oldArray[i])) {
+                    newArray[sizeOfNewArray++] = oldArray[i];
+                } else modified = true;
             }
 
-            setArray(Arrays.copyOf(newArray,sizeOfNewArray));
+            setArray(Arrays.copyOf(newArray, sizeOfNewArray));
             return modified;
         } finally {
             reentrantLock.unlock();
@@ -248,8 +242,10 @@ public class CopyOnWriteList<T> implements List<T> {
             Object[] objects = getArray();
             checkIndex(index, objects);
             Object removedElement = objects[index];
-            System.arraycopy(objects, index + 1, objects, index, objects.length - index - 1);
-            setArray(objects);
+            Object[] newArray = new Object[objects.length - 1];
+            System.arraycopy(objects, 0, newArray, 0, index);
+            System.arraycopy(objects, index + 1, newArray, index, objects.length - index - 1);
+            setArray(newArray);
             return (T) removedElement;
         } finally {
             reentrantLock.unlock();
