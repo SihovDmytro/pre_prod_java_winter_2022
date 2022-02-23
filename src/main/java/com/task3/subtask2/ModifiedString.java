@@ -4,23 +4,11 @@ import java.util.function.Function;
 
 public class ModifiedString {
     private String text;
-    private boolean useFirstAlgorithm = true;
-    private static final Function<String, Integer> algorithm1 = (String::length);
-    private static final Function<String, Integer> algorithm2 = ((txt) -> {
-        int hash = 0;
-        for (int i = 0; i < 4 && i < txt.length(); i++) {
-            hash += txt.charAt(i);
-        }
-        return hash;
-    });
+    private final Function<String, Integer> selectedAlgorithm;
 
-    public ModifiedString(String text) {
+    public ModifiedString(String text, Function<String, Integer> algorithm) {
         this.text = text;
-    }
-
-    public ModifiedString(String text, boolean useFirstAlgorithm) {
-        this.text = text;
-        this.useFirstAlgorithm = useFirstAlgorithm;
+        selectedAlgorithm = algorithm;
     }
 
     public String getText() {
@@ -38,16 +26,8 @@ public class ModifiedString {
                 '}';
     }
 
-    public void switchAlgorithm() {
-        useFirstAlgorithm = !useFirstAlgorithm;
-    }
-
     @Override
     public int hashCode() {
-        if(useFirstAlgorithm)
-        {
-            return algorithm1.apply(text);
-        }
-        return algorithm2.apply(text);
+        return selectedAlgorithm.apply(text);
     }
 }

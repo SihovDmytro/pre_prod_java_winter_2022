@@ -17,64 +17,64 @@ public class HashMapTest {
 
 
     @Test
-    public void shouldPrintHashMapUsingFirstAlgorithm() {
+    public void shouldPrintHashMapWhenHashCodeMethodReturnsStringLength() {
         hashMap = new HashMap<>();
-        hashMap.put(new ModifiedString("apple"), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        hashMap.put(new ModifiedString("apple123"), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        hashMap.put(new ModifiedString("car"), new Product(new BigDecimal(1000000), "car1"));
-        hashMap.put(new ModifiedString("table"), new Product(new BigDecimal(5000), "table1"));
-        hashMap.put(new ModifiedString("canned beans"), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
-        hashMap.put(new ModifiedString("chair"), new Product(new BigDecimal(5001), "chair1"));
+        hashMap.put(new ModifiedString("apple", Util.returnStringLength), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        hashMap.put(new ModifiedString("apple123", Util.returnStringLength), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        hashMap.put(new ModifiedString("car", Util.returnStringLength), new Product(new BigDecimal(1000000), "car1"));
+        hashMap.put(new ModifiedString("table", Util.returnStringLength), new Product(new BigDecimal(5000), "table1"));
+        hashMap.put(new ModifiedString("canned beans", Util.returnStringLength), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
+        hashMap.put(new ModifiedString("chair", Util.returnStringLength), new Product(new BigDecimal(5001), "chair1"));
 
-        System.out.println("shouldPrintHashMapUsingFirstAlgorithm");
+        System.out.println("shouldPrintHashMapWhenHashCodeMethodReturnsStringLength");
         for (Map.Entry<ModifiedString, Product> entry : hashMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getKey().hashCode());
         }
     }
 
     @Test
-    public void shouldPrintLinkedHashMapUsingFirstAlgorithm() {
+    public void shouldPrintLinkedHashMapWhenHashCodeMethodReturnsStringLength() {
         linkedHashMap = new LinkedHashMap<>();
-        linkedHashMap.put(new ModifiedString("apple"), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        linkedHashMap.put(new ModifiedString("apple123"), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        linkedHashMap.put(new ModifiedString("car"), new Product(new BigDecimal(1000000), "car1"));
-        linkedHashMap.put(new ModifiedString("table"), new Product(new BigDecimal(5000), "table1"));
-        linkedHashMap.put(new ModifiedString("canned beans"), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
-        linkedHashMap.put(new ModifiedString("chair"), new Product(new BigDecimal(5001), "chair1"));
+        linkedHashMap.put(new ModifiedString("apple", Util.returnStringLength), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        linkedHashMap.put(new ModifiedString("apple123", Util.returnStringLength), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        linkedHashMap.put(new ModifiedString("car", Util.returnStringLength), new Product(new BigDecimal(1000000), "car1"));
+        linkedHashMap.put(new ModifiedString("table", Util.returnStringLength), new Product(new BigDecimal(5000), "table1"));
+        linkedHashMap.put(new ModifiedString("canned beans", Util.returnStringLength), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
+        linkedHashMap.put(new ModifiedString("chair", Util.returnStringLength), new Product(new BigDecimal(5001), "chair1"));
 
-        System.out.println("shouldPrintLinkedHashMapUsingFirstAlgorithm");
+        System.out.println("shouldPrintLinkedHashMapWhenHashCodeMethodReturnsStringLength");
         for (Map.Entry<ModifiedString, Product> entry : linkedHashMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getKey().hashCode());
         }
     }
 
     @Test
-    public void shouldPrintHashMapUsingSecondAlgorithm() {
+    public void shouldPrintHashMapWhenHashCodeMethodReturnsSumOfFirstFourChars() {
         hashMap = new HashMap<>();
-        hashMap.put(new ModifiedString("apple", false), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        hashMap.put(new ModifiedString("apple123", false), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        hashMap.put(new ModifiedString("car", false), new Product(new BigDecimal(1000000), "car1"));
-        hashMap.put(new ModifiedString("table", false), new Product(new BigDecimal(5000), "table1"));
-        hashMap.put(new ModifiedString("canned beans", false), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
-        hashMap.put(new ModifiedString("chair", false), new Product(new BigDecimal(5001), "chair1"));
+        hashMap.put(new ModifiedString("apple", Util.returnSumOfFirstFourChars), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        hashMap.put(new ModifiedString("apple123", Util.returnSumOfFirstFourChars), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        hashMap.put(new ModifiedString("car", Util.returnSumOfFirstFourChars), new Product(new BigDecimal(1000000), "car1"));
+        hashMap.put(new ModifiedString("table", Util.returnSumOfFirstFourChars), new Product(new BigDecimal(5000), "table1"));
+        hashMap.put(new ModifiedString("canned beans", Util.returnSumOfFirstFourChars), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
+        hashMap.put(new ModifiedString("chair", Util.returnSumOfFirstFourChars), new Product(new BigDecimal(5001), "chair1"));
 
-        System.out.println("shouldPrintHashMapUsingSecondAlgorithm");
+        System.out.println("shouldPrintHashMapWhenHashCodeMethodReturnsSumOfFirstFourChars");
         for (Map.Entry<ModifiedString, Product> entry : hashMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getKey().hashCode());
         }
     }
 
     @Test
-    public void shouldPrintLinkedHashMapUsingSecondAlgorithm() {
+    public void shouldPrintLinkedHashMapWhenHashCodeMethodReturnsSumOfFirstFourChars() {
         linkedHashMap = new LinkedHashMap<>();
-        linkedHashMap.put(new ModifiedString("apple", false), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        linkedHashMap.put(new ModifiedString("apple123", false), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
-        linkedHashMap.put(new ModifiedString("car", false), new Product(new BigDecimal(1000000), "car1"));
-        linkedHashMap.put(new ModifiedString("table", false), new Product(new BigDecimal(5000), "table1"));
-        linkedHashMap.put(new ModifiedString("canned beans", false), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
-        linkedHashMap.put(new ModifiedString("chair", false), new Product(new BigDecimal(5001), "chair1"));
+        linkedHashMap.put(new ModifiedString("apple", Util.returnSumOfFirstFourChars), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        linkedHashMap.put(new ModifiedString("apple123", Util.returnSumOfFirstFourChars), new Food(new BigDecimal(12), "apple1", 10, 500, Calendar.getInstance()));
+        linkedHashMap.put(new ModifiedString("car", Util.returnSumOfFirstFourChars), new Product(new BigDecimal(1000000), "car1"));
+        linkedHashMap.put(new ModifiedString("table", Util.returnSumOfFirstFourChars), new Product(new BigDecimal(5000), "table1"));
+        linkedHashMap.put(new ModifiedString("canned beans", Util.returnSumOfFirstFourChars), new CannedFood(new BigDecimal(50), "beans1", 100, 2000, Calendar.getInstance(), 100, "dasdadvs"));
+        linkedHashMap.put(new ModifiedString("chair", Util.returnSumOfFirstFourChars), new Product(new BigDecimal(5001), "chair1"));
 
-        System.out.println("shouldPrintLinkedHashMapUsingSecondAlgorithm");
+        System.out.println("shouldPrintLinkedHashMapWhenHashCodeMethodReturnsSumOfFirstFourChars");
         for (Map.Entry<ModifiedString, Product> entry : linkedHashMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getKey().hashCode());
         }
