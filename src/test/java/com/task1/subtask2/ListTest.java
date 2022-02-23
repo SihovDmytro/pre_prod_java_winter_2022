@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class MyListTest {
-    MyList<String> list = new MyList<>();
+class ListTest {
+    ArrayList<String> list = new ArrayList<>();
 
 
     @BeforeEach
     void setUp() {
-        list = new MyList<>(10);
+        list = new ArrayList<>(10);
         list.add("a");
         list.add(null);
         list.add("b");
@@ -93,7 +93,6 @@ class MyListTest {
         Iterator<String> iterator = list.iterator((a) -> a != null);
 
         boolean check = iterator.next().equals("a") && iterator.next().equals("b") && !iterator.hasNext();
-
         Assertions.assertTrue(check);
     }
 

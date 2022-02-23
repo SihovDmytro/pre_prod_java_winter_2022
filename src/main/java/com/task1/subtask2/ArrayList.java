@@ -9,16 +9,16 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-public class MyList<T> implements List<T> {
+public class ArrayList<T> implements List<T> {
     private Object[] array;
     private int size = 0;
     private static final int DEFAULT_CAPACITY = 5;
 
-    public MyList() {
+    public ArrayList() {
         array = new Object[DEFAULT_CAPACITY];
     }
 
-    public MyList(int capacity) {
+    public ArrayList(int capacity) {
         if (capacity > 0)
             array = new Object[capacity];
         else {
@@ -43,11 +43,11 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new MyIterator();
+        return new SimpleIterator();
     }
 
     public Iterator<T> iterator(Predicate<T> predicate) {
-        return new MyIteratorWithPredicate(predicate);
+        return new IteratorWithPredicate(predicate);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class MyList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        boolean modifyed = false;
+        boolean modified = false;
         int countOfRetained = 0;
         int i = 0;
         Object[] array2 = new Object[array.length];
@@ -157,9 +157,9 @@ public class MyList<T> implements List<T> {
         if (countOfRetained > 0) {
             System.arraycopy(array2, 0, array, 0, array.length);
             size = countOfRetained;
-            modifyed = true;
+            modified = true;
         }
-        return modifyed;
+        return modified;
     }
 
     @Override
@@ -255,10 +255,10 @@ public class MyList<T> implements List<T> {
         if (index < 0 || index > size) throw new IndexOutOfBoundsException();
     }
 
-    class MyIterator implements Iterator<T> {
+    class SimpleIterator implements Iterator<T> {
         private int index = 0;
 
-        public MyIterator() {
+        public SimpleIterator() {
         }
 
         @Override
@@ -275,11 +275,11 @@ public class MyList<T> implements List<T> {
         }
     }
 
-    class MyIteratorWithPredicate implements Iterator<T> {
+    class IteratorWithPredicate implements Iterator<T> {
         private int index = 0;
         private Predicate<T> predicate;
 
-        public MyIteratorWithPredicate(Predicate<T> predicate) {
+        public IteratorWithPredicate(Predicate<T> predicate) {
             this.predicate = predicate;
         }
 
