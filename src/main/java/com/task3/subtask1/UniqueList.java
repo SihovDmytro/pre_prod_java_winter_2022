@@ -1,6 +1,10 @@
 package com.task3.subtask1;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.Objects;
 import java.util.function.UnaryOperator;
 
 public class UniqueList<T> extends ArrayList<T> {

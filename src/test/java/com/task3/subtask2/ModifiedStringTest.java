@@ -7,17 +7,15 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class HashCodeTest {
-    private HashMap<MyString, Product> hashMap = new HashMap<>();
-    private LinkedHashMap<String, Product> linkedHashMap = new LinkedHashMap<>();
+public class ModifiedStringTest {
 
     @Test
     public void shouldReturnHashCodeUsingFirstAlgorithm()
     {
-        MyString1 myString1 = new MyString1("some string");
+        ModifiedString modifiedString = new ModifiedString("some string");
 
         int expected = 11;
-        int actual = myString1.hashCode();
+        int actual = modifiedString.hashCode();
 
         Assertions.assertEquals(expected,actual);
     }
@@ -25,10 +23,11 @@ public class HashCodeTest {
     @Test
     public void shouldReturnHashCodeUsingSecondAlgorithm()
     {
-        MyString2 myString2 = new MyString2("some string");
+        ModifiedString modifiedString2 = new ModifiedString("some string");
+        modifiedString2.switchAlgorithm();
 
         int expected = 's'+'o'+'m'+'e';
-        int actual = myString2.hashCode();
+        int actual = modifiedString2.hashCode();
 
         Assertions.assertEquals(expected,actual);
     }
