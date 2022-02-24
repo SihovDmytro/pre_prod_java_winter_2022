@@ -1,6 +1,11 @@
 package com.task1.subtask1;
 
+import com.task4.Path;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Properties;
 
 public class Product {
     BigDecimal price;
@@ -50,9 +55,13 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "price=" + price +
-                ", name='" + name + '\'' +
-                '}';
+        Properties properties = new Properties();
+        try (InputStream input = Product.class.getClassLoader().getResourceAsStream(Path.pathToProperties)) {
+            properties.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "name: " + name + "\n" +
+                "price for one item: " + price + " " + properties.getProperty("product.currency") + "\n";
     }
 }

@@ -1,6 +1,8 @@
 package com.task4;
 
 import com.task1.subtask1.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -10,16 +12,24 @@ import java.util.Map;
 public class Cart {
     private HashMap<Product, Integer> cart = new HashMap<>();
     private LinkedHashMap<Product, Integer> last5Products = new LinkedHashMap<>();
+    private static final Logger LOG = LogManager.getLogger(Cart.class);
 
     public Cart() {
     }
 
+    public HashMap<Product, Integer> getCartHashMap() {
+        return cart;
+    }
+
     public void addToCart(Product product, int number) {
-        if (!cart.containsKey(product))
+        if(number<1) return;
+        if (!cart.containsKey(product)) {
             cart.put(product, number);
+        }
         else {
             cart.replace(product, cart.get(product) + number);
         }
+        LOG.debug("Add product to the cart: "+product.getName());
     }
 
     public void removeFromCart(Product product, int number) {
@@ -43,4 +53,6 @@ public class Cart {
         cart.clear();
         return totalPrice;
     }
+
+
 }

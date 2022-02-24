@@ -1,8 +1,13 @@
 package com.task1.subtask1;
 
+import com.task4.Path;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Properties;
 
 public class Food extends Product {
     int calories;
@@ -65,14 +70,21 @@ public class Food extends Product {
         return result;
     }
 
+    private String getStringExpDate() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(expirationDate.getTime());
+    }
+
     @Override
     public String toString() {
-        return "Food{" +
-                " price=" + price +
-                ", name='" + name +
-                ", calories=" + calories +
-                ", weight=" + weight +
-                ", expirationDate=" + new SimpleDateFormat("dd.MM.yyyy").format(expirationDate.getTime()) + '\'' +
-                '}';
+        Properties properties = new Properties();
+        try (InputStream input = Product.class.getClassLoader().getResourceAsStream(Path.pathToProperties)) {
+            properties.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return super.toString() +
+                "calories: " + calories + " " + properties.getProperty("product.calories") + "\n" +
+                "weight: " + weight + " " + properties.getProperty("product.weight") + "\n" +
+                "expiration date: " + getStringExpDate() + "\n";
     }
 }
