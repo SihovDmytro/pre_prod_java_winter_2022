@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true">
+    <Appenders>
+        <RollingFile name="File" fileName="shop.log" append="true"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">>
+            <PatternLayout>
+                <Pattern>%sn %d{yyyy/MM/dd HH:mm:ss} %-5p [%t] %C{3}.%M(%F:%L) – %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval = "1" />
+                <SizeBasedTriggeringPolicy
+                        size="250 MB" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+<!--        <Logger name="com.my.payment" level="TRACE" additivity="true">-->
+<!--            <AppenderRef ref="Console" />-->
+<!--        </Logger>-->
+        <Root level="ALL">
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

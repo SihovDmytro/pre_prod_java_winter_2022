@@ -1,9 +1,10 @@
 package com.task4;
 
 import com.task1.subtask1.CannedFood;
-import com.task1.subtask1.Food;
 import com.task1.subtask1.Furniture;
 import com.task1.subtask1.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class ShopDAO {
     private List<Product> productList;
-
+    private static final Logger LOG = LogManager.getLogger(ShopDAO.class);
     public ShopDAO() {
         productList = new ArrayList<>();
         productList.add(new Furniture(new BigDecimal(2499),"dinner table",56,125,140));
@@ -28,5 +29,19 @@ public class ShopDAO {
         productList.add(new CannedFood(new BigDecimal("55"),"canned pineapple",122,350,calendar,19,"KharkivFactory"));
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
 
+    public Product getProduct(int id)
+    {
+        Product product=null;
+        try{
+            product = productList.get(id);
+        }
+        catch (IndexOutOfBoundsException exception){
+            LOG.info("This product is not available: "+id);
+        }
+        return product;
+    }
 }

@@ -1,6 +1,11 @@
 package com.task1.subtask1;
 
+import com.task4.Path;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Properties;
 
 public class Furniture extends Product{
     private int height;
@@ -40,14 +45,18 @@ public class Furniture extends Product{
 
     @Override
     public String toString() {
-        return "Furniture{" +
-                "height=" + height +
-                ", width=" + width +
-                ", length=" + length +
-                ", price=" + price +
-                ", name='" + name + '\'' +
-                '}';
+        Properties properties = new Properties();
+        try (InputStream input = Product.class.getClassLoader().getResourceAsStream(Path.pathToProperties)) {
+            properties.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return super.toString() +
+                "height: " + height + " " + properties.getProperty("product.dimension") + "\n" +
+                "width: " + width + " " + properties.getProperty("product.dimension") + "\n" +
+                "length: " + length + " " + properties.getProperty("product.dimension") + "\n";
     }
+
 
     @Override
     public boolean equals(Object o) {
