@@ -1,12 +1,9 @@
 package com.task1.subtask1;
 
-import com.task4.Path;
+import com.task4.ShopProperties;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.Properties;
 
 public class CannedFood extends Food {
     int canWeight;
@@ -59,14 +56,8 @@ public class CannedFood extends Food {
 
     @Override
     public String toString() {
-        Properties properties = new Properties();
-        try (InputStream input = Product.class.getClassLoader().getResourceAsStream(Path.pathToProperties)) {
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return super.toString() +
-                "can weight: " + canWeight + " " + properties.getProperty("product.weight") + "\n" +
+                "can weight: " + canWeight + " " + ShopProperties.getProperty("product.weight") + "\n" +
                 "manufacturer: " + manufacturer + "\n";
     }
 }

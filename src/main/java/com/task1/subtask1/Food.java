@@ -1,13 +1,10 @@
 package com.task1.subtask1;
 
-import com.task4.Path;
+import com.task4.ShopProperties;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Properties;
 
 public class Food extends Product {
     int calories;
@@ -76,15 +73,9 @@ public class Food extends Product {
 
     @Override
     public String toString() {
-        Properties properties = new Properties();
-        try (InputStream input = Product.class.getClassLoader().getResourceAsStream(Path.pathToProperties)) {
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return super.toString() +
-                "calories: " + calories + " " + properties.getProperty("product.calories") + "\n" +
-                "weight: " + weight + " " + properties.getProperty("product.weight") + "\n" +
+                "calories: " + calories + " " + ShopProperties.getProperty("product.calories") + "\n" +
+                "weight: " + weight + " " + ShopProperties.getProperty("product.weight") + "\n" +
                 "expiration date: " + getStringExpDate() + "\n";
     }
 }

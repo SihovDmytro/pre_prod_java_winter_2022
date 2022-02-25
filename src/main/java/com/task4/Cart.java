@@ -3,7 +3,6 @@ package com.task4;
 import com.task1.subtask1.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -11,12 +10,16 @@ import java.util.Map;
 
 public class Cart {
     private HashMap<Product, Integer> cart = new HashMap<>();
-    private LinkedHashMap<Product, Integer> last5Products = new LinkedHashMap<>();
+    private LinkedHashMap<Product, Integer> cartHistory = new LinkedHashMap<>();
     private static final Logger LOG = LogManager.getLogger(Cart.class);
 
     public Cart() {
     }
 
+
+    public HashMap<Product, Integer> getCartHistory() {
+        return cartHistory;
+    }
     public HashMap<Product, Integer> getCartHashMap() {
         return cart;
     }
@@ -29,6 +32,7 @@ public class Cart {
         else {
             cart.replace(product, cart.get(product) + number);
         }
+        cartHistory.put(product,number);
         LOG.debug("Add product to the cart: "+product.getName());
     }
 
@@ -41,7 +45,12 @@ public class Cart {
         }
     }
 
-    public BigDecimal makeOrder()
+    public void clearCart()
+    {
+        cart.clear();
+    }
+
+    public BigDecimal getTotalPrice()
     {
         BigDecimal totalPrice = new BigDecimal(0);
         for(Map.Entry<Product,Integer> entry : cart.entrySet())
@@ -50,9 +59,8 @@ public class Cart {
             BigDecimal number = new BigDecimal(entry.getValue());
             totalPrice = totalPrice.add(price.multiply(number));
         }
-        cart.clear();
+        LOG.debug("Total price of cart: "+ getTotalPrice()+ " "+ShopProperties.getProperty("product.currency"));
         return totalPrice;
     }
-
 
 }
