@@ -1,11 +1,8 @@
 package com.task1.subtask1;
 
-import com.task4.Path;
+import com.task4.ShopProperties;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Properties;
 
 public class Furniture extends Product{
     private int height;
@@ -45,16 +42,10 @@ public class Furniture extends Product{
 
     @Override
     public String toString() {
-        Properties properties = new Properties();
-        try (InputStream input = Product.class.getClassLoader().getResourceAsStream(Path.pathToProperties)) {
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return super.toString() +
-                "height: " + height + " " + properties.getProperty("product.dimension") + "\n" +
-                "width: " + width + " " + properties.getProperty("product.dimension") + "\n" +
-                "length: " + length + " " + properties.getProperty("product.dimension") + "\n";
+                "height: " + height + " " + ShopProperties.getProperty("product.dimension") + "\n" +
+                "width: " + width + " " + ShopProperties.getProperty("product.dimension") + "\n" +
+                "length: " + length + " " + ShopProperties.getProperty("product.dimension") + "\n";
     }
 
 
