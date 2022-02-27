@@ -3,6 +3,7 @@ package com.task4;
 import com.task1.subtask1.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -20,46 +21,35 @@ public class Cart {
     public HashMap<Product, Integer> getCartHistory() {
         return cartHistory;
     }
+
     public HashMap<Product, Integer> getCartHashMap() {
         return cart;
     }
 
     public void addToCart(Product product, int number) {
-        if(number<1) return;
+        if (number < 1) return;
         if (!cart.containsKey(product)) {
             cart.put(product, number);
-        }
-        else {
+        } else {
             cart.replace(product, cart.get(product) + number);
         }
-        cartHistory.put(product,number);
-        LOG.debug("Add product to the cart: "+product.getName());
+        cartHistory.put(product, number);
+        LOG.debug("Add product to the cart: " + product.getName());
     }
 
-    public void removeFromCart(Product product, int number) {
-        Integer currentNumber = cart.get(product);
-        if (currentNumber != null && currentNumber - number > 0) {
-            cart.replace(product, currentNumber - number);
-        } else {
-            cart.remove(product);
-        }
+    public void clearCart() {
+        cart = new HashMap<>();
+        LOG.trace("Cart is empty");
     }
 
-    public void clearCart()
-    {
-        cart.clear();
-    }
-
-    public BigDecimal getTotalPrice()
-    {
+    public BigDecimal getTotalPrice() {
         BigDecimal totalPrice = new BigDecimal(0);
-        for(Map.Entry<Product,Integer> entry : cart.entrySet())
-        {
+        for (Map.Entry<Product, Integer> entry : cart.entrySet()) {
             BigDecimal price = entry.getKey().getPrice();
             BigDecimal number = new BigDecimal(entry.getValue());
             totalPrice = totalPrice.add(price.multiply(number));
         }
-        LOG.debug("Total price of cart: "+ getTotalPrice()+ " "+ShopProperties.getProperty("product.currency"));
+        LOG.debug("Total price of cart: " + totalPrice + " " + ShopProperties.getProperty("product.currency"));
         return totalPrice;
     }
 

@@ -4,7 +4,7 @@ import com.task4.ShopProperties;
 
 import java.math.BigDecimal;
 
-public class Furniture extends Product{
+public class Furniture extends Product {
     private int height;
     private int width;
     private int length;
