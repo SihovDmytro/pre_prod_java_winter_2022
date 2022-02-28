@@ -24,7 +24,7 @@ public class OrderManager {
 
     public BigDecimal makeOrder(Cart cart, Calendar orderDate) {
         BigDecimal totalPrice = cart.getTotalPrice();
-        LOG.debug("Make order. Total price: " + totalPrice + " " + ShopProperties.getProperty("product.currency"));
+        LOG.debug("Make order. Total price: " + totalPrice);
         HashMap<Product, Integer> productsInCart = cart.getCartHashMap();
         LOG.trace("productsInCart: " + productsInCart.size());
         orders.put(orderDate, productsInCart);

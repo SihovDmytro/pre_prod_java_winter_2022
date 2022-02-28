@@ -26,8 +26,8 @@ public class Cart {
         return cart;
     }
 
-    public void addToCart(Product product, int number) {
-        if (number < 1) return;
+    public boolean addToCart(Product product, int number) {
+        if (number < 1) return false;
         if (!cart.containsKey(product)) {
             cart.put(product, number);
         } else {
@@ -35,6 +35,7 @@ public class Cart {
         }
         cartHistory.put(product, number);
         LOG.debug("Add product to the cart: " + product.getName());
+        return true;
     }
 
     public void clearCart() {
@@ -49,7 +50,7 @@ public class Cart {
             BigDecimal number = new BigDecimal(entry.getValue());
             totalPrice = totalPrice.add(price.multiply(number));
         }
-        LOG.debug("Total price of cart: " + totalPrice + " " + ShopProperties.getProperty("product.currency"));
+        LOG.debug("Total price of cart: " + totalPrice);
         return totalPrice;
     }
 

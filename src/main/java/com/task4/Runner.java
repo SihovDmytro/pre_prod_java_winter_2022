@@ -72,6 +72,7 @@ public class Runner {
                     System.out.println("Unknown operation.");
                 }
             }
+            scanner.close();
         }
     }
 
@@ -120,6 +121,7 @@ public class Runner {
             LOG.debug("Cannot read int value");
             System.out.println("This isn't number");
         }
+        scanner.close();
         LOG.trace("buyProduct end");
     }
 
@@ -149,7 +151,9 @@ public class Runner {
             if (orderDate != null) {
                 System.out.println("Total price: " + manager.makeOrder(cart, orderDate) + " " + ShopProperties.getProperty("product.currency"));
             } else System.out.println("Invalid date format");
+            scanner.close();
         } else System.out.println("Your cart is empty");
+
         LOG.trace("makeOrder end");
     }
 
@@ -206,6 +210,7 @@ public class Runner {
         } else {
             System.out.println("Invalid date format");
         }
+        scanner.close();
         LOG.trace("printOrdersForPeriod end");
     }
 
@@ -230,6 +235,7 @@ public class Runner {
                 System.out.println(productEntry.getKey() + "quantity: " + productEntry.getValue() + "\n");
             }
         }
+        scanner.close();
         LOG.trace("printOrderByDate end");
     }
 }
