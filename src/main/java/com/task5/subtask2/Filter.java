@@ -26,7 +26,7 @@ public abstract class Filter {
     protected void filterManager(File folder) {
         if (files == null) files = getAllFiles(folder);
         doFilter(folder);
-        if (nextFilter != null) {
+        if (nextFilter != null && files.size()>0) {
             nextFilter.filterManager(folder);
         }
     }
