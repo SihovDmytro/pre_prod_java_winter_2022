@@ -3,16 +3,12 @@ package com.task5.subtask1;
 import com.task5.subtask1.FileViewer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-
-
-
 class FileViewerTest {
     private FileViewer viewer;
-    private static final String FILE_PATH = "src/main/java/com/task5/subtask1/textFile.txt";
+    private static final String FILE_PATH = "src/test/java/com/task5/subtask1/textFile.txt";
 
     @Test
     public void shouldReadFileLineByLine()

@@ -1,10 +1,13 @@
 package com.task5.subtask2;
 
+import com.task4.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +15,7 @@ import java.util.Scanner;
 public class FileFinder {
     private static final Logger LOG = LogManager.getLogger(FileFinder.class);
     private static final Scanner scanner = new Scanner(System.in);
+    private static final String DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";
 
     public static void main(String[] args) {
         LOG.trace("Start application");
@@ -88,12 +92,36 @@ public class FileFinder {
         System.out.println("Use search by size?(1/0)");
         if (scanner.nextLine().equals("1")) {
             LOG.trace("Use file size filter");
-            filters.add(new FileSizeFilter());
+            try {
+                System.out.println("Enter minimum file size(bytes):");
+                long min = Long.parseLong(scanner.nextLine());
+                LOG.trace("min file size: " + min);
+                System.out.println("Enter maximum file size(bytes):");
+                long max = Long.parseLong(scanner.nextLine());
+                LOG.trace("max file size: " + max);
+                filters.add(new FileSizeFilter(min, max));
+            } catch (NumberFormatException exception) {
+                LOG.debug("Cannot parse value");
+                System.out.println("Invalid value");
+            }
         }
         System.out.println("Use search by last modified date?(1/0)");
         if (scanner.nextLine().equals("1")) {
             LOG.trace("Use last modify filter");
-            filters.add(new LastModifyFilter());
+            System.out.println("Enter start date(" + DATE_FORMAT + "):");
+            String startDate = scanner.nextLine();
+            LOG.trace("startDate: " + startDate);
+            Calendar startDateCalendar = Util.stringToCalendar(startDate, new SimpleDateFormat(DATE_FORMAT));
+            System.out.println("Enter end date(" + DATE_FORMAT + "):");
+            String endDate = scanner.nextLine();
+            LOG.trace("endDate: " + endDate);
+            Calendar endDateCalendar = Util.stringToCalendar(endDate, new SimpleDateFormat(DATE_FORMAT));
+            if (startDateCalendar != null && endDateCalendar != null) {
+                filters.add(new LastModifyFilter(startDateCalendar, endDateCalendar));
+            } else {
+                System.out.println("Invalid date");
+                LOG.trace("Invalid date");
+            }
         }
         Iterator<Filter> iterator = filters.iterator();
         LOG.trace("Filters to apply: " + filters.size());
