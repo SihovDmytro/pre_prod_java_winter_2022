@@ -17,20 +17,33 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Runner {
-    private static ShopDAO dao = new ShopDAO();
-    private static Cart cart = new Cart();
-    private static OrderManager manager = new OrderManager();
+    private static ShopDAO dao;
+    private static Cart cart;
+    private static OrderManager manager;
     private static final Logger LOG = LogManager.getLogger(Runner.class);
+    private static Scanner scanner = new Scanner(System.in);
+
+    private static boolean init()
+    {
+        boolean propertiesLoad = ShopProperties.loadProperties();
+        if(propertiesLoad)
+        {
+            dao = new ShopDAO();
+            cart = new Cart();
+            manager = new OrderManager();
+        }
+        return propertiesLoad;
+    }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         LOG.trace("Start application");
-        boolean continueWork = ShopProperties.loadProperties();
+        boolean continueWork = init();
         LOG.trace("Load properties: " + continueWork);
         while (continueWork) {
-            LOG.debug("Print menu");
             printMenu();
-            switch (scanner.next()) {
+            String option = scanner.nextLine();
+            LOG.trace("option: "+option);
+            switch (option) {
                 case "-1": {
                     continueWork = false;
                     LOG.debug("-1 - leave");
@@ -72,8 +85,8 @@ public class Runner {
                     System.out.println("Unknown operation.");
                 }
             }
-            scanner.close();
         }
+        scanner.close();
     }
 
     private static void printMenu() {
@@ -101,27 +114,25 @@ public class Runner {
 
     private static void buyProduct() {
         LOG.trace("buyProduct start");
-        Scanner scanner = new Scanner(System.in);
         System.out.println("What product would you like to buy? " +
                 "Select id: ");
         try {
-            int productID = scanner.nextInt();
+            int productID = Integer.parseInt(scanner.nextLine());
             LOG.debug("productID: " + productID);
             Product product = dao.getProduct(productID);
             if (product == null) {
                 System.out.println("This product is not available.");
             } else {
                 System.out.println("Select quantity: ");
-                int quantity = scanner.nextInt();
+                int quantity = Integer.parseInt(scanner.nextLine());
                 LOG.debug("quantity: " + quantity);
                 cart.addToCart(product, quantity);
                 System.out.println("Product '" + product.getName() + "' was added to the cart.");
             }
-        } catch (InputMismatchException exception) {
+        } catch (NumberFormatException exception) {
             LOG.debug("Cannot read int value");
             System.out.println("This isn't number");
         }
-        scanner.close();
         LOG.trace("buyProduct end");
     }
 
@@ -143,7 +154,6 @@ public class Runner {
     private static void makeOrder() {
         LOG.trace("makeOrder start");
         if (!cart.getCartHashMap().isEmpty()) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Enter order date(" + ShopProperties.getProperty("datetime.format") + "):");
             String textDate = scanner.nextLine();
             LOG.trace("textDate: " + textDate);
@@ -151,7 +161,6 @@ public class Runner {
             if (orderDate != null) {
                 System.out.println("Total price: " + manager.makeOrder(cart, orderDate) + " " + ShopProperties.getProperty("product.currency"));
             } else System.out.println("Invalid date format");
-            scanner.close();
         } else System.out.println("Your cart is empty");
 
         LOG.trace("makeOrder end");
@@ -184,12 +193,11 @@ public class Runner {
 
     private static void printOrdersForPeriod() {
         LOG.trace("printOrdersForPeriod start");
-        if (manager.numberOfOrders() > 0) {
+        if (manager.numberOfOrders() < 1) {
             System.out.println("You have no orders");
             LOG.trace("printOrdersForPeriod end");
             return;
         }
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter start date(" + ShopProperties.getProperty("date.format") + "): ");
         String startDateString = scanner.nextLine();
         LOG.debug("Start date: " + startDateString);
@@ -210,7 +218,6 @@ public class Runner {
         } else {
             System.out.println("Invalid date format");
         }
-        scanner.close();
         LOG.trace("printOrdersForPeriod end");
     }
 
@@ -221,7 +228,6 @@ public class Runner {
             LOG.trace("printOrderByDate end");
             return;
         }
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter date(" + ShopProperties.getProperty("datetime.format") + "): ");
         String dateString = scanner.nextLine();
         LOG.debug("dateString: " + dateString);
@@ -235,7 +241,6 @@ public class Runner {
                 System.out.println(productEntry.getKey() + "quantity: " + productEntry.getValue() + "\n");
             }
         }
-        scanner.close();
         LOG.trace("printOrderByDate end");
     }
 }
