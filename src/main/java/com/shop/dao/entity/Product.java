@@ -1,12 +1,13 @@
-package com.task1.subtask1;
+package com.shop.dao.entity;
 
-import com.task4.ShopProperties;
+import com.shop.util.ShopProperties;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Product {
-    BigDecimal price;
-    String name;
+public class Product implements Serializable {
+    private BigDecimal price;
+    private String name;
 
     public Product() {
     }

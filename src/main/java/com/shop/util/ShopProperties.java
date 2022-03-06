@@ -1,4 +1,4 @@
-package com.task4;
+package com.shop.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +29,7 @@ public class ShopProperties {
     }
 
     public static String getProperty(String propName) {
+        if(properties==null) loadProperties();
         return properties.getProperty(propName);
     }
 }

@@ -1,7 +1,9 @@
-package com.task4;
+package com.shop;
 
-import com.task1.subtask1.Furniture;
-import com.task1.subtask1.Product;
+import com.shop.dao.entity.Furniture;
+import com.shop.dao.entity.Product;
+import com.shop.util.ShopProperties;
+import com.shop.util.Util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

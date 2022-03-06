@@ -1,6 +1,7 @@
-package com.task4;
+package com.shop;
 
-import com.task1.subtask1.Product;
+import com.shop.dao.entity.Product;
+import com.shop.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

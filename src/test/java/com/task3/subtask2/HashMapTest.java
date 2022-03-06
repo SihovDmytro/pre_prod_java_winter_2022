@@ -1,8 +1,8 @@
 package com.task3.subtask2;
 
-import com.task1.subtask1.CannedFood;
-import com.task1.subtask1.Food;
-import com.task1.subtask1.Product;
+import com.shop.dao.entity.CannedFood;
+import com.shop.dao.entity.Food;
+import com.shop.dao.entity.Product;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

@@ -1,6 +1,6 @@
 package com.task5.subtask2;
 
-import com.task4.Util;
+import com.shop.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
