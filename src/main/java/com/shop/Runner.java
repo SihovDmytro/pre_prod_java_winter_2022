@@ -1,10 +1,15 @@
 package com.shop;
 
+import com.shop.dao.ConsoleInput;
+import com.shop.dao.RandomInput;
 import com.shop.dao.ShopDAO;
+import com.shop.dao.entity.CannedFood;
+import com.shop.dao.entity.Food;
+import com.shop.dao.entity.Furniture;
 import com.shop.dao.entity.Product;
-import com.shop.util.Util;
 import com.shop.util.Serializer;
 import com.shop.util.ShopProperties;
+import com.shop.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,12 +31,14 @@ public class Runner {
     private static final Logger LOG = LogManager.getLogger(Runner.class);
     private static Scanner scanner = new Scanner(System.in);
 
-    private static boolean init()
-    {
+    public static Scanner getScanner() {
+        return scanner;
+    }
+
+    private static boolean init() {
         boolean propertiesLoad = ShopProperties.loadProperties();
-        if(propertiesLoad)
-        {
-            dao = new ShopDAO();
+        if (propertiesLoad) {
+            initDAO();
             cart = new Cart();
             manager = new OrderManager();
         }
@@ -45,7 +52,7 @@ public class Runner {
         while (continueWork) {
             printMenu();
             String option = scanner.nextLine();
-            LOG.trace("option: "+option);
+            LOG.trace("option: " + option);
             switch (option) {
                 case "-1": {
                     continueWork = false;
@@ -84,6 +91,11 @@ public class Runner {
                     printOrderByDate();
                     break;
                 }
+                case "7": {
+                    LOG.debug("7 - add a new product to assortment");
+                    addNewProduct();
+                    break;
+                }
                 default: {
                     LOG.debug("Default case");
                     System.out.println("Unknown operation.");
@@ -102,6 +114,7 @@ public class Runner {
                 "4 - show last 5 items in the cart\n" +
                 "5 - show all orders for period\n" +
                 "6 - show order by date\n" +
+                "7 - add a new product to assortment\n" +
                 "-1 - leave\n" +
                 "=====================================================\n");
     }
@@ -246,5 +259,64 @@ public class Runner {
             }
         }
         LOG.trace("printOrderByDate end");
+    }
+
+    private static void initDAO() {
+        System.out.println("Select product input mode:\n1 - Random\n2 - Console");
+        String choice = scanner.nextLine();
+        LOG.trace("choice: " + choice);
+        switch (choice) {
+            case "1": {
+                LOG.trace("Random input");
+                dao = new RandomInput();
+                break;
+            }
+            case "2": {
+                LOG.trace("Console input");
+                dao = new ConsoleInput();
+                break;
+            }
+            default: {
+                LOG.trace("Default input");
+                dao = new ConsoleInput();
+                break;
+
+            }
+        }
+    }
+
+    private static void addNewProduct() {
+        System.out.println("1 - Add product\n" +
+                "2 - Add food\n" +
+                "3 - Add canned food\n" +
+                "4 - Add furniture\n");
+        String choice = scanner.nextLine();
+        LOG.trace("choice: " + choice);
+        Product product = null;
+        switch (choice) {
+            case "1": {
+                product = new Product();
+                break;
+            }
+            case "2": {
+                product = new Food();
+                break;
+            }
+            case "3": {
+                product = new CannedFood();
+                break;
+            }
+            case "4": {
+                product = new Furniture();
+                break;
+            }
+            default: {
+                System.out.println("Shop does not sell such products");
+            }
+        }
+        if (product != null && dao.addNewProduct(product)) {
+            System.out.println("Product was added");
+        } else System.out.println("Cannot add product");
+
     }
 }

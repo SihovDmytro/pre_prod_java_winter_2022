@@ -1,13 +1,19 @@
 package com.shop.dao.entity;
 
 import com.shop.util.ShopProperties;
+import com.shop.util.Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Scanner;
 
-public class Product implements Serializable {
+public class Product implements Serializable, ProductInput {
     private BigDecimal price;
     private String name;
+    private static final Logger LOG = LogManager.getLogger(Product.class);
+
 
     public Product() {
     }
@@ -55,5 +61,36 @@ public class Product implements Serializable {
     public String toString() {
         return "name: " + name + "\n" +
                 "price for one item: " + price + " " + ShopProperties.getProperty("product.currency") + "\n";
+    }
+
+
+    @Override
+    public boolean consoleInput(Scanner scanner) {
+        try {
+            System.out.println("Enter price: ");
+            String priceString = scanner.nextLine();
+            LOG.trace("priceString: " + priceString);
+            BigDecimal price = new BigDecimal(priceString);
+            setPrice(price);
+            System.out.println("Enter name: ");
+            String name = scanner.nextLine();
+            LOG.trace("name: " + name);
+            setName(name);
+            return true;
+        } catch (NumberFormatException exception) {
+            LOG.trace("Cannot input product from console");
+            return false;
+        }
+    }
+
+    @Override
+    public boolean randomInput(int min, int max) {
+        BigDecimal price = new BigDecimal(Util.randomInt(min, max));
+        LOG.trace("price: " + price);
+        setPrice(price);
+        String name = Util.randomString("product", min, max);
+        LOG.trace("name: " + name);
+        setName(name);
+        return true;
     }
 }

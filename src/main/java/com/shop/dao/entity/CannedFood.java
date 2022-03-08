@@ -1,13 +1,19 @@
 package com.shop.dao.entity;
 
 import com.shop.util.ShopProperties;
+import com.shop.util.Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class CannedFood extends Food {
-    int canWeight;
-    String manufacturer;
+    private int canWeight;
+    private String manufacturer;
+    private static final Logger LOG = LogManager.getLogger(CannedFood.class);
+
 
     public CannedFood() {
     }
@@ -59,5 +65,40 @@ public class CannedFood extends Food {
         return super.toString() +
                 "can weight: " + canWeight + " " + ShopProperties.getProperty("product.weight") + "\n" +
                 "manufacturer: " + manufacturer + "\n";
+    }
+
+    @Override
+    public boolean consoleInput(Scanner scanner) {
+        boolean result = super.consoleInput(scanner);
+        if (result) {
+            try {
+                System.out.println("Enter can weight: ");
+                String canWeightString = scanner.nextLine();
+                LOG.trace("canWeightString: " + canWeightString);
+                int canWeight = Integer.parseInt(canWeightString);
+                setCanWeight(canWeight);
+                System.out.println("Enter manufacturer: ");
+                String manufacturer = scanner.nextLine();
+                LOG.trace("manufacturer: " + manufacturer);
+                setManufacturer(manufacturer);
+                result = true;
+            } catch (NumberFormatException exception) {
+                LOG.trace("Cannot input product from console");
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public boolean randomInput(int min, int max) {
+        super.randomInput(min, max);
+        int canWeight = Util.randomInt(min, max);
+        LOG.trace("canWeight: " + canWeight);
+        setCanWeight(canWeight);
+        String manufacturer = Util.randomString("manufacturer", min, max);
+        LOG.trace("manufacturer:" + manufacturer);
+        setManufacturer(manufacturer);
+        return true;
     }
 }

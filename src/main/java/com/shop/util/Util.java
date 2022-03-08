@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 public class Util {
     private static final Logger LOG = LogManager.getLogger(Util.class);
@@ -27,5 +28,13 @@ public class Util {
             LOG.trace("Cannot parse order date");
             return null;
         }
+    }
+
+
+    public static String randomString(String base, int min, int max) {
+        return base+" "+(new Random().nextInt(max - min)  + min);
+    }
+    public static int randomInt( int min, int max) {
+        return new Random().nextInt(max - min)  + min;
     }
 }
