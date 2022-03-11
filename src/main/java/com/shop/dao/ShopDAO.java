@@ -1,15 +1,10 @@
 package com.shop.dao;
 
-import com.shop.dao.entity.CannedFood;
-import com.shop.dao.entity.Furniture;
 import com.shop.dao.entity.Product;
 import com.shop.util.Serializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public abstract class ShopDAO {
@@ -47,4 +42,7 @@ public abstract class ShopDAO {
     }
 
     public abstract boolean addNewProduct(Product product);
+
+    public abstract boolean addNewProductReflection(Product product);
+
 }

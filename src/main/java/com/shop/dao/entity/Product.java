@@ -1,5 +1,6 @@
 package com.shop.dao.entity;
 
+import com.shop.dao.entity.annotation.FieldToInput;
 import com.shop.util.ShopProperties;
 import com.shop.util.Util;
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +11,11 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Product implements Serializable, ProductInput {
+    @FieldToInput(fieldName = "product.price")
     private BigDecimal price;
+    @FieldToInput(fieldName = "product.name")
     private String name;
     private static final Logger LOG = LogManager.getLogger(Product.class);
-
 
     public Product() {
     }
@@ -93,4 +95,5 @@ public class Product implements Serializable, ProductInput {
         setName(name);
         return true;
     }
+
 }

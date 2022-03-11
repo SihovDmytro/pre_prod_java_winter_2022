@@ -1,5 +1,6 @@
 package com.shop.dao.entity;
 
+import com.shop.dao.entity.annotation.FieldToInput;
 import com.shop.util.ShopProperties;
 import com.shop.util.Util;
 import org.apache.logging.log4j.LogManager;
@@ -9,8 +10,11 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Furniture extends Product {
+    @FieldToInput(fieldName = "furniture.height")
     private int height;
+    @FieldToInput(fieldName = "furniture.width")
     private int width;
+    @FieldToInput(fieldName = "furniture.length")
     private int length;
     private static final Logger LOG = LogManager.getLogger(Furniture.class);
 
@@ -111,14 +115,14 @@ public class Furniture extends Product {
     @Override
     public boolean randomInput(int min, int max) {
         super.randomInput(min, max);
-        int height = Util.randomInt(min,max);
-        LOG.trace("height: "+height);
+        int height = Util.randomInt(min, max);
+        LOG.trace("height: " + height);
         setHeight(height);
-        int width = Util.randomInt(min,max);
-        LOG.trace("width: "+width);
+        int width = Util.randomInt(min, max);
+        LOG.trace("width: " + width);
         setWidth(width);
-        int length = Util.randomInt(min,max);
-        LOG.trace("length: "+length);
+        int length = Util.randomInt(min, max);
+        LOG.trace("length: " + length);
         setLength(length);
         return true;
     }

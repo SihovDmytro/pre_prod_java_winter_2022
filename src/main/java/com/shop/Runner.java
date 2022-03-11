@@ -7,6 +7,7 @@ import com.shop.dao.entity.CannedFood;
 import com.shop.dao.entity.Food;
 import com.shop.dao.entity.Furniture;
 import com.shop.dao.entity.Product;
+import com.shop.util.Localization;
 import com.shop.util.Serializer;
 import com.shop.util.ShopProperties;
 import com.shop.util.Util;
@@ -14,15 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Runner {
     private static ShopDAO dao;
@@ -38,6 +31,7 @@ public class Runner {
     private static boolean init() {
         boolean propertiesLoad = ShopProperties.loadProperties();
         if (propertiesLoad) {
+            Localization.loadLocalization(null);
             initDAO();
             cart = new Cart();
             manager = new OrderManager();
@@ -314,7 +308,7 @@ public class Runner {
                 System.out.println("Shop does not sell such products");
             }
         }
-        if (product != null && dao.addNewProduct(product)) {
+        if (product != null && dao.addNewProductReflection(product)) {
             System.out.println("Product was added");
         } else System.out.println("Cannot add product");
 

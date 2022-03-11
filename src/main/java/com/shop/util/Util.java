@@ -32,9 +32,21 @@ public class Util {
 
 
     public static String randomString(String base, int min, int max) {
-        return base+" "+(new Random().nextInt(max - min)  + min);
+        return base + " " + (new Random().nextInt(max - min) + min);
     }
-    public static int randomInt( int min, int max) {
-        return new Random().nextInt(max - min)  + min;
+
+    public static int randomInt(int min, int max) {
+        return new Random().nextInt(max - min) + min;
+    }
+
+    public static Calendar randomCalendar() {
+        Calendar randCalendar = Calendar.getInstance();
+        randCalendar.setTimeInMillis(new Random().nextLong());
+        return randCalendar;
+    }
+
+    public static String getSetterName(String field) {
+
+        return "set" + field.substring(0, 1).toUpperCase() + field.substring(1);
     }
 }

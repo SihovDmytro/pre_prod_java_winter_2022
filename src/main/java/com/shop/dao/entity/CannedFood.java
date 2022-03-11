@@ -1,5 +1,6 @@
 package com.shop.dao.entity;
 
+import com.shop.dao.entity.annotation.FieldToInput;
 import com.shop.util.ShopProperties;
 import com.shop.util.Util;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,9 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 public class CannedFood extends Food {
+    @FieldToInput(fieldName = "cannedFood.canWeight")
     private int canWeight;
+    @FieldToInput(fieldName = "cannedFood.manufacturer")
     private String manufacturer;
     private static final Logger LOG = LogManager.getLogger(CannedFood.class);
 
