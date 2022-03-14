@@ -28,6 +28,10 @@ public class Runner {
         return scanner;
     }
 
+    public static void setScanner(Scanner scanner) {
+        Runner.scanner = scanner;
+    }
+
     private static boolean init() {
         boolean propertiesLoad = ShopProperties.loadProperties();
         if (propertiesLoad) {
@@ -90,6 +94,11 @@ public class Runner {
                     addNewProduct();
                     break;
                 }
+                case "8":{
+                    LOG.debug("8 - change language");
+                    changeLang();
+                    break;
+                }
                 default: {
                     LOG.debug("Default case");
                     System.out.println("Unknown operation.");
@@ -109,6 +118,7 @@ public class Runner {
                 "5 - show all orders for period\n" +
                 "6 - show order by date\n" +
                 "7 - add a new product to assortment\n" +
+                "8 - change language\n" +
                 "-1 - leave\n" +
                 "=====================================================\n");
     }
@@ -311,6 +321,30 @@ public class Runner {
         if (product != null && dao.addNewProductReflection(product)) {
             System.out.println("Product was added");
         } else System.out.println("Cannot add product");
+    }
 
+    private static void changeLang()
+    {
+        System.out.println("1 - English\n" +
+                "2 - Russian");
+        String choice = scanner.nextLine();
+        LOG.trace("choice: " + choice);
+        String lang;
+        switch (choice) {
+            case "1": {
+                lang = "en_US";
+                break;
+            }
+            case "2": {
+                lang = "ru_UA";
+                break;
+            }
+            default:{
+                lang = "en_US";
+            }
+        }
+        Localization.loadLocalization(new Locale(lang));
+        LOG.trace("lang: "+lang);
+        System.out.println("Current language: "+lang);
     }
 }

@@ -51,7 +51,7 @@ public class ConsoleInput extends ShopDAO {
                     if (field.isAnnotationPresent(FieldToInput.class)) {
                         String fieldName = Localization.getResource(field.getAnnotation(FieldToInput.class).fieldName());
                         LOG.trace("fieldName: " + fieldName);
-                        System.out.println("Enter " + fieldName + ":");
+                        System.out.println(fieldName + ":");
                         String usersInput = scanner.nextLine();
                         LOG.trace("usersInput: " + usersInput);
                         String setterName = Util.getSetterName(field.getName());

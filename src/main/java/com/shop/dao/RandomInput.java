@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class RandomInput extends ShopDAO {
     private static final Logger LOG = LogManager.getLogger(RandomInput.class);
