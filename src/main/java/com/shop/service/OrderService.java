@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public interface OrderService {
-    BigDecimal makeOrder(Calendar orderDate);
+    void add(HashMap<Product, Integer> products, Calendar orderDate);
 
     TreeMap<Calendar, HashMap<Product, Integer>> getOrders();
 

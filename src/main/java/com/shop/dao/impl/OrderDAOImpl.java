@@ -2,12 +2,10 @@ package com.shop.dao.impl;
 
 import com.shop.dao.OrderDAO;
 import com.shop.entity.Product;
-import com.shop.service.CartService;
 import com.shop.util.DateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,25 +15,14 @@ import java.util.TreeMap;
 public class OrderDAOImpl implements OrderDAO {
     private TreeMap<Calendar, HashMap<Product, Integer>> orders = new TreeMap<>();
     private static final Logger LOG = LogManager.getLogger(OrderDAOImpl.class);
-    private CartService cartService;
-
-    public OrderDAOImpl(CartService cartService) {
-        this.cartService = cartService;
-    }
 
     public int numberOfOrders() {
         return orders.size();
     }
 
     @Override
-    public BigDecimal makeOrder(Calendar orderDate) {
-        BigDecimal totalPrice = cartService.getTotalPrice();
-        LOG.debug("Make order. Total price: " + totalPrice);
-        HashMap<Product, Integer> productsInCart = cartService.getCart();
-        LOG.trace("productsInCart: " + productsInCart.size());
-        orders.put(orderDate, productsInCart);
-        cartService.clearCart();
-        return totalPrice;
+    public void add(HashMap<Product, Integer> products, Calendar orderDate) {
+        orders.put(orderDate, products);
     }
 
     @Override

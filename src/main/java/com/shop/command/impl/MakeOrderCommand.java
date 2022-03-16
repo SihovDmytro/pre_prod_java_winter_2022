@@ -31,7 +31,9 @@ public class MakeOrderCommand extends Command {
             LOG.trace("textDate: " + textDate);
             Calendar orderDate = DateUtil.stringToCalendar(textDate, new SimpleDateFormat(ShopProperties.getProperty("datetime.format")));
             if (orderDate != null) {
-                System.out.println("Total price: " + orderService.makeOrder(orderDate) + " " + ShopProperties.getProperty("product.currency"));
+                System.out.println("Total price: " + cartService.getTotalPrice() + " " + ShopProperties.getProperty("product.currency"));
+                orderService.add(cartService.getCart(), orderDate);
+                cartService.clearCart();
             } else System.out.println("Invalid date format");
         } else System.out.println("Your cart is empty");
 
