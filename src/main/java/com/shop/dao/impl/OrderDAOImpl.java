@@ -1,6 +1,9 @@
-package com.task4;
+package com.shop.dao.impl;
 
-import com.task1.subtask1.Product;
+import com.shop.dao.OrderDAO;
+import com.shop.entity.Product;
+import com.shop.service.CartService;
+import com.shop.util.DateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,28 +14,37 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class OrderManager {
+public class OrderDAOImpl implements OrderDAO {
     private TreeMap<Calendar, HashMap<Product, Integer>> orders = new TreeMap<>();
-    private static final Logger LOG = LogManager.getLogger(OrderManager.class);
+    private static final Logger LOG = LogManager.getLogger(OrderDAOImpl.class);
+    private CartService cartService;
 
-    public OrderManager() {
+    public OrderDAOImpl(CartService cartService) {
+        this.cartService = cartService;
     }
 
     public int numberOfOrders() {
         return orders.size();
     }
 
-    public BigDecimal makeOrder(Cart cart, Calendar orderDate) {
-        BigDecimal totalPrice = cart.getTotalPrice();
+    @Override
+    public BigDecimal makeOrder(Calendar orderDate) {
+        BigDecimal totalPrice = cartService.getTotalPrice();
         LOG.debug("Make order. Total price: " + totalPrice);
-        HashMap<Product, Integer> productsInCart = cart.getCartHashMap();
+        HashMap<Product, Integer> productsInCart = cartService.getCart();
         LOG.trace("productsInCart: " + productsInCart.size());
         orders.put(orderDate, productsInCart);
-        cart.clearCart();
+        cartService.clearCart();
         return totalPrice;
     }
 
-    public TreeMap<Calendar, HashMap<Product, Integer>> getOrders(Calendar start, Calendar end) {
+    @Override
+    public TreeMap<Calendar, HashMap<Product, Integer>> getOrders() {
+        return orders;
+    }
+
+    @Override
+    public TreeMap<Calendar, HashMap<Product, Integer>> getOrdersForPeriod(Calendar start, Calendar end) {
         TreeMap<Calendar, HashMap<Product, Integer>> ordersForPeriod = new TreeMap<>();
         for (Map.Entry<Calendar, HashMap<Product, Integer>> entry : orders.entrySet()) {
             Calendar orderDate = entry.getKey();
@@ -43,12 +55,13 @@ public class OrderManager {
         return ordersForPeriod;
     }
 
-    public Map.Entry<Calendar, HashMap<Product, Integer>> getOrder(Calendar date) {
+    @Override
+    public Map.Entry<Calendar, HashMap<Product, Integer>> getOrderByDate(Calendar date) {
         if (orders.isEmpty()) return null;
         Iterator<Map.Entry<Calendar, HashMap<Product, Integer>>> iterator = orders.entrySet().iterator();
         Map.Entry<Calendar, HashMap<Product, Integer>> nearestOrder = iterator.next();
         long minDifference = Math.abs(date.getTimeInMillis() - nearestOrder.getKey().getTimeInMillis());
-        LOG.trace("orderDate: " + Util.calendarToStringDatetime(nearestOrder.getKey()) +
+        LOG.trace("orderDate: " + DateUtil.calendarToStringDatetime(nearestOrder.getKey()) +
                 "\nminDifference: " + minDifference);
         while (iterator.hasNext()) {
             Map.Entry<Calendar, HashMap<Product, Integer>> order = iterator.next();
@@ -56,7 +69,7 @@ public class OrderManager {
             if (diff < minDifference) {
                 minDifference = diff;
                 nearestOrder = order;
-                LOG.trace("orderDate: " + Util.calendarToStringDatetime(nearestOrder.getKey()) +
+                LOG.trace("orderDate: " + DateUtil.calendarToStringDatetime(nearestOrder.getKey()) +
                         "\nminDifference: " + minDifference);
             }
         }

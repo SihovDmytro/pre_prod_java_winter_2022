@@ -1,8 +1,9 @@
-package com.task4;
+package com.shop.dao.impl;
 
-import com.task1.subtask1.CannedFood;
-import com.task1.subtask1.Furniture;
-import com.task1.subtask1.Product;
+import com.shop.dao.AssortmentDAO;
+import com.shop.entity.CannedFood;
+import com.shop.entity.Furniture;
+import com.shop.entity.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,11 +12,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ShopDAO {
+public class AssortmentDAOImpl implements AssortmentDAO {
     private List<Product> productList;
-    private static final Logger LOG = LogManager.getLogger(ShopDAO.class);
+    private static final Logger LOG = LogManager.getLogger(AssortmentDAOImpl.class);
 
-    public ShopDAO() {
+    public AssortmentDAOImpl() {
         productList = new ArrayList<>();
         productList.add(new Furniture(new BigDecimal(2499), "dinner table", 56, 125, 140));
         productList.add(new Furniture(new BigDecimal(4055), "dinner table", 45, 102, 200));
@@ -30,10 +31,12 @@ public class ShopDAO {
         productList.add(new CannedFood(new BigDecimal("55"), "canned pineapple", 122, 350, calendar, 19, "KharkivFactory"));
     }
 
+    @Override
     public List<Product> getProductList() {
         return productList;
     }
 
+    @Override
     public Product getProduct(int id) {
         Product product = null;
         try {

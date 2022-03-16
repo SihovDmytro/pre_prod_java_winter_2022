@@ -1,4 +1,4 @@
-package com.task4;
+package com.shop.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,8 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Util {
-    private static final Logger LOG = LogManager.getLogger(Util.class);
+public class DateUtil {
+    private static final Logger LOG = LogManager.getLogger(DateUtil.class);
 
     public static String calendarToStringDate(Calendar calendar) {
         return new SimpleDateFormat(ShopProperties.getProperty("date.format")).format(calendar.getTime());

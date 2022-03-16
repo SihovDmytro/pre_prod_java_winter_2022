@@ -1,48 +1,42 @@
-package com.task4;
+package com.shop.dao.impl;
 
-import com.task1.subtask1.Product;
+import com.shop.dao.CartDAO;
+import com.shop.entity.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Cart {
+public class CartDAOImpl implements CartDAO {
     private HashMap<Product, Integer> cart = new HashMap<>();
-    private LinkedHashMap<Product, Integer> cartHistory = new LinkedHashMap<>();
-    private static final Logger LOG = LogManager.getLogger(Cart.class);
+    private static final Logger LOG = LogManager.getLogger(CartDAOImpl.class);
 
-    public Cart() {
-    }
-
-
-    public HashMap<Product, Integer> getCartHistory() {
-        return cartHistory;
-    }
-
-    public HashMap<Product, Integer> getCartHashMap() {
+    @Override
+    public HashMap<Product, Integer> getCart() {
         return cart;
     }
 
-    public boolean addToCart(Product product, int number) {
+    @Override
+    public boolean add(Product product, int number) {
         if (number < 1) return false;
         if (!cart.containsKey(product)) {
             cart.put(product, number);
         } else {
             cart.replace(product, cart.get(product) + number);
         }
-        cartHistory.put(product, number);
         LOG.debug("Add product to the cart: " + product.getName());
         return true;
     }
 
+    @Override
     public void clearCart() {
         cart = new HashMap<>();
         LOG.trace("Cart is empty");
     }
 
+    @Override
     public BigDecimal getTotalPrice() {
         BigDecimal totalPrice = new BigDecimal(0);
         for (Map.Entry<Product, Integer> entry : cart.entrySet()) {
@@ -53,5 +47,4 @@ public class Cart {
         LOG.debug("Total price of cart: " + totalPrice);
         return totalPrice;
     }
-
 }
