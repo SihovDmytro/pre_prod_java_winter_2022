@@ -1,13 +1,7 @@
 package com.shop;
 
 import com.shop.command.Command;
-import com.shop.command.impl.AddToCartCommand;
-import com.shop.command.impl.ExitCommand;
-import com.shop.command.impl.MakeOrderCommand;
-import com.shop.command.impl.PrintCartCommand;
-import com.shop.command.impl.PrintLast5ItemsCommand;
-import com.shop.command.impl.PrintOrderByDateCommand;
-import com.shop.command.impl.PrintOrdersForPeriodCommand;
+import com.shop.command.impl.*;
 import com.shop.dao.AssortmentDAO;
 import com.shop.dao.CartDAO;
 import com.shop.dao.CartHistoryDAO;
@@ -50,7 +44,7 @@ public class ApplicationInit {
             cartHistoryService = new CartHistoryServiceImpl(cartHistoryDAO);
             assortmentDAO = new AssortmentDAOImpl();
             assortmentService = new AssortmentServiceImpl(assortmentDAO);
-            orderDAO = new OrderDAOImpl(cartService);
+            orderDAO = new OrderDAOImpl();
             orderService = new OrderServiceImpl(orderDAO);
             createContainerCommands();
         }
@@ -60,6 +54,7 @@ public class ApplicationInit {
     private void createContainerCommands() {
         commandsContainer = new HashMap<>();
         commandsContainer.put("-1", new ExitCommand());
+        commandsContainer.put("0", new PrintAllProductsCommand(assortmentService));
         commandsContainer.put("1", new AddToCartCommand(assortmentService, cartService, cartHistoryService));
         commandsContainer.put("2", new PrintCartCommand(cartService));
         commandsContainer.put("3", new MakeOrderCommand(cartService, orderService));

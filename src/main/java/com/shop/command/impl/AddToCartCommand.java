@@ -26,11 +26,6 @@ public class AddToCartCommand extends Command {
     @Override
     public void execute() {
         LOG.trace("BuyProductCommand start");
-        List<Product> products = assortmentService.getProductList();
-        System.out.println("Available products: \n");
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println("Product ID: " + i + "\n" + products.get(i));
-        }
         System.out.println("What product would you like to buy? Select id: ");
         try {
             int productID = Integer.parseInt(Runner.getScanner().nextLine());

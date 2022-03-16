@@ -18,8 +18,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BigDecimal makeOrder(Calendar orderDate) {
-        return orderDAO.makeOrder(orderDate);
+    public void add(HashMap<Product, Integer> products, Calendar orderDate) {
+        orderDAO.add(products, orderDate);
     }
 
     @Override
