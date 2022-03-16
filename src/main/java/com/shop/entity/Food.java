@@ -1,7 +1,7 @@
-package com.task1.subtask1;
+package com.shop.entity;
 
-import com.task4.ShopProperties;
-import com.task4.Util;
+import com.shop.util.ShopProperties;
+import com.shop.util.DateUtil;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -72,6 +72,6 @@ public class Food extends Product {
         return super.toString() +
                 "calories: " + calories + " " + ShopProperties.getProperty("product.calories") + "\n" +
                 "weight: " + weight + " " + ShopProperties.getProperty("product.weight") + "\n" +
-                "expiration date: " + Util.calendarToStringDate(expirationDate) + "\n";
+                "expiration date: " + DateUtil.calendarToStringDate(expirationDate) + "\n";
     }
 }

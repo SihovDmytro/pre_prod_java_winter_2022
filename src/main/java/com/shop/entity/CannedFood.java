@@ -1,6 +1,6 @@
-package com.task1.subtask1;
+package com.shop.entity;
 
-import com.task4.ShopProperties;
+import com.shop.util.ShopProperties;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
