@@ -21,7 +21,10 @@ import com.shop.service.impl.OrderServiceImpl;
 import com.shop.util.ShopProperties;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 public class ApplicationInit {
     private CartDAO cartDAO;
@@ -32,19 +35,24 @@ public class ApplicationInit {
     private CartHistoryService cartHistoryService;
     private OrderDAO orderDAO;
     private OrderService orderService;
+    private Scanner scanner;
+
+    public ApplicationInit(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     private Map<String, Command> commandsContainer;
 
     public boolean init() {
         boolean continueInit = ShopProperties.loadProperties();
         if (continueInit) {
-            cartDAO = new CartDAOImpl();
+            cartDAO = new CartDAOImpl(new HashMap<>());
             cartService = new CartServiceImpl(cartDAO);
-            cartHistoryDAO = new CartHistoryDAOImpl();
+            cartHistoryDAO = new CartHistoryDAOImpl(new LinkedHashMap<>());
             cartHistoryService = new CartHistoryServiceImpl(cartHistoryDAO);
             assortmentDAO = new AssortmentDAOImpl();
             assortmentService = new AssortmentServiceImpl(assortmentDAO);
-            orderDAO = new OrderDAOImpl();
+            orderDAO = new OrderDAOImpl(new TreeMap<>());
             orderService = new OrderServiceImpl(orderDAO);
             createContainerCommands();
         }
@@ -55,12 +63,12 @@ public class ApplicationInit {
         commandsContainer = new HashMap<>();
         commandsContainer.put("-1", new ExitCommand());
         commandsContainer.put("0", new PrintAllProductsCommand(assortmentService));
-        commandsContainer.put("1", new AddToCartCommand(assortmentService, cartService, cartHistoryService));
+        commandsContainer.put("1", new AddToCartCommand(assortmentService, cartService, cartHistoryService, scanner));
         commandsContainer.put("2", new PrintCartCommand(cartService));
-        commandsContainer.put("3", new MakeOrderCommand(cartService, orderService));
+        commandsContainer.put("3", new MakeOrderCommand(cartService, orderService, scanner));
         commandsContainer.put("4", new PrintLast5ItemsCommand(cartHistoryService));
-        commandsContainer.put("5", new PrintOrdersForPeriodCommand(orderService));
-        commandsContainer.put("6", new PrintOrderByDateCommand(orderService));
+        commandsContainer.put("5", new PrintOrdersForPeriodCommand(orderService, scanner));
+        commandsContainer.put("6", new PrintOrderByDateCommand(orderService, scanner));
     }
 
 

@@ -9,9 +9,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CartHistoryDAOImpl implements CartHistoryDAO {
-    private LinkedHashMap<Product, Integer> cartHistory = new LinkedHashMap<>();
+    private LinkedHashMap<Product, Integer> cartHistory;
     private static final Logger LOG = LogManager.getLogger(CartHistoryDAOImpl.class);
 
+    public CartHistoryDAOImpl(LinkedHashMap<Product, Integer> cartHistory) {
+        this.cartHistory = cartHistory;
+    }
 
     @Override
     public Map<Product, Integer> getCartHistory() {
@@ -21,8 +24,11 @@ public class CartHistoryDAOImpl implements CartHistoryDAO {
     @Override
     public boolean add(Product product, int number) {
         if (number < 1) return false;
-        cartHistory.remove(product);
-        cartHistory.put(product, number);
+        int oldValue = 0;
+        if (cartHistory.containsKey(product)) {
+            oldValue = cartHistory.remove(product);
+        }
+        cartHistory.put(product, number + oldValue);
         LOG.debug("Add product to the cart history: " + product.getName());
         return true;
     }

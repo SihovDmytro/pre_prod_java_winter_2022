@@ -10,8 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CartDAOImpl implements CartDAO {
-    private HashMap<Product, Integer> cart = new HashMap<>();
+    private HashMap<Product, Integer> cart;
     private static final Logger LOG = LogManager.getLogger(CartDAOImpl.class);
+
+    public CartDAOImpl(HashMap<Product, Integer> cart) {
+        this.cart = cart;
+    }
 
     @Override
     public HashMap<Product, Integer> getCart() {

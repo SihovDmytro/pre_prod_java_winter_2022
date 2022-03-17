@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 class CartHistoryServiceImplTest {
@@ -16,7 +17,7 @@ class CartHistoryServiceImplTest {
 
     @Test
     public void shouldReturnLast5ItemsInCart() {
-        cartHistoryService = new CartHistoryServiceImpl(new CartHistoryDAOImpl());
+        cartHistoryService = new CartHistoryServiceImpl(new CartHistoryDAOImpl(new LinkedHashMap<>()));
         Product product1 = new Furniture(new BigDecimal(2499), "dinner table", 56, 125, 140);
         Product product2 = new Furniture(new BigDecimal(5500), "cupboard", 200, 65, 198);
         cartHistoryService.add(product1, 1);

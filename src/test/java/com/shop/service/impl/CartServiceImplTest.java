@@ -10,14 +10,13 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class CartServiceImplTest {
     private CartService cartService;
 
     @Test
     public void shouldAddProductToCart() {
-        cartService = new CartServiceImpl(new CartDAOImpl());
+        cartService = new CartServiceImpl(new CartDAOImpl(new HashMap<>()));
         Product product = new Furniture(new BigDecimal(2499), "dinner table", 56, 125, 140);
 
         cartService.add(product, 1);
@@ -31,7 +30,7 @@ class CartServiceImplTest {
 
     @Test
     public void shouldReturnCartPrice() {
-        cartService = new CartServiceImpl(new CartDAOImpl());
+        cartService = new CartServiceImpl(new CartDAOImpl(new HashMap<>()));
         Product product1 = new Furniture(new BigDecimal(2499), "dinner table", 56, 125, 140);
         Product product2 = new Furniture(new BigDecimal(5500), "cupboard", 200, 65, 198);
 
