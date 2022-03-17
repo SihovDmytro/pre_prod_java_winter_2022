@@ -1,7 +1,7 @@
 package com.shop.command.impl;
 
 import com.shop.command.Command;
-import com.shop.entity.Product;
+import com.shop.entity.Cart;
 import com.shop.service.OrderService;
 import com.shop.util.DateUtil;
 import com.shop.util.OrderUtil;
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -29,26 +28,24 @@ public class PrintOrdersForPeriodCommand extends Command {
     @Override
     public void execute() {
         LOG.trace("PrintOrdersForPeriodCommand start");
-        if (!OrderUtil.exist(orderService)) {
+        if (!OrderUtil.isOrderExist(orderService)) {
             LOG.trace("PrintOrderByDateCommand end");
             return;
         }
-        System.out.println("Enter start date(" + ShopProperties.getProperty("date.format") + "): ");
-        String startDateString = scanner.nextLine();
-        LOG.debug("Start date: " + startDateString);
-        SimpleDateFormat calendarFormat = new SimpleDateFormat(ShopProperties.getProperty("date.format"));
-        Calendar startDate = DateUtil.stringToCalendar(startDateString, calendarFormat);
-        System.out.println("Enter end date(" + ShopProperties.getProperty("date.format") + "): ");
-        String endDateString = scanner.nextLine();
-        LOG.debug("End date: " + endDateString);
-        Calendar endDate = DateUtil.stringToCalendar(endDateString, calendarFormat);
+        SimpleDateFormat format = new SimpleDateFormat(ShopProperties.getProperty("date.format"));
+        System.out.println("Enter start date(" + format.toPattern() + "): ");
+        Calendar startDate = DateUtil.readDateFromConsole(scanner, format);
+        System.out.println("Enter end date(" + format.toPattern() + "): ");
+        Calendar endDate = DateUtil.readDateFromConsole(scanner, format);
         if (startDate != null && endDate != null) {
-            TreeMap<Calendar, HashMap<Product, Integer>> orders = orderService.getOrdersForPeriod(startDate, endDate);
+            TreeMap<Calendar, Cart> orders = orderService.getOrdersForPeriod(startDate, endDate);
             if (!orders.isEmpty()) {
                 printOrders(orders);
             } else {
                 System.out.println("You have no orders for this period");
-                LOG.debug("have no orders for period: " + startDateString + " - " + endDateString);
+                LOG.debug("have no orders for period: " +
+                        DateUtil.calendarToStringDate(startDate) + " - " +
+                        DateUtil.calendarToStringDate(endDate));
             }
         } else {
             System.out.println("Invalid date format");
@@ -56,15 +53,13 @@ public class PrintOrdersForPeriodCommand extends Command {
         LOG.trace("PrintOrdersForPeriodCommand end");
     }
 
-    private static void printOrders(TreeMap<Calendar, HashMap<Product, Integer>> orders) {
+    private static void printOrders(TreeMap<Calendar, Cart> orders) {
         System.out.println("Your orders: ");
-        for (Map.Entry<Calendar, HashMap<Product, Integer>> orderEntry : orders.entrySet()) {
+        for (Map.Entry<Calendar, Cart> orderEntry : orders.entrySet()) {
             String orderDate = DateUtil.calendarToStringDatetime(orderEntry.getKey());
             System.out.println("Order date: " + orderDate +
                     "\nProducts list: \n");
-            for (Map.Entry<Product, Integer> productEntry : orderEntry.getValue().entrySet()) {
-                System.out.println(productEntry.getKey() + "quantity: " + productEntry.getValue() + "\n");
-            }
+            OrderUtil.printOrder(orderEntry);
         }
     }
 }

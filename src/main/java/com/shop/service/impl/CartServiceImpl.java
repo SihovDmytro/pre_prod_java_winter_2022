@@ -1,11 +1,11 @@
 package com.shop.service.impl;
 
-import com.shop.entity.Product;
 import com.shop.dao.CartDAO;
+import com.shop.entity.Cart;
+import com.shop.entity.Product;
 import com.shop.service.CartService;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 
 public class CartServiceImpl implements CartService {
     private CartDAO cartDAO;
@@ -16,7 +16,7 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public HashMap<Product, Integer> getCart() {
+    public Cart getCart() {
         return cartDAO.getCart();
     }
 

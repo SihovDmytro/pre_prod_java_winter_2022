@@ -1,11 +1,10 @@
 package com.shop.service.impl;
 
 import com.shop.dao.OrderDAO;
-import com.shop.entity.Product;
+import com.shop.entity.Cart;
 import com.shop.service.OrderService;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,22 +16,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void add(HashMap<Product, Integer> products, Calendar orderDate) {
+    public void add(Cart products, Calendar orderDate) {
         orderDAO.add(products, orderDate);
     }
 
     @Override
-    public TreeMap<Calendar, HashMap<Product, Integer>> getOrders() {
+    public TreeMap<Calendar, Cart> getOrders() {
         return orderDAO.getOrders();
     }
 
     @Override
-    public TreeMap<Calendar, HashMap<Product, Integer>> getOrdersForPeriod(Calendar start, Calendar end) {
+    public TreeMap<Calendar, Cart> getOrdersForPeriod(Calendar start, Calendar end) {
         return orderDAO.getOrdersForPeriod(start, end);
     }
 
     @Override
-    public Map.Entry<Calendar, HashMap<Product, Integer>> getOrderByDate(Calendar date) {
+    public Map.Entry<Calendar, Cart> getOrderByDate(Calendar date) {
         return orderDAO.getOrderByDate(date);
     }
 }

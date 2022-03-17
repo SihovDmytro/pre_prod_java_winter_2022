@@ -28,10 +28,9 @@ public class MakeOrderCommand extends Command {
     public void execute() {
         LOG.trace("MakeOrderCommand start");
         if (!cartService.getCart().isEmpty()) {
-            System.out.println("Enter order date(" + ShopProperties.getProperty("datetime.format") + "):");
-            String textDate = scanner.nextLine();
-            LOG.trace("textDate: " + textDate);
-            Calendar orderDate = DateUtil.stringToCalendar(textDate, new SimpleDateFormat(ShopProperties.getProperty("datetime.format")));
+            SimpleDateFormat format = new SimpleDateFormat(ShopProperties.getProperty("datetime.format"));
+            System.out.println("Enter order date(" + format.toPattern() + "):");
+            Calendar orderDate = DateUtil.readDateFromConsole(scanner, format);
             if (orderDate != null) {
                 System.out.println("Total price: " + cartService.getTotalPrice() + " " + ShopProperties.getProperty("product.currency"));
                 orderService.add(cartService.getCart(), orderDate);
