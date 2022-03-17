@@ -1,24 +1,24 @@
 package com.shop.dao.impl;
 
 import com.shop.dao.CartDAO;
+import com.shop.entity.Cart;
 import com.shop.entity.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CartDAOImpl implements CartDAO {
-    private HashMap<Product, Integer> cart;
+    private Cart cart;
     private static final Logger LOG = LogManager.getLogger(CartDAOImpl.class);
 
-    public CartDAOImpl(HashMap<Product, Integer> cart) {
+    public CartDAOImpl(Cart cart) {
         this.cart = cart;
     }
 
     @Override
-    public HashMap<Product, Integer> getCart() {
+    public Cart getCart() {
         return cart;
     }
 
@@ -36,7 +36,7 @@ public class CartDAOImpl implements CartDAO {
 
     @Override
     public void clearCart() {
-        cart = new HashMap<>();
+        cart = new Cart();
         LOG.trace("Cart is empty");
     }
 

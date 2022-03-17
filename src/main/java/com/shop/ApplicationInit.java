@@ -10,6 +10,8 @@ import com.shop.dao.impl.AssortmentDAOImpl;
 import com.shop.dao.impl.CartDAOImpl;
 import com.shop.dao.impl.CartHistoryDAOImpl;
 import com.shop.dao.impl.OrderDAOImpl;
+import com.shop.entity.Cart;
+import com.shop.entity.CartHistory;
 import com.shop.service.AssortmentService;
 import com.shop.service.CartHistoryService;
 import com.shop.service.CartService;
@@ -21,7 +23,6 @@ import com.shop.service.impl.OrderServiceImpl;
 import com.shop.util.ShopProperties;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -46,9 +47,9 @@ public class ApplicationInit {
     public boolean init() {
         boolean continueInit = ShopProperties.loadProperties();
         if (continueInit) {
-            cartDAO = new CartDAOImpl(new HashMap<>());
+            cartDAO = new CartDAOImpl(new Cart());
             cartService = new CartServiceImpl(cartDAO);
-            cartHistoryDAO = new CartHistoryDAOImpl(new LinkedHashMap<>());
+            cartHistoryDAO = new CartHistoryDAOImpl(new CartHistory());
             cartHistoryService = new CartHistoryServiceImpl(cartHistoryDAO);
             assortmentDAO = new AssortmentDAOImpl();
             assortmentService = new AssortmentServiceImpl(assortmentDAO);
@@ -66,7 +67,7 @@ public class ApplicationInit {
         commandsContainer.put("1", new AddToCartCommand(assortmentService, cartService, cartHistoryService, scanner));
         commandsContainer.put("2", new PrintCartCommand(cartService));
         commandsContainer.put("3", new MakeOrderCommand(cartService, orderService, scanner));
-        commandsContainer.put("4", new PrintLast5ItemsCommand(cartHistoryService));
+        commandsContainer.put("4", new PrintLastNItemsCommand(cartHistoryService));
         commandsContainer.put("5", new PrintOrdersForPeriodCommand(orderService, scanner));
         commandsContainer.put("6", new PrintOrderByDateCommand(orderService, scanner));
     }

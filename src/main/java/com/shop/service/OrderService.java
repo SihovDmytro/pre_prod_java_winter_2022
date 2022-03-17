@@ -1,19 +1,17 @@
 package com.shop.service;
 
-import com.shop.entity.Product;
+import com.shop.entity.Cart;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public interface OrderService {
-    void add(HashMap<Product, Integer> products, Calendar orderDate);
+    void add(Cart products, Calendar orderDate);
 
-    TreeMap<Calendar, HashMap<Product, Integer>> getOrders();
+    TreeMap<Calendar, Cart> getOrders();
 
-    TreeMap<Calendar, HashMap<Product, Integer>> getOrdersForPeriod(Calendar start, Calendar end);
+    TreeMap<Calendar, Cart> getOrdersForPeriod(Calendar start, Calendar end);
 
-    Map.Entry<Calendar, HashMap<Product, Integer>> getOrderByDate(Calendar date);
+    Map.Entry<Calendar, Cart> getOrderByDate(Calendar date);
 }

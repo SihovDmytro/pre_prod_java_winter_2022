@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class DateUtil {
     private static final Logger LOG = LogManager.getLogger(DateUtil.class);
@@ -27,5 +28,11 @@ public class DateUtil {
             LOG.trace("Cannot parse order date");
             return null;
         }
+    }
+
+    public static Calendar readDateFromConsole(Scanner scanner, SimpleDateFormat format) {
+        String dateString = scanner.nextLine();
+        LOG.debug("dateString: " + dateString);
+        return DateUtil.stringToCalendar(dateString, format);
     }
 }

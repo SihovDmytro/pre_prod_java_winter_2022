@@ -1,6 +1,7 @@
 package com.shop.service.impl;
 
 import com.shop.dao.CartHistoryDAO;
+import com.shop.entity.CartHistory;
 import com.shop.entity.Product;
 import com.shop.service.CartHistoryService;
 
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class CartHistoryServiceImpl implements CartHistoryService {
     private CartHistoryDAO cartHistoryDAO;
@@ -18,7 +18,7 @@ public class CartHistoryServiceImpl implements CartHistoryService {
     }
 
     @Override
-    public Map<Product, Integer> getCartHistory() {
+    public CartHistory getCartHistory() {
         return cartHistoryDAO.getCartHistory();
     }
 

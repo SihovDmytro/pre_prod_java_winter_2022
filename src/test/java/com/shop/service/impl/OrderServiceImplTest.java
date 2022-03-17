@@ -2,6 +2,7 @@ package com.shop.service.impl;
 
 import com.shop.dao.impl.CartDAOImpl;
 import com.shop.dao.impl.OrderDAOImpl;
+import com.shop.entity.Cart;
 import com.shop.entity.Furniture;
 import com.shop.entity.Product;
 import com.shop.service.CartService;
@@ -26,7 +27,7 @@ class OrderServiceImplTest {
 
     @Test
     public void shouldReturnNearestOrderByDate() {
-        cartService = new CartServiceImpl(new CartDAOImpl(new HashMap<>()));
+        cartService = new CartServiceImpl(new CartDAOImpl(new Cart()));
         orderService = new OrderServiceImpl(new OrderDAOImpl(new TreeMap<>()));
         ShopProperties.loadProperties();
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -44,14 +45,14 @@ class OrderServiceImplTest {
         expectedProducts.put(secondProduct, 2);
         Map.Entry<Calendar, HashMap<Product, Integer>> expected = new AbstractMap.SimpleEntry<>(secondOrderDate, expectedProducts);
         Calendar enteredDate = DateUtil.stringToCalendar("19.08.2022 09:51:56", format);
-        Map.Entry<Calendar, HashMap<Product, Integer>> actual = orderService.getOrderByDate(enteredDate);
+        Map.Entry<Calendar, Cart> actual = orderService.getOrderByDate(enteredDate);
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void shouldReturnOrdersForSpecifiedPeriod() {
-        cartService = new CartServiceImpl(new CartDAOImpl(new HashMap<>()));
+        cartService = new CartServiceImpl(new CartDAOImpl(new Cart()));
         orderService = new OrderServiceImpl(new OrderDAOImpl(new TreeMap<>()));
         ShopProperties.loadProperties();
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
