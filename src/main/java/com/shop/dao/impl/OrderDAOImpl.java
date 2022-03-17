@@ -13,8 +13,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class OrderDAOImpl implements OrderDAO {
-    private TreeMap<Calendar, HashMap<Product, Integer>> orders = new TreeMap<>();
+    private TreeMap<Calendar, HashMap<Product, Integer>> orders;
     private static final Logger LOG = LogManager.getLogger(OrderDAOImpl.class);
+
+    public OrderDAOImpl(TreeMap<Calendar, HashMap<Product, Integer>> orders) {
+        this.orders = orders;
+    }
 
     public int numberOfOrders() {
         return orders.size();

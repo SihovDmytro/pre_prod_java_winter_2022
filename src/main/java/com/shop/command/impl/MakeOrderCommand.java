@@ -1,6 +1,5 @@
 package com.shop.command.impl;
 
-import com.shop.Runner;
 import com.shop.command.Command;
 import com.shop.service.CartService;
 import com.shop.service.OrderService;
@@ -11,15 +10,18 @@ import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class MakeOrderCommand extends Command {
     private static final Logger LOG = LogManager.getLogger(MakeOrderCommand.class);
     private CartService cartService;
     private OrderService orderService;
+    private Scanner scanner;
 
-    public MakeOrderCommand(CartService cartService, OrderService orderService) {
+    public MakeOrderCommand(CartService cartService, OrderService orderService, Scanner scanner) {
         this.cartService = cartService;
         this.orderService = orderService;
+        this.scanner = scanner;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class MakeOrderCommand extends Command {
         LOG.trace("MakeOrderCommand start");
         if (!cartService.getCart().isEmpty()) {
             System.out.println("Enter order date(" + ShopProperties.getProperty("datetime.format") + "):");
-            String textDate = Runner.getScanner().nextLine();
+            String textDate = scanner.nextLine();
             LOG.trace("textDate: " + textDate);
             Calendar orderDate = DateUtil.stringToCalendar(textDate, new SimpleDateFormat(ShopProperties.getProperty("datetime.format")));
             if (orderDate != null) {

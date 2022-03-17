@@ -14,13 +14,9 @@ public class Runner {
     private static final Logger LOG = LogManager.getLogger(Runner.class);
     private static Scanner scanner = new Scanner(System.in);
 
-    public static Scanner getScanner() {
-        return scanner;
-    }
-
     public static void main(String[] args) {
         LOG.trace("Start application");
-        ApplicationInit applicationInit = new ApplicationInit();
+        ApplicationInit applicationInit = new ApplicationInit(scanner);
         boolean continueWork = applicationInit.init();
         LOG.debug("Load properties: " + continueWork);
         if (!continueWork) return;

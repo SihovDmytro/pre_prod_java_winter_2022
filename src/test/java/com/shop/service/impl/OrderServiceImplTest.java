@@ -17,6 +17,7 @@ import java.util.AbstractMap;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 class OrderServiceImplTest {
     OrderService orderService;
@@ -25,8 +26,8 @@ class OrderServiceImplTest {
 
     @Test
     public void shouldReturnNearestOrderByDate() {
-        cartService = new CartServiceImpl(new CartDAOImpl());
-        orderService = new OrderServiceImpl(new OrderDAOImpl());
+        cartService = new CartServiceImpl(new CartDAOImpl(new HashMap<>()));
+        orderService = new OrderServiceImpl(new OrderDAOImpl(new TreeMap<>()));
         ShopProperties.loadProperties();
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         Product firstProduct = new Furniture(new BigDecimal(2499), "dinner table", 56, 125, 140);
@@ -50,8 +51,8 @@ class OrderServiceImplTest {
 
     @Test
     public void shouldReturnOrdersForSpecifiedPeriod() {
-        cartService = new CartServiceImpl(new CartDAOImpl());
-        orderService = new OrderServiceImpl(new OrderDAOImpl());
+        cartService = new CartServiceImpl(new CartDAOImpl(new HashMap<>()));
+        orderService = new OrderServiceImpl(new OrderDAOImpl(new TreeMap<>()));
         ShopProperties.loadProperties();
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         Product firstProduct = new Furniture(new BigDecimal(2499), "dinner table", 56, 125, 140);
