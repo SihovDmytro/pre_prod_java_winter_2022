@@ -34,7 +34,7 @@ public class FileViewer implements Iterable<String> {
                 scanner = new Scanner(file);
             } catch (FileNotFoundException exception) {
                 scanner = null;
-                LOG.info("Cannot find specified file", exception);
+                LOG.error("Cannot find specified file", exception);
             }
         }
 
@@ -59,7 +59,7 @@ public class FileViewer implements Iterable<String> {
             try {
                 scanner.close();
             } catch (NullPointerException | IllegalStateException exception) {
-                LOG.warn("Cannot close scanner", exception);
+                LOG.error("Cannot close scanner", exception);
             }
         }
     }

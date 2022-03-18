@@ -1,6 +1,6 @@
 package com.task5.subtask2.util;
 
-import com.task4.Util;
+import com.shop.util.DateUtil;
 import com.task5.subtask2.FileExtensionFilter;
 import com.task5.subtask2.FileNameFilter;
 import com.task5.subtask2.FileSizeFilter;
@@ -98,7 +98,7 @@ public class ConsoleUtil {
                 LOG.trace("max file size: " + max);
                 return new FileSizeFilter(min, max);
             } catch (NumberFormatException exception) {
-                LOG.info("Cannot parse value", exception);
+                LOG.error("Cannot parse value", exception);
                 System.out.println("Invalid value");
             }
         }
@@ -122,6 +122,6 @@ public class ConsoleUtil {
     private static Calendar readDate(Scanner scanner) {
         String date = scanner.nextLine();
         LOG.trace("date: " + date);
-        return Util.stringToCalendar(date, new SimpleDateFormat(DATE_FORMAT));
+        return DateUtil.stringToCalendar(date, new SimpleDateFormat(DATE_FORMAT));
     }
 }
