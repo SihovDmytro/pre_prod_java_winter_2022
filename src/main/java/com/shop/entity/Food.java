@@ -1,7 +1,9 @@
-package com.task1.subtask1;
+package com.shop.entity;
+
+import com.shop.util.ShopProperties;
+import com.shop.util.DateUtil;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Food extends Product {
@@ -67,12 +69,9 @@ public class Food extends Product {
 
     @Override
     public String toString() {
-        return "Food{" +
-                " price=" + price +
-                ", name='" + name +
-                ", calories=" + calories +
-                ", weight=" + weight +
-                ", expirationDate=" + new SimpleDateFormat("dd.MM.yyyy").format(expirationDate.getTime()) + '\'' +
-                '}';
+        return super.toString() +
+                "calories: " + calories + " " + ShopProperties.getProperty("product.calories") + "\n" +
+                "weight: " + weight + " " + ShopProperties.getProperty("product.weight") + "\n" +
+                "expiration date: " + DateUtil.calendarToStringDate(expirationDate) + "\n";
     }
 }

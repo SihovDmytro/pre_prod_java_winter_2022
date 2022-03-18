@@ -1,4 +1,6 @@
-package com.task1.subtask1;
+package com.shop.entity;
+
+import com.shop.util.ShopProperties;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -54,14 +56,8 @@ public class CannedFood extends Food {
 
     @Override
     public String toString() {
-        return "CannedFood{" +
-                "price=" + price +
-                ", name='" + name +
-                ", calories=" + calories +
-                ", weight=" + weight +
-                ", expirationDate=" + expirationDate +
-                ", canWeight='" + canWeight + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                '}';
+        return super.toString() +
+                "can weight: " + canWeight + " " + ShopProperties.getProperty("product.weight") + "\n" +
+                "manufacturer: " + manufacturer + "\n";
     }
 }

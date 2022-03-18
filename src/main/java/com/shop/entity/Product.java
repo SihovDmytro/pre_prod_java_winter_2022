@@ -1,4 +1,6 @@
-package com.task1.subtask1;
+package com.shop.entity;
+
+import com.shop.util.ShopProperties;
 
 import java.math.BigDecimal;
 
@@ -50,9 +52,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "price=" + price +
-                ", name='" + name + '\'' +
-                '}';
+        return "name: " + name + "\n" +
+                "price for one item: " + price + " " + ShopProperties.getProperty("product.currency") + "\n";
     }
 }
