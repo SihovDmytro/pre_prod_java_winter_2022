@@ -14,11 +14,9 @@ public class FileNameFilter extends Filter {
     }
 
     @Override
-    public void doFilter(File folder) {
-        LOG.trace("FileNameFilter start");
-        LOG.trace("files before: " + files.size());
-        files.removeIf(file -> !file.getName().toLowerCase().contains(name.toLowerCase()));
-        LOG.trace("files after: " + files.size());
-        LOG.trace("FileNameFilter end");
+    public boolean doFilter(File file) {
+        boolean result = file.getName().toLowerCase().contains(name.toLowerCase());
+        if (!result) LOG.trace("FileNameFilter fail: " + file.getAbsolutePath());
+        return result;
     }
 }

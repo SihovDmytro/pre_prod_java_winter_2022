@@ -17,11 +17,9 @@ public class LastModifyFilter extends Filter {
     }
 
     @Override
-    public void doFilter(File folder) {
-        LOG.trace("LastModifyFilter start");
-        LOG.trace("files before: " + files.size());
-        files.removeIf(file -> file.lastModified() < start || file.lastModified() > end);
-        LOG.trace("files after: " + files.size());
-        LOG.trace("LastModifyFilter end");
+    public boolean doFilter(File file) {
+        boolean result = file.lastModified() >= start && file.lastModified() <= end;
+        if (!result) LOG.trace("LastModifyFilter fail: " + file.getAbsolutePath());
+        return result;
     }
 }

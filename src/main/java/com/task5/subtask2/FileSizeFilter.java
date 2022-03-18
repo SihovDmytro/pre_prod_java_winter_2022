@@ -16,11 +16,9 @@ public class FileSizeFilter extends Filter {
     }
 
     @Override
-    public void doFilter(File folder) {
-        LOG.trace("FileSizeFilter start");
-        LOG.trace("files before: " + files.size());
-        files.removeIf(file -> file.length() < minSize || file.length() > maxSize);
-        LOG.trace("files after: " + files.size());
-        LOG.trace("FileSizeFilter end");
+    public boolean doFilter(File file) {
+        boolean result = file.length() >= minSize && file.length() <= maxSize;
+        if (!result) LOG.trace("FileSizeFilter fail: " + file.getAbsolutePath());
+        return result;
     }
 }

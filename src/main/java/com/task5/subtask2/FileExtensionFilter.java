@@ -9,17 +9,15 @@ public class FileExtensionFilter extends Filter {
     private static final Logger LOG = LogManager.getLogger(FileExtensionFilter.class);
     private String extension;
 
-    FileExtensionFilter(String extension) {
+    public FileExtensionFilter(String extension) {
         this.extension = extension;
     }
 
     @Override
-    public void doFilter(File folder) {
-        LOG.trace("FileExtensionFilter start");
-        LOG.trace("files before: " + files.size());
-        files.removeIf(file -> !file.getName().endsWith(extension));
-        LOG.trace("files before: " + files.size());
-        LOG.trace("FileExtensionFilter end");
+    public boolean doFilter(File file) {
+        boolean result = file.getName().endsWith(extension);
+        if (!result) LOG.trace("FileExtensionFilter fail: " + file.getAbsolutePath());
+        return result;
     }
 
 }
