@@ -45,26 +45,50 @@ public class ConsoleUtil {
         System.out.println("Use search by file name?(1/0)");
         if (scanner.nextLine().equals("1")) {
             LOG.trace("Use filename filter");
-            System.out.println("Enter name: ");
-            String name = scanner.nextLine();
-            LOG.trace("name: " + name);
-            if (name != null)
-                filters.add(new FileNameFilter(name));
-            else System.out.println("Invalid name");
+            filters.add(readFileNameFilter(scanner));
         }
         System.out.println("Use search by extension?(1/0)");
         if (scanner.nextLine().equals("1")) {
             LOG.trace("Use extension filter");
-            System.out.println("Enter extension: ");
-            String extension = scanner.nextLine();
-            LOG.trace("extension: " + extension);
-            if (extension.contains("."))
-                filters.add(new FileExtensionFilter(extension));
-            else System.out.println("Invalid extension: " + extension);
+            filters.add(readFileExtensionFilter(scanner));
         }
         System.out.println("Use search by size?(1/0)");
         if (scanner.nextLine().equals("1")) {
             LOG.trace("Use file size filter");
+            filters.add(readFileSizeFilter(scanner));
+        }
+        System.out.println("Use search by last modified date?(1/0)");
+        if (scanner.nextLine().equals("1")) {
+            LOG.trace("Use last modify filter");
+            filters.add(readLastModifyFilter(scanner));
+        }
+        return FilterUtil.connectFilters(filters);
+    }
+
+    public static FileNameFilter readFileNameFilter(Scanner scanner) {
+        while (true) {
+            System.out.println("Enter name: ");
+            String name = scanner.nextLine();
+            LOG.trace("name: " + name);
+            if (name != null)
+                return new FileNameFilter(name);
+            else System.out.println("Invalid name");
+        }
+    }
+
+    public static FileExtensionFilter readFileExtensionFilter(Scanner scanner) {
+        while (true) {
+            System.out.println("Enter extension: ");
+            String extension = scanner.nextLine();
+            LOG.trace("extension: " + extension);
+            if (extension.startsWith("."))
+                return new FileExtensionFilter(extension);
+            else System.out.println("Invalid extension: " + extension);
+        }
+    }
+
+    public static FileSizeFilter readFileSizeFilter(Scanner scanner) {
+        while (true) {
             try {
                 System.out.println("Enter minimum file size(bytes):");
                 long min = Long.parseLong(scanner.nextLine());
@@ -72,31 +96,32 @@ public class ConsoleUtil {
                 System.out.println("Enter maximum file size(bytes):");
                 long max = Long.parseLong(scanner.nextLine());
                 LOG.trace("max file size: " + max);
-                filters.add(new FileSizeFilter(min, max));
+                return new FileSizeFilter(min, max);
             } catch (NumberFormatException exception) {
-                LOG.debug("Cannot parse value");
+                LOG.info("Cannot parse value", exception);
                 System.out.println("Invalid value");
             }
         }
-        System.out.println("Use search by last modified date?(1/0)");
-        if (scanner.nextLine().equals("1")) {
-            LOG.trace("Use last modify filter");
+    }
+
+    public static LastModifyFilter readLastModifyFilter(Scanner scanner) {
+        while (true) {
             System.out.println("Enter start date(" + DATE_FORMAT + "):");
-            String startDate = scanner.nextLine();
-            LOG.trace("startDate: " + startDate);
-            Calendar startDateCalendar = Util.stringToCalendar(startDate, new SimpleDateFormat(DATE_FORMAT));
+            Calendar startDateCalendar = readDate(scanner);
             System.out.println("Enter end date(" + DATE_FORMAT + "):");
-            String endDate = scanner.nextLine();
-            LOG.trace("endDate: " + endDate);
-            Calendar endDateCalendar = Util.stringToCalendar(endDate, new SimpleDateFormat(DATE_FORMAT));
+            Calendar endDateCalendar = readDate(scanner);
             if (startDateCalendar != null && endDateCalendar != null) {
-                filters.add(new LastModifyFilter(startDateCalendar, endDateCalendar));
+                return new LastModifyFilter(startDateCalendar, endDateCalendar);
             } else {
                 System.out.println("Invalid date");
                 LOG.trace("Invalid date");
             }
         }
-        return FilterUtil.connectFilters(filters);
     }
 
+    private static Calendar readDate(Scanner scanner) {
+        String date = scanner.nextLine();
+        LOG.trace("date: " + date);
+        return Util.stringToCalendar(date, new SimpleDateFormat(DATE_FORMAT));
+    }
 }
