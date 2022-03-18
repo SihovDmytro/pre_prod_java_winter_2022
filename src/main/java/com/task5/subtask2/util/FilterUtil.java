@@ -10,8 +10,7 @@ import java.util.List;
 public class FilterUtil {
     private static final Logger LOG = LogManager.getLogger(FileUtil.class);
 
-    public static Filter connectFilters(List<Filter> filters)
-    {
+    public static Filter connectFilters(List<Filter> filters) {
         Filter filter = null;
         Iterator<Filter> iterator = filters.iterator();
         LOG.trace("Filters to apply: " + filters.size());
