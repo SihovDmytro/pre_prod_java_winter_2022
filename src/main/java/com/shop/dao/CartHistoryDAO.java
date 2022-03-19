@@ -5,5 +5,6 @@ import com.shop.entity.Product;
 
 public interface CartHistoryDAO {
     CartHistory getCartHistory();
+
     boolean add(Product product, int number);
 }

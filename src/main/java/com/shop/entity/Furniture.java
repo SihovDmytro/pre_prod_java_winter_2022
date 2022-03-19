@@ -1,13 +1,22 @@
 package com.shop.entity;
 
+import com.shop.util.Constants;
+import com.shop.util.RandomUtil;
 import com.shop.util.ShopProperties;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.Scanner;
 
 public class Furniture extends Product {
     private int height;
     private int width;
     private int length;
+    private static final Logger LOG = LogManager.getLogger(Furniture.class);
+
+    public Furniture() {
+    }
 
     public Furniture(BigDecimal price, String name, int height, int width, int length) {
         super(price, name);
@@ -70,4 +79,49 @@ public class Furniture extends Product {
         result = 31 * result + length;
         return result;
     }
+
+    @Override
+    public Product consoleInput(Scanner scanner) {
+        super.consoleInput(scanner);
+        while (true)
+            try {
+                System.out.println("Enter height: ");
+                String heightString = scanner.nextLine();
+                LOG.trace("heightString: " + heightString);
+                int height = Integer.parseInt(heightString);
+                setHeight(height);
+                System.out.println("Enter width: ");
+                String widthString = scanner.nextLine();
+                LOG.trace("widthString: " + widthString);
+                int width = Integer.parseInt(widthString);
+                setWidth(width);
+                System.out.println("Enter length: ");
+                String lengthString = scanner.nextLine();
+                LOG.trace("lengthString: " + lengthString);
+                int length = Integer.parseInt(lengthString);
+                setLength(length);
+                return this;
+            } catch (NumberFormatException exception) {
+                LOG.error("Cannot input product from console ", exception);
+                System.out.println(Constants.INVALID_INPUT);
+            }
+    }
+
+
+    @Override
+    public Product randomInput() {
+        super.randomInput();
+        int height = RandomUtil.randomInt();
+        LOG.trace("height: " + height);
+        setHeight(height);
+        int width = RandomUtil.randomInt();
+        LOG.trace("width: " + width);
+        setWidth(width);
+        int length = RandomUtil.randomInt();
+        LOG.trace("length: " + length);
+        setLength(length);
+        return this;
+    }
+
+
 }

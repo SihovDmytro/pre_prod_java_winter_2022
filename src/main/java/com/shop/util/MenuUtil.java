@@ -11,10 +11,32 @@ public class MenuUtil {
                     "4 - show last 5 items in the cart\n" +
                     "5 - show all orders for period\n" +
                     "6 - show order by date\n" +
+                    "7 - add a new product to assortment\n" +
                     "-1 - leave\n" +
                     "=====================================================\n";
+    public static final String PRODUCT_INPUT_MENU =
+            "=====================================================\n" +
+                    "1 - input from console\n" +
+                    "2 - random input\n" +
+                    "=====================================================\n";
 
-    public static void printMenu() {
+    public static final String PRODUCT_LIST_MENU =
+            "=====================================================\n" +
+                    "1 - product\n" +
+                    "2 - furniture\n" +
+                    "3 - food\n" +
+                    "4 - canned food\n" +
+                    "=====================================================\n";
+
+    public static void printMainMenu() {
         System.out.println(MAIN_MENU);
+    }
+
+    public static void printProductInputMenu() {
+        System.out.println(PRODUCT_INPUT_MENU);
+    }
+
+    public static void printProductListMenu() {
+        System.out.println(PRODUCT_LIST_MENU);
     }
 }

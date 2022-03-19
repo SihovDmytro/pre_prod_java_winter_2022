@@ -25,7 +25,7 @@ public class DateUtil {
             calendar.setTime(format.parse(stringDate));
             return calendar;
         } catch (ParseException exception) {
-            LOG.trace("Cannot parse order date");
+            LOG.error("Cannot parse order date ", exception);
             return null;
         }
     }
