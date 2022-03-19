@@ -120,7 +120,7 @@ public class Food extends Product {
         int weight = RandomUtil.randomInt();
         LOG.trace("weight: " + weight);
         setWeight(weight);
-        Calendar expirationDate = Calendar.getInstance();
+        Calendar expirationDate = RandomUtil.randomCalendar();
         LOG.trace("expirationDate:" + DateUtil.calendarToStringDate(expirationDate));
         setExpirationDate(expirationDate);
         return this;
