@@ -106,7 +106,6 @@ public class ApplicationInit {
         commandsContainer.put("7", new AddProductToAssortmentCommand(scanner, assortmentService));
     }
 
-
     public Map<String, Command> getCommandsContainer() {
         return commandsContainer;
     }
