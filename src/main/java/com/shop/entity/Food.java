@@ -2,8 +2,6 @@ package com.shop.entity;
 
 import com.shop.util.DateUtil;
 import com.shop.util.ShopProperties;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -12,7 +10,6 @@ public class Food extends Product {
     private int calories;
     private int weight;
     private Calendar expirationDate;
-    private static final Logger LOG = LogManager.getLogger(Food.class);
 
     public Food(BigDecimal price, String name, int calories, int weight, Calendar expirationDate) {
         super(price, name);

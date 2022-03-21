@@ -22,10 +22,9 @@ public class MenuUtil {
 
     public static final String PRODUCT_LIST_MENU =
             "=====================================================\n" +
-                    "1 - product\n" +
-                    "2 - furniture\n" +
-                    "3 - food\n" +
-                    "4 - canned food\n" +
+                    "1 - furniture\n" +
+                    "2 - food\n" +
+                    "3 - canned food\n" +
                     "=====================================================\n";
 
     public static void printMainMenu() {

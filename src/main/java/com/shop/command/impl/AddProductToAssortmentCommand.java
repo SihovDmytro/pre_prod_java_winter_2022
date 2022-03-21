@@ -60,14 +60,9 @@ public class AddProductToAssortmentCommand extends Command {
 
     private Map<String, ProductFillerTemplate> createProductContainer() {
         Map<String, ProductFillerTemplate> map = new HashMap<>();
-        map.put("1", new ProductFillerTemplate(filler) {
-            @Override
-            protected void setOtherFields() {
-            }
-        });
-        map.put("2", new FurnitureFillerTemplate(filler));
-        map.put("3", new FoodFillerTemplate(filler));
-        map.put("4", new CannedFoodFillerTemplate(filler));
+        map.put("1", new FurnitureFillerTemplate(filler));
+        map.put("2", new FoodFillerTemplate(filler));
+        map.put("3", new CannedFoodFillerTemplate(filler));
         return map;
     }
 }

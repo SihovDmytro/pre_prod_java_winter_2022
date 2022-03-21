@@ -2,6 +2,7 @@ package com.shop.template;
 
 import com.shop.entity.Food;
 import com.shop.strategy.Filler;
+import com.shop.util.ShopProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +25,7 @@ public class FoodFillerTemplate extends ProductFillerTemplate {
         int weight = filler.fillInt();
         LOG.trace("weight: " + weight);
         ((Food) product).setWeight(weight);
-        System.out.println("expiration date: ");
+        System.out.println("expiration date" + ShopProperties.getProperty("date.format") + ": ");
         Calendar expirationDate = filler.fillDate();
         LOG.trace("expirationDate: " + expirationDate);
         ((Food) product).setExpirationDate(expirationDate);

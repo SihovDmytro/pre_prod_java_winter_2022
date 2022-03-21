@@ -12,7 +12,7 @@ public abstract class ProductFillerTemplate {
     protected Product product;
     private static final Logger LOG = LogManager.getLogger(ProductFillerTemplate.class);
 
-    public ProductFillerTemplate(Filler filler) {
+    protected ProductFillerTemplate(Filler filler) {
         this.filler = filler;
     }
 

@@ -1,14 +1,11 @@
 package com.shop.entity;
 
 import com.shop.util.ShopProperties;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class Product implements Serializable {
-    private static final Logger LOG = LogManager.getLogger(Product.class);
     private BigDecimal price;
     private String name;
 

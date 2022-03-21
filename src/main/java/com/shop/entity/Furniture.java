@@ -1,8 +1,6 @@
 package com.shop.entity;
 
 import com.shop.util.ShopProperties;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 
@@ -10,7 +8,6 @@ public class Furniture extends Product {
     private int height;
     private int width;
     private int length;
-    private static final Logger LOG = LogManager.getLogger(Furniture.class);
 
     public Furniture() {
     }
