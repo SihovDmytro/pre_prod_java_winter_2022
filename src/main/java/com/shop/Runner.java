@@ -3,6 +3,7 @@ package com.shop;
 import com.shop.command.Command;
 import com.shop.command.impl.DefaultCommand;
 import com.shop.command.impl.ExitCommand;
+import com.shop.initialization.ApplicationInit;
 import com.shop.util.MenuUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

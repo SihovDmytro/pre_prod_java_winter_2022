@@ -1,6 +1,5 @@
 package com.shop.service.impl;
 
-import com.shop.ProductFiller;
 import com.shop.dao.AssortmentDAO;
 import com.shop.entity.Product;
 import com.shop.service.AssortmentService;
@@ -9,11 +8,9 @@ import java.util.List;
 
 public class AssortmentServiceImpl implements AssortmentService {
     private AssortmentDAO assortmentDAO;
-    private ProductFiller productFiller;
 
-    public AssortmentServiceImpl(AssortmentDAO assortmentDAO, ProductFiller productFiller) {
+    public AssortmentServiceImpl(AssortmentDAO assortmentDAO) {
         this.assortmentDAO = assortmentDAO;
-        this.productFiller = productFiller;
     }
 
     @Override
@@ -28,6 +25,6 @@ public class AssortmentServiceImpl implements AssortmentService {
 
     @Override
     public void addProduct(Product product) {
-        assortmentDAO.addProduct(productFiller.fill(product));
+        assortmentDAO.addProduct(product);
     }
 }
