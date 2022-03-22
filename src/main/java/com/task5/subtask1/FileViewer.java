@@ -22,8 +22,7 @@ public class FileViewer implements Iterable<String> {
         return new FileIterator();
     }
 
-    public boolean exists()
-    {
+    public boolean exists() {
         return file.exists();
     }
 
@@ -33,9 +32,9 @@ public class FileViewer implements Iterable<String> {
         public FileIterator() {
             try {
                 scanner = new Scanner(file);
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException exception) {
                 scanner = null;
-                LOG.trace("Cannot find specified file");
+                LOG.error("Cannot find specified file", exception);
             }
         }
 
@@ -50,8 +49,7 @@ public class FileViewer implements Iterable<String> {
 
         @Override
         public String next() {
-            if(!hasNext())
-            {
+            if (!hasNext()) {
                 throw new NoSuchElementException();
             }
             return scanner.nextLine();
@@ -60,10 +58,8 @@ public class FileViewer implements Iterable<String> {
         private void closeScanner() {
             try {
                 scanner.close();
-            }
-            catch (NullPointerException | IllegalStateException exception)
-            {
-                LOG.trace("Cannot close scanner");
+            } catch (NullPointerException | IllegalStateException exception) {
+                LOG.error("Cannot close scanner ", exception);
             }
         }
     }

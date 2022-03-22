@@ -1,7 +1,8 @@
 package com.shop.util;
 
-import com.shop.dao.entity.Furniture;
-import com.shop.dao.entity.Product;
+
+import com.shop.entity.Furniture;
+import com.shop.entity.Product;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

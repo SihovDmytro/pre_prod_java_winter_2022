@@ -22,6 +22,11 @@ public class Localization {
         }
     }
 
+    public static Locale getCurrentLocale()
+    {
+        return bundle.getLocale();
+    }
+
     public static String getResource(String key) {
         return bundle.getString(key);
     }

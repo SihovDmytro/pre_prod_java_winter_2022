@@ -18,8 +18,8 @@ public class ShopProperties {
             properties.load(input);
             LOG.debug("Load properties");
             return true;
-        } catch (IOException e) {
-            LOG.debug("Cannot load properties");
+        } catch (IOException exception) {
+            LOG.error("Cannot load properties",exception);
             return false;
         }
     }
