@@ -5,7 +5,7 @@ import com.shop.util.ShopProperties;
 
 import java.math.BigDecimal;
 
-public class Product implements  IProduct{
+public class Product implements IProduct {
     private BigDecimal price;
     private String name;
 

@@ -4,6 +4,7 @@ import com.shop.command.Command;
 import com.shop.command.impl.AddProductToAssortmentCommand;
 import com.shop.command.impl.AddProductToAssortmentReflectionCommand;
 import com.shop.command.impl.AddToCartCommand;
+import com.shop.command.impl.ChangeLanguageCommand;
 import com.shop.command.impl.ExitCommand;
 import com.shop.command.impl.MakeOrderCommand;
 import com.shop.command.impl.PrintAllProductsCommand;
@@ -118,6 +119,7 @@ public class ApplicationInit {
         commandsContainer.put("6", new PrintOrderByDateCommand(orderService, scanner));
         commandsContainer.put("7", new AddProductToAssortmentCommand(scanner, assortmentService, filler));
         commandsContainer.put("8", new AddProductToAssortmentReflectionCommand(scanner, assortmentService, filler));
+        commandsContainer.put("9", new ChangeLanguageCommand(scanner));
     }
 
     public Map<String, Command> getCommandsContainer() {

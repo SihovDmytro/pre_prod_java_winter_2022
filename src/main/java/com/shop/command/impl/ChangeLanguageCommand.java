@@ -16,6 +16,10 @@ public class ChangeLanguageCommand extends Command {
     private static final Logger LOG = LogManager.getLogger(ChangeLanguageCommand.class);
     private Scanner scanner;
 
+    public ChangeLanguageCommand(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     @Override
     public void execute() {
         LOG.trace("ChangeLanguageCommand start");
@@ -27,6 +31,7 @@ public class ChangeLanguageCommand extends Command {
         if (locale != null) {
             Localization.loadLocalization(locale);
             LOG.trace("locale changed to: " + Localization.getCurrentLocale());
+            System.out.println("Language was changed");
         } else {
             System.out.println(Constants.UNKNOWN_LOCALE);
             LOG.info(Constants.UNKNOWN_LOCALE);

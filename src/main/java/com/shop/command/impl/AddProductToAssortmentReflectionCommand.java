@@ -9,6 +9,7 @@ import com.shop.reflection.filler.ReflectionFiller;
 import com.shop.service.AssortmentService;
 import com.shop.strategy.Filler;
 import com.shop.util.Constants;
+import com.shop.util.Localization;
 import com.shop.util.MenuUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,14 +47,14 @@ public class AddProductToAssortmentReflectionCommand extends Command {
                     product = reflectionFiller.fillProduct(product);
                     fillingRepeat = false;
                 } catch (IllegalArgumentException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
-                    System.out.println(Constants.INVALID_INPUT);
+                    System.out.println(Localization.getResource("message.cannotAddProduct"));
                     LOG.error(Constants.INVALID_INPUT, exception);
                 }
             }
             LOG.trace("product: " + product);
             assortmentService.addProduct(product);
         } else {
-            System.out.println(Constants.UNKNOWN_PRODUCT);
+            System.out.println(Localization.getResource("message.unknownProduct"));
             LOG.info(Constants.UNKNOWN_PRODUCT);
         }
         LOG.trace("AddProductToAssortmentReflectionCommand end");

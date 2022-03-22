@@ -25,7 +25,7 @@ public class ProductMapHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) {
         LOG.trace("invoke start");
         Object object = null;
-        LOG.debug("method name: "+method.getName());
+        LOG.debug("method name: " + method.getName());
         if (method.getName().startsWith("set")) {
             String fieldName = method.getName().substring(3, 4).toLowerCase() + method.getName().substring(4);
             map.put(fieldName, args[0]);

@@ -13,6 +13,7 @@ public class MenuUtil {
                     "6 - show order by date\n" +
                     "7 - add a new product to assortment\n" +
                     "8 - add a new product to assortment using reflection\n" +
+                    "9 - change language\n" +
                     "-1 - leave\n" +
                     "=====================================================\n";
     public static final String PRODUCT_INPUT_MENU =

@@ -17,12 +17,12 @@ public class UnmodifiableProductHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         LOG.trace("invoke start");
-        LOG.debug("method name: "+method.getName());
+        LOG.debug("method name: " + method.getName());
         if (method.getName().startsWith("set")) {
             throw new UnsupportedOperationException();
         }
-        Object object = method.invoke(product,args);
-        LOG.debug("object: "+object);
+        Object object = method.invoke(product, args);
+        LOG.debug("object: " + object);
         LOG.trace("invoke end");
         return object;
     }

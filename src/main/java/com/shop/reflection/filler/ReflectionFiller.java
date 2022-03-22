@@ -5,6 +5,7 @@ import com.shop.reflection.annotation.FieldToInput;
 import com.shop.strategy.Filler;
 import com.shop.util.Localization;
 import com.shop.util.ReflectionUtil;
+import com.shop.util.ShopProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,6 +56,7 @@ public class ReflectionFiller {
         if (cls.isAssignableFrom(int.class)) {
             returnType = filler.fillInt();
         } else if (cls.isAssignableFrom(Calendar.class)) {
+            System.out.println(Localization.getResource("message.dateFormat") + ": " + ShopProperties.getProperty("date.format"));
             returnType = filler.fillDate();
         } else if (cls.isAssignableFrom(BigDecimal.class)) {
             returnType = filler.fillBigDecimal();

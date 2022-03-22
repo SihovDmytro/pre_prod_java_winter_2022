@@ -18,7 +18,7 @@ class ProxyTest {
         String expected = "name";
         String actual = product.getName();
 
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
@@ -27,7 +27,7 @@ class ProxyTest {
         IProduct product = factory.createProductProxy(handler);
         product.setName("name");
         product.setPrice(new BigDecimal(10));
-        Map<String,Object> map = handler.getMap();
+        Map<String, Object> map = handler.getMap();
 
         boolean check = map.get("name").equals("name") && map.get("price").equals(new BigDecimal(10));
 
@@ -39,7 +39,7 @@ class ProxyTest {
 
         UnmodifiableProductHandler handler = new UnmodifiableProductHandler(new Product());
         IProduct product = factory.createProductProxy(handler);
-        Assertions.assertThrows(UnsupportedOperationException.class, ()->product.setName("name"));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> product.setName("name"));
     }
 
 }
