@@ -22,4 +22,9 @@ public class AssortmentServiceImpl implements AssortmentService {
     public Product getProduct(int id) {
         return assortmentDAO.getProduct(id);
     }
+
+    @Override
+    public void addProduct(Product product) {
+        assortmentDAO.addProduct(product);
+    }
 }

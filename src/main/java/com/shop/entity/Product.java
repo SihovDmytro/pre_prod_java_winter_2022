@@ -2,11 +2,12 @@ package com.shop.entity;
 
 import com.shop.util.ShopProperties;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Product {
-    BigDecimal price;
-    String name;
+public class Product implements Serializable {
+    private BigDecimal price;
+    private String name;
 
     public Product() {
     }

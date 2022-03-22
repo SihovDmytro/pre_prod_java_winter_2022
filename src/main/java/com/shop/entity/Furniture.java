@@ -9,6 +9,9 @@ public class Furniture extends Product {
     private int width;
     private int length;
 
+    public Furniture() {
+    }
+
     public Furniture(BigDecimal price, String name, int height, int width, int length) {
         super(price, name);
         this.height = height;

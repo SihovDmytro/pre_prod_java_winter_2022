@@ -59,7 +59,7 @@ public class FileViewer implements Iterable<String> {
             try {
                 scanner.close();
             } catch (NullPointerException | IllegalStateException exception) {
-                LOG.error("Cannot close scanner", exception);
+                LOG.error("Cannot close scanner ", exception);
             }
         }
     }

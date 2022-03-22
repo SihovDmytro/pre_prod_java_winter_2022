@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 public class CannedFood extends Food {
-    int canWeight;
-    String manufacturer;
+    private int canWeight;
+    private String manufacturer;
 
     public CannedFood() {
     }
@@ -60,4 +60,6 @@ public class CannedFood extends Food {
                 "can weight: " + canWeight + " " + ShopProperties.getProperty("product.weight") + "\n" +
                 "manufacturer: " + manufacturer + "\n";
     }
+
+
 }

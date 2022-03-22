@@ -43,7 +43,7 @@ public class AddToCartCommand extends Command {
                 System.out.println("Product '" + product.getName() + "' was added to the cart.");
             }
         } catch (NumberFormatException exception) {
-            LOG.debug("Cannot read int value");
+            LOG.error("Cannot read int", exception);
             System.out.println("This isn't number");
         }
         LOG.trace("BuyProductCommand end");

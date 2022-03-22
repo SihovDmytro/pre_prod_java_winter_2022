@@ -1,15 +1,15 @@
 package com.shop.entity;
 
-import com.shop.util.ShopProperties;
 import com.shop.util.DateUtil;
+import com.shop.util.ShopProperties;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 public class Food extends Product {
-    int calories;
-    int weight;
-    Calendar expirationDate;
+    private int calories;
+    private int weight;
+    private Calendar expirationDate;
 
     public Food(BigDecimal price, String name, int calories, int weight, Calendar expirationDate) {
         super(price, name);
