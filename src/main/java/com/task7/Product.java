@@ -1,15 +1,12 @@
-package com.shop.entity;
+package com.task7;
 
-import com.shop.reflection.annotation.FieldToInput;
+
 import com.shop.util.ShopProperties;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Product implements Serializable {
-    @FieldToInput(fieldName = "product.price")
+public class Product implements IProduct {
     private BigDecimal price;
-    @FieldToInput(fieldName = "product.name")
     private String name;
 
     public Product() {
@@ -20,18 +17,22 @@ public class Product implements Serializable {
         this.name = name;
     }
 
+    @Override
     public BigDecimal getPrice() {
         return price;
     }
 
+    @Override
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

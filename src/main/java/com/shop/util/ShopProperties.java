@@ -10,7 +10,7 @@ import java.util.Properties;
 public class ShopProperties {
     private static Properties properties;
     private static final Logger LOG = LogManager.getLogger(ShopProperties.class);
-    public static final String pathToProperties = "properties.properties";
+    private static final String pathToProperties = "properties.properties";
 
     public static boolean loadProperties() {
         properties = new Properties();
@@ -29,7 +29,7 @@ public class ShopProperties {
     }
 
     public static String getProperty(String propName) {
-        if(properties==null) loadProperties();
+        if (properties == null) loadProperties();
         return properties.getProperty(propName);
     }
 }

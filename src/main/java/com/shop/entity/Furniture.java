@@ -1,12 +1,16 @@
 package com.shop.entity;
 
+import com.shop.reflection.annotation.FieldToInput;
 import com.shop.util.ShopProperties;
 
 import java.math.BigDecimal;
 
 public class Furniture extends Product {
+    @FieldToInput(fieldName = "furniture.height")
     private int height;
+    @FieldToInput(fieldName = "furniture.width")
     private int width;
+    @FieldToInput(fieldName = "furniture.length")
     private int length;
 
     public Furniture() {

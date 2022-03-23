@@ -1,12 +1,15 @@
 package com.shop.entity;
 
+import com.shop.reflection.annotation.FieldToInput;
 import com.shop.util.ShopProperties;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 public class CannedFood extends Food {
+    @FieldToInput(fieldName = "cannedFood.canWeight")
     private int canWeight;
+    @FieldToInput(fieldName = "cannedFood.manufacturer")
     private String manufacturer;
 
     public CannedFood() {

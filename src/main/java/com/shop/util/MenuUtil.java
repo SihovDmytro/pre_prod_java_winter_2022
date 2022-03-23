@@ -12,6 +12,8 @@ public class MenuUtil {
                     "5 - show all orders for period\n" +
                     "6 - show order by date\n" +
                     "7 - add a new product to assortment\n" +
+                    "8 - add a new product to assortment using reflection\n" +
+                    "9 - change language\n" +
                     "-1 - leave\n" +
                     "=====================================================\n";
     public static final String PRODUCT_INPUT_MENU =
@@ -27,6 +29,12 @@ public class MenuUtil {
                     "3 - canned food\n" +
                     "=====================================================\n";
 
+    public static final String LANGUAGES_MENU =
+            "=====================================================\n" +
+                    "1 - English\n" +
+                    "2 - Русский\n" +
+                    "=====================================================\n";
+
     public static void printMainMenu() {
         System.out.println(MAIN_MENU);
     }
@@ -37,5 +45,9 @@ public class MenuUtil {
 
     public static void printProductListMenu() {
         System.out.println(PRODUCT_LIST_MENU);
+    }
+
+    public static void printLanguagesMenu() {
+        System.out.println(LANGUAGES_MENU);
     }
 }

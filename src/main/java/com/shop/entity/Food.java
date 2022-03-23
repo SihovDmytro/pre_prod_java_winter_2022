@@ -1,5 +1,6 @@
 package com.shop.entity;
 
+import com.shop.reflection.annotation.FieldToInput;
 import com.shop.util.DateUtil;
 import com.shop.util.ShopProperties;
 
@@ -7,8 +8,11 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 public class Food extends Product {
+    @FieldToInput(fieldName = "food.calories")
     private int calories;
+    @FieldToInput(fieldName = "food.weight")
     private int weight;
+    @FieldToInput(fieldName = "food.expDate")
     private Calendar expirationDate;
 
     public Food(BigDecimal price, String name, int calories, int weight, Calendar expirationDate) {
