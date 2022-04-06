@@ -22,6 +22,15 @@ import com.shop.dao.impl.CartHistoryDAOImpl;
 import com.shop.dao.impl.OrderDAOImpl;
 import com.shop.entity.Cart;
 import com.shop.entity.CartHistory;
+import com.shop.server.Server;
+import com.shop.server.command.ServerCommand;
+import com.shop.server.command.impl.http.ReturnNumberOfProductsHTTPCommand;
+import com.shop.server.command.impl.http.ReturnProductInfoHTTPCommand;
+import com.shop.server.command.impl.tcp.ReturnNumberOfProductsCommand;
+import com.shop.server.command.impl.tcp.ReturnProductInfoCommand;
+import com.shop.server.factory.HTTPClientThreadFactory;
+import com.shop.server.factory.TCPClientThreadFactory;
+import com.shop.server.util.ServerConstants;
 import com.shop.service.AssortmentService;
 import com.shop.service.CartHistoryService;
 import com.shop.service.CartService;
@@ -54,7 +63,8 @@ public class ApplicationInit {
     private OrderDAO orderDAO;
     private OrderService orderService;
     private Scanner scanner;
-
+    private Thread tcpServer;
+    private Thread httpServer;
     private Filler filler;
 
     private static final Logger LOG = LogManager.getLogger(ApplicationInit.class);
@@ -66,10 +76,12 @@ public class ApplicationInit {
 
     private Map<String, Command> commandsContainer;
     private Map<String, Filler> fillersContainer;
+    private Map<String, ServerCommand> TCPServerCommandContainer;
+    private Map<String, ServerCommand> HTTPServerCommandContainer;
 
     public boolean init() {
-        boolean continueInit = ShopProperties.loadProperties();
-        if (continueInit) {
+        boolean initStatus = ShopProperties.loadProperties();
+        if (initStatus) {
             Localization.loadLocalization(null);
             cartDAO = new CartDAOImpl(new Cart());
             cartService = new CartServiceImpl(cartDAO);
@@ -82,8 +94,14 @@ public class ApplicationInit {
             chooseProductInputMode();
             LOG.debug("Product input mode: " + filler);
             createContainerCommands();
+            createTCPServerCommandContainer();
+            createHTTPServerCommandContainer();
+            tcpServer = new Server(ServerConstants.TCP_SERVER_PORT, TCPServerCommandContainer, new TCPClientThreadFactory());
+            httpServer = new Server(ServerConstants.HTTP_SERVER_PORT, HTTPServerCommandContainer, new HTTPClientThreadFactory());
+            tcpServer.start();
+            httpServer.start();
         }
-        return continueInit;
+        return initStatus;
     }
 
     private void chooseProductInputMode() {
@@ -101,6 +119,18 @@ public class ApplicationInit {
         }
     }
 
+    private void createHTTPServerCommandContainer() {
+        HTTPServerCommandContainer = new HashMap<>();
+        HTTPServerCommandContainer.put(ServerConstants.HTTP_COMMAND_GET_COUNT, new ReturnNumberOfProductsHTTPCommand(assortmentService));
+        HTTPServerCommandContainer.put(ServerConstants.HTTP_COMMAND_GET_ITEM, new ReturnProductInfoHTTPCommand(assortmentService));
+    }
+
+    private void createTCPServerCommandContainer() {
+        TCPServerCommandContainer = new HashMap<>();
+        TCPServerCommandContainer.put("get count", new ReturnNumberOfProductsCommand(assortmentService));
+        TCPServerCommandContainer.put("get item", new ReturnProductInfoCommand(assortmentService));
+    }
+
     private void createFillersContainer() {
         fillersContainer = new HashMap<>();
         fillersContainer.put("1", new ConsoleFiller(scanner));
@@ -109,7 +139,7 @@ public class ApplicationInit {
 
     private void createContainerCommands() {
         commandsContainer = new HashMap<>();
-        commandsContainer.put("-1", new ExitCommand(assortmentService));
+        commandsContainer.put("-1", new ExitCommand(assortmentService, tcpServer, httpServer));
         commandsContainer.put("0", new PrintAllProductsCommand(assortmentService));
         commandsContainer.put("1", new AddToCartCommand(assortmentService, cartService, cartHistoryService, scanner));
         commandsContainer.put("2", new PrintCartCommand(cartService));
