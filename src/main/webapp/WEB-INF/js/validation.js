@@ -1,9 +1,9 @@
-
 const submit = document.getElementById("submit");
 
 const usernameError = document.getElementById("usernameError");
 const passwordError = document.getElementById("passwordError");
 const emailError = document.getElementById("emailError");
+
 usernameError.hidden = true;
 passwordError.hidden = true;
 emailError.hidden = true;
