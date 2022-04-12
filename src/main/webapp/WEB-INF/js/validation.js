@@ -3,17 +3,21 @@ const submit = document.getElementById("submit");
 const usernameError = document.getElementById("usernameError");
 const passwordError = document.getElementById("passwordError");
 const emailError = document.getElementById("emailError");
+const passwordRepeatError = document.getElementById("passwordRepeatError");
 
 usernameError.hidden = true;
 passwordError.hidden = true;
 emailError.hidden = true;
+passwordRepeatError.hidden = true;
 
 submit.addEventListener("click", function (e) {
         let usernameField = document.getElementById("username");
         let emailField = document.getElementById("email");
         let passwordField = document.getElementById("password");
+        let passwordRepeatField = document.getElementById("repeat-password");
         usernameError.hidden = true;
         passwordError.hidden = true;
+        passwordRepeatError.hidden = true;
         emailError.hidden = true;
         let valid = true;
 
@@ -23,6 +27,10 @@ submit.addEventListener("click", function (e) {
         }
         if (!validatePassword(passwordField.value)) {
             passwordError.hidden = false;
+            valid = false;
+        }
+        if (!validatePasswordRepeat(passwordField.value, passwordRepeatField.value)) {
+            passwordRepeatError.hidden = false;
             valid = false;
         }
         if (!validateEmail(emailField.value)) {
@@ -43,14 +51,17 @@ submit.addEventListener("click", function (e) {
 // const usernameError = $("#usernameError");
 // const passwordError = $("#passwordError");
 // const emailError = $("#emailError");
+// const passwordRepeatError = $("#passwordRepeatError");
 // usernameError.hide();
 // passwordError.hide();
 // emailError.hide();
+// passwordRepeatError.hide();
 //
 // $("#submit").click(function (e) {
 //     usernameError.hide();
 //     passwordError.hide();
 //     emailError.hide();
+//     passwordRepeatError.hide();
 //     let valid = true;
 //
 //     if (!validateUsername($("#username").val())) {
@@ -59,6 +70,10 @@ submit.addEventListener("click", function (e) {
 //     }
 //     if (!validatePassword($("#password").val())) {
 //         passwordError.show();
+//         valid = false;
+//     }
+//     if (!validatePasswordRepeat($("#password").val(), $("#repeat-password").val())) {
+//         passwordRepeatError.show();
 //         valid = false;
 //     }
 //     if (!validateEmail($("#email").val())) {
@@ -83,6 +98,10 @@ function validateUsername(username) {
 
 function validatePassword(password) {
     return password.length <= 64 && password.length >= 6;
+}
+
+function validatePasswordRepeat(password, repeat) {
+    return repeat.length <= 64 && repeat.length >= 6 && password === repeat;
 }
 
 function validateEmail(email) {

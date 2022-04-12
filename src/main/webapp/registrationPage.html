@@ -35,21 +35,29 @@
 						Sign Up
 					</span>
 
-                <div class="wrap-input100 validate-login m-b-16" data-validate="Please enter username">
+                <div class="wrap-input100 validate-login m-b-16">
                     <input class="input100" type="text" name="username" id="username" placeholder="Username">
                     <span id="usernameError">
                         Username must have at least 3 characters: uppercase letters, lowercase letters, numbers, '_' , '-'.
                     </span>
                 </div>
 
-                <div class="wrap-input100 validate-password m-b-16" data-validate="Please enter password">
+                <div class="wrap-input100 validate-password m-b-16">
                     <input class="input100" type="password" name="pass" id="password" placeholder="Password">
                     <span id="passwordError">
                         Password must have at least 6 characters
                     </span>
                 </div>
 
-                <div class="wrap-input100 validate-email" data-validate="Please enter email">
+                <div class="wrap-input100 validate-password-repeat m-b-16">
+                    <input class="input100" type="password" name="repeat-password" id="repeat-password"
+                           placeholder="Repeat password">
+                    <span id="passwordRepeatError">
+                        Passwords are different
+                    </span>
+                </div>
+
+                <div class="wrap-input100 validate-email">
                     <input class="input100" type="email" name="email" id="email" placeholder="Email">
                     <span id="emailError">
                         Please enter the email in the format: "example@example.com"
