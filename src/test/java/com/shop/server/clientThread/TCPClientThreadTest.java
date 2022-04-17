@@ -25,7 +25,6 @@ import java.util.HashMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 class TCPClientThreadTest {
     private static HashMap<String, ServerCommand> TCPServerCommandContainer;
     private Socket socket;
