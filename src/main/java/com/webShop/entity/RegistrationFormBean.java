@@ -8,8 +8,9 @@ public class RegistrationFormBean {
     private String passwordRepeat;
     private String email;
     private boolean sendMail;
+    private String userCaptcha;
 
-    public RegistrationFormBean(String login, String name, String sName, String password, String passwordRepeat, String email, boolean sendMail) {
+    public RegistrationFormBean(String login, String name, String sName, String password, String passwordRepeat, String email, boolean sendMail, String userCaptcha) {
         this.login = login;
         this.name = name;
         this.surname = sName;
@@ -17,6 +18,7 @@ public class RegistrationFormBean {
         this.passwordRepeat = passwordRepeat;
         this.email = email;
         this.sendMail = sendMail;
+        this.userCaptcha = userCaptcha;
     }
 
     public String getLogin() {
@@ -75,6 +77,14 @@ public class RegistrationFormBean {
         this.sendMail = sendMail;
     }
 
+    public String getUserCaptcha() {
+        return userCaptcha;
+    }
+
+    public void setUserCaptcha(String userCaptcha) {
+        this.userCaptcha = userCaptcha;
+    }
+
     @Override
     public String toString() {
         return "RegistrationFormBean{" +
@@ -85,6 +95,7 @@ public class RegistrationFormBean {
                 ", passwordRepeat='" + passwordRepeat + '\'' +
                 ", email='" + email + '\'' +
                 ", sendMail=" + sendMail +
+                ", userCaptcha='" + userCaptcha + '\'' +
                 '}';
     }
 }

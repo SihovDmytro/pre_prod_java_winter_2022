@@ -1,33 +1,38 @@
 package com.webShop.util;
 
+import com.webShop.captcha.CaptchaProvider;
 import com.webShop.entity.RegistrationFormBean;
 import com.webShop.service.UsersService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Validator {
-    public static Map<String, String> validateRegistration(RegistrationFormBean bean, UsersService usersService) {
+    public static Map<String, String> validateRegistration(RegistrationFormBean bean, UsersService usersService, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         if (!validateLogin(bean.getLogin())) {
-            errors.put(Attributes.LOGIN, Messages.INVALID_LOGIN);
+            errors.put(Parameters.LOGIN, Messages.INVALID_LOGIN);
         } else if (usersService.getUserByLogin(bean.getLogin()) != null) {
-            errors.put(Attributes.LOGIN, Messages.LOGIN_EXISTS);
+            errors.put(Parameters.LOGIN, Messages.LOGIN_EXISTS);
+        }
+        if (!validateCaptcha(bean.getUserCaptcha(), request)) {
+            errors.put(Parameters.USER_CAPTCHA, Messages.WRONG_CAPTCHA);
         }
         if (!validatePassword(bean.getPassword())) {
-            errors.put(Attributes.PASSWORD, Messages.INVALID_PASSWORD);
+            errors.put(Parameters.PASSWORD, Messages.INVALID_PASSWORD);
         }
         if (!validatePasswordRepeat(bean.getPassword(), bean.getPasswordRepeat())) {
-            errors.put(Attributes.REPEAT_PASSWORD, Messages.INVALID_PASSWORD_REPEAT);
+            errors.put(Parameters.REPEAT_PASSWORD, Messages.INVALID_PASSWORD_REPEAT);
         }
         if (!validateEmail(bean.getEmail())) {
-            errors.put(Attributes.EMAIL, Messages.INVALID_EMAIL);
+            errors.put(Parameters.EMAIL, Messages.INVALID_EMAIL);
         }
         if (!validateName(bean.getName())) {
-            errors.put(Attributes.NAME, Messages.INVALID_NAME);
+            errors.put(Parameters.NAME, Messages.INVALID_NAME);
         }
         if (!validateSurname(bean.getSurname())) {
-            errors.put(Attributes.SURNAME, Messages.INVALID_SURNAME);
+            errors.put(Parameters.SURNAME, Messages.INVALID_SURNAME);
         }
         return errors;
     }
@@ -58,4 +63,12 @@ public class Validator {
         return surname != null && surname.length() <= 30 && surname.length() >= 1;
     }
 
+    private static boolean validateCaptcha(String captcha, HttpServletRequest request) {
+        boolean result = false;
+        CaptchaProvider captchaProvider = (CaptchaProvider) request.getServletContext().getAttribute(Attributes.CAPTCHA_PROVIDER);
+        if (captchaProvider != null) {
+            result = captchaProvider.checkCaptcha(captcha, request);
+        }
+        return result;
+    }
 }

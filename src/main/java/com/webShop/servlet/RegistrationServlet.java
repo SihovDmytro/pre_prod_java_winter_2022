@@ -8,6 +8,7 @@ import com.webShop.service.UsersService;
 import com.webShop.service.impl.UsersServiceImpl;
 import com.webShop.util.Attributes;
 import com.webShop.util.Constants;
+import com.webShop.util.Parameters;
 import com.webShop.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,8 +49,8 @@ public class RegistrationServlet extends HttpServlet {
         LOG.trace("doPost start");
         RegistrationFormBean bean = readBean(req);
         LOG.debug("bean: " + bean);
-        Map<String, String> errors = Validator.validateRegistration(bean, usersService);
-        LOG.debug("errors: " + errors.size());
+        Map<String, String> errors = Validator.validateRegistration(bean, usersService, req);
+        LOG.debug("errors: " + errors);
         if (errors.isEmpty()) {
             User user = new User(bean);
             LOG.debug("user: "+user);
@@ -57,20 +58,22 @@ public class RegistrationServlet extends HttpServlet {
             resp.sendRedirect(Constants.LOGIN_PAGE_PATH);
         } else {
             req.setAttribute(Attributes.ERRORS, errors);
+            req.setAttribute(Attributes.REGISTRATION_BEAN, bean);
             doGet(req, resp);
         }
     }
 
 
     private RegistrationFormBean readBean(HttpServletRequest request) {
-        String login = (String) request.getAttribute(Attributes.LOGIN);
-        String name = (String) request.getAttribute(Attributes.NAME);
-        String surname = (String) request.getAttribute(Attributes.SURNAME);
-        String password = (String) request.getAttribute(Attributes.PASSWORD);
-        String passwordRepeat = (String) request.getAttribute(Attributes.REPEAT_PASSWORD);
-        String email = (String) request.getAttribute(Attributes.EMAIL);
-        boolean sendMail = (boolean) request.getAttribute(Attributes.SEND_MAIL);
-        return new RegistrationFormBean(login, name, surname, password, passwordRepeat, email, sendMail);
+        String login =  request.getParameter(Parameters.LOGIN);
+        String name = request.getParameter(Parameters.NAME);
+        String surname =  request.getParameter(Parameters.SURNAME);
+        String password =  request.getParameter(Parameters.PASSWORD);
+        String passwordRepeat =  request.getParameter(Parameters.REPEAT_PASSWORD);
+        String email = request.getParameter(Parameters.EMAIL);
+        boolean sendMail = Boolean.parseBoolean(request.getParameter(Parameters.SEND_MAIL));
+        String userCaptcha = request.getParameter(Parameters.USER_CAPTCHA);
+        return new RegistrationFormBean(login, name, surname, password, passwordRepeat, email, sendMail, userCaptcha);
     }
 
     private void fillUsers(List<User> users) {

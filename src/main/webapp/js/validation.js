@@ -1,28 +1,35 @@
 const submit = document.getElementById("submit");
 
-const usernameError = document.getElementById("usernameError");
+const loginError = document.getElementById("loginError");
 const passwordError = document.getElementById("passwordError");
 const emailError = document.getElementById("emailError");
 const passwordRepeatError = document.getElementById("passwordRepeatError");
+const nameError = document.getElementById("nameError")
+const surnameError = document.getElementById("surnameError")
 
-usernameError.hidden = true;
+loginError.hidden = true;
 passwordError.hidden = true;
 emailError.hidden = true;
 passwordRepeatError.hidden = true;
+nameError.hidden = true;
+surnameError.hidden = true;
 
 submit.addEventListener("click", function (e) {
-        let usernameField = document.getElementById("username");
+        let loginField = document.getElementById("login");
         let emailField = document.getElementById("email");
         let passwordField = document.getElementById("password");
         let passwordRepeatField = document.getElementById("repeat-password");
-        usernameError.hidden = true;
+        let nameField = document.getElementById("name");
+        let surnameField = document.getElementById("surname");
+        loginError.hidden = true;
         passwordError.hidden = true;
         passwordRepeatError.hidden = true;
-        emailError.hidden = true;
+        nameError.hidden = true;
+        surnameError.hidden = true;
         let valid = true;
 
-        if (!validateUsername(usernameField.value)) {
-            usernameError.hidden = false;
+        if (!validateLogin(loginField.value)) {
+            loginError.hidden = false;
             valid = false;
         }
         if (!validatePassword(passwordField.value)) {
@@ -37,6 +44,14 @@ submit.addEventListener("click", function (e) {
             emailError.hidden = false;
             valid = false;
         }
+        if (!validateName(nameField.value)) {
+            nameError.hidden = false;
+            valid = false;
+        }
+        if (!validateSurname(surnameField.value)) {
+            surnameError.hidden = false;
+            valid = false;
+        }
 
         if (!valid) {
             e.preventDefault();
@@ -48,24 +63,24 @@ submit.addEventListener("click", function (e) {
 //====================================================================================================
 
 
-// const usernameError = $("#usernameError");
+// const loginError = $("#loginError");
 // const passwordError = $("#passwordError");
 // const emailError = $("#emailError");
 // const passwordRepeatError = $("#passwordRepeatError");
-// usernameError.hide();
+// loginError.hide();
 // passwordError.hide();
 // emailError.hide();
 // passwordRepeatError.hide();
 //
 // $("#submit").click(function (e) {
-//     usernameError.hide();
+//     loginError.hide();
 //     passwordError.hide();
 //     emailError.hide();
 //     passwordRepeatError.hide();
 //     let valid = true;
 //
-//     if (!validateUsername($("#username").val())) {
-//         usernameError.show();
+//     if (!validateLogin($("#login").val())) {
+//         loginError.show();
 //         valid = false;
 //     }
 //     if (!validatePassword($("#password").val())) {
@@ -91,9 +106,9 @@ submit.addEventListener("click", function (e) {
 
 //====================================================================================================
 
-function validateUsername(username) {
-    const usernamePattern = "^[\\w_-]{3,20}$";
-    return username.length <= 20 && username.length >= 3 && username.match(usernamePattern) !== null;
+function validateLogin(login) {
+    const loginPattern = "^[\\w_-]{3,20}$";
+    return login.length <= 20 && login.length >= 3 && login.match(loginPattern) !== null;
 }
 
 function validatePassword(password) {
@@ -107,4 +122,12 @@ function validatePasswordRepeat(password, repeat) {
 function validateEmail(email) {
     const emailPattern = "[\\w_\\-.]+@([\\w-]+\\.)+[\\w-]{1,5}$";
     return email.length <= 30 && email.length >= 5 && email.match(emailPattern) !== null;
+}
+
+function validateName(name) {
+    return name.length >= 1 && name.length <= 25;
+}
+
+function validateSurname(surname) {
+    return surname.length >= 1 && surname.length <= 25;
 }
