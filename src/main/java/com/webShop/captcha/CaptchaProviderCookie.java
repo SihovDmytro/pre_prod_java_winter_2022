@@ -25,7 +25,7 @@ public class CaptchaProviderCookie implements CaptchaProvider {
 
         String captchaID = String.valueOf(RandomUtil.generateLong());
         captchaMap.put(captchaID, captcha);
-        Cookie cookie = new Cookie(Attributes.CAPTCHA_ID, String.valueOf(captchaID));
+        Cookie cookie = new Cookie(Attributes.CAPTCHA_ID, captchaID);
         response.addCookie(cookie);
     }
 
@@ -51,7 +51,9 @@ public class CaptchaProviderCookie implements CaptchaProvider {
         try {
             String captchaID = cookie.getValue();
             LOG.trace("captchaID: " + captchaID);
-            return captchaMap.get(captchaID).equals(captcha);
+            boolean result = captchaMap.get(captchaID).equals(captcha);
+            captchaMap.remove(captchaID);
+            return result;
         } catch (NumberFormatException exception) {
             LOG.error("Cannot parse cookie value", exception);
             return false;

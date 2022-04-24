@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -63,6 +64,8 @@ class RegistrationServletTest {
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
         when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
         doCallRealMethod().when(servlet).doPost(request, response);
 
@@ -90,6 +93,7 @@ class RegistrationServletTest {
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
         when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
         when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
         doCallRealMethod().when(servlet).doPost(request, response);
 
@@ -119,6 +123,7 @@ class RegistrationServletTest {
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
         when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
         when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
         doCallRealMethod().when(servlet).doPost(request, response);
 
@@ -148,6 +153,7 @@ class RegistrationServletTest {
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
         when(provider.checkCaptcha(anyString(), any())).thenReturn(false);
         when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
         doCallRealMethod().when(servlet).doPost(request, response);
 
@@ -159,4 +165,33 @@ class RegistrationServletTest {
         verify(response, times(1)).sendRedirect(Constants.REGISTRATION_SERVLET);
     }
 
+    @Test
+    public void shouldNotCreateUserIfPageHasExpired() throws ServletException, IOException {
+        when(request.getParameter(Parameters.LOGIN)).thenReturn("validLogin");
+        when(request.getParameter(Parameters.NAME)).thenReturn("validName");
+        when(request.getParameter(Parameters.SURNAME)).thenReturn("validSurname");
+        when(request.getParameter(Parameters.PASSWORD)).thenReturn("validPass");
+        when(request.getParameter(Parameters.REPEAT_PASSWORD)).thenReturn("validPass");
+        when(request.getParameter(Parameters.EMAIL)).thenReturn("validemail@mail.com");
+        when(request.getParameter(Parameters.SEND_MAIL)).thenReturn("true");
+        when(request.getParameter(Parameters.USER_CAPTCHA)).thenReturn("123456");
+
+        when(servlet.getServletContext()).thenReturn(context);
+        when(context.getAttribute(Attributes.USERS_SERVICE)).thenReturn(usersService);
+        when(usersService.getUserByLogin(any())).thenReturn(null);
+        when(request.getServletContext()).thenReturn(context);
+        when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
+        when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1));
+        doCallRealMethod().when(servlet).init();
+        doCallRealMethod().when(servlet).doPost(request, response);
+
+        servlet.init();
+        servlet.doPost(request, response);
+
+        verify(usersService, times(0)).addUser(any());
+        verify(session, times(1)).setAttribute(eq(Attributes.ERRORS), anyMap());
+        verify(response, times(1)).sendRedirect(Constants.REGISTRATION_SERVLET);
+    }
 }

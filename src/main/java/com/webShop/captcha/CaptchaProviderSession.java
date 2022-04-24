@@ -14,7 +14,9 @@ public class CaptchaProviderSession implements CaptchaProvider {
 
     @Override
     public boolean checkCaptcha(String captcha, HttpServletRequest request) {
-        return captcha.equals(request.getSession().getAttribute(Attributes.CAPTCHA));
+        boolean result = captcha.equals(request.getSession().getAttribute(Attributes.CAPTCHA));
+        request.getSession().removeAttribute(Attributes.CAPTCHA);
+        return result;
     }
 
 }

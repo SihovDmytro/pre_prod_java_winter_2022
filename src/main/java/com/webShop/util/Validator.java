@@ -1,6 +1,7 @@
 package com.webShop.util;
 
 import com.webShop.captcha.CaptchaProvider;
+import com.webShop.captcha.CaptchaSettings;
 import com.webShop.entity.RegistrationFormBean;
 import com.webShop.service.UsersService;
 
@@ -11,6 +12,9 @@ import java.util.Map;
 public class Validator {
     public static Map<String, String> validateRegistration(RegistrationFormBean bean, UsersService usersService, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
+        if (isPageExpired(request)) {
+            errors.put(Attributes.PAGE_GENERATION_TIME, Messages.EXPIRED_PAGE);
+        }
         if (!validateLogin(bean.getLogin())) {
             errors.put(Parameters.LOGIN, Messages.INVALID_LOGIN);
         } else if (usersService.getUserByLogin(bean.getLogin()) != null) {
@@ -71,4 +75,10 @@ public class Validator {
         }
         return result;
     }
+
+    private static boolean isPageExpired(HttpServletRequest request) {
+        long generationTime = (Long) request.getSession().getAttribute(Attributes.PAGE_GENERATION_TIME);
+        return System.currentTimeMillis() - generationTime > CaptchaSettings.MAX_INTERVAL;
+    }
+
 }

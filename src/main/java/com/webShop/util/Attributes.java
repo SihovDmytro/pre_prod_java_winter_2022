@@ -8,4 +8,5 @@ public class Attributes {
     public static final String CAPTCHA_MAP = "captchaMap";
     public static final String CAPTCHA_ID = "captchaID";
     public static final String CAPTCHA_PROVIDER = "captchaProvider";
+    public static final String PAGE_GENERATION_TIME = "pageGenerationTime";
 }

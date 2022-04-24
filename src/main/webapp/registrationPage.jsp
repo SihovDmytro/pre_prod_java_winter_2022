@@ -1,6 +1,7 @@
 <%@ taglib prefix="cap" uri="http://webShopTags.com" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.webShop.util.Parameters" %>
+<%@page import="com.webShop.util.Attributes" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,8 +39,11 @@
 						Sign Up
 					</span>
 
+                ${requestScope.errors.get(Attributes.PAGE_GENERATION_TIME)}
+
                 <div class="wrap-input100 validate-login m-b-16">
-                    <input class="input100" type="text" name="login" id="login" placeholder="Login" value="${requestScope.regBean.login}">
+                    <input class="input100" type="text" name="login" id="login" placeholder="Login"
+                           value="${requestScope.regBean.login}">
                     <span id="loginError">
                         Login must have at least 3 characters: uppercase letters, lowercase letters, numbers, '_' , '-'.
                     </span>
@@ -47,7 +51,8 @@
                 </div>
 
                 <div class="wrap-input100 validate-name m-b-16">
-                    <input class="input100" type="text" name="name" id="name" placeholder="Name" value="${requestScope.regBean.name}">
+                    <input class="input100" type="text" name="name" id="name" placeholder="Name"
+                           value="${requestScope.regBean.name}">
                     <span id="nameError">
                         Name must have at least 1 character
                     </span>
@@ -55,7 +60,8 @@
                 </div>
 
                 <div class="wrap-input100 validate-surname m-b-16">
-                    <input class="input100" type="text" name="surname" id="surname" placeholder="Surname" value="${requestScope.regBean.surname}">
+                    <input class="input100" type="text" name="surname" id="surname" placeholder="Surname"
+                           value="${requestScope.regBean.surname}">
                     <span id="surnameError">
                         Surname must have at least 1 character
                     </span>
@@ -80,7 +86,8 @@
                 </div>
 
                 <div class="wrap-input100 validate-email">
-                    <input class="input100" type="email" name="email" id="email" placeholder="Email" value="${requestScope.regBean.email}">
+                    <input class="input100" type="email" name="email" id="email" placeholder="Email"
+                           value="${requestScope.regBean.email}">
                     <span id="emailError">
                         Please enter the email in the format: "example@example.com"
                     </span>

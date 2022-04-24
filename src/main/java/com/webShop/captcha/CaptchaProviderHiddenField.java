@@ -41,7 +41,9 @@ public class CaptchaProviderHiddenField implements CaptchaProvider {
             LOG.trace("captchaID: " + captchaID);
             String foundCaptcha = captchaMap.get(captchaID);
             LOG.trace("foundCaptcha: " + foundCaptcha);
-            return foundCaptcha.equals(captcha);
+            boolean result = foundCaptcha.equals(captcha);
+            captchaMap.remove(captchaID);
+            return result;
         } catch (NullPointerException exception) {
             LOG.error("Cannot parse attribute value", exception);
             return false;
