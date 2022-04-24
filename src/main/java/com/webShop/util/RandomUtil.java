@@ -11,8 +11,8 @@ public class RandomUtil {
         }
         return numbers.toString();
     }
-    public static long generateLong()
-    {
+
+    public static long generateLong() {
         return new Random().nextLong();
     }
 }

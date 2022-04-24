@@ -9,4 +9,5 @@ public class Parameters {
     public static final String LOGIN = "login";
     public static final String SEND_MAIL = "sendMail";
     public static final String USER_CAPTCHA = "userCaptcha";
+    public static final String CAPTCHA = "captcha";
 }

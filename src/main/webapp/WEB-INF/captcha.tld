@@ -12,7 +12,7 @@
     <tag>
         <name>captchaTag</name>
         <tag-class>com.webShop.customTag.CaptchaTag</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>empty</body-content>
     </tag>
 
 

@@ -5,7 +5,6 @@ import com.webShop.util.RandomUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -25,13 +24,13 @@ public class CaptchaProviderHiddenField implements CaptchaProvider {
 
         String captchaID = String.valueOf(RandomUtil.generateLong());
         captchaMap.put(captchaID, captcha);
-        request.getSession().setAttribute(Attributes.CAPTCHA_ID, captchaID);
+        request.setAttribute(Attributes.CAPTCHA_ID, captchaID);
     }
 
     @Override
     public boolean checkCaptcha(String captcha, HttpServletRequest request) {
         Map<String, String> captchaMap = (Map<String, String>) request.getServletContext().getAttribute(Attributes.CAPTCHA_MAP);
-        LOG.trace("captchaMap: "+captchaMap);
+        LOG.trace("captchaMap: " + captchaMap);
 
         if (captchaMap == null) {
             return false;
@@ -39,9 +38,9 @@ public class CaptchaProviderHiddenField implements CaptchaProvider {
 
         try {
             String captchaID = request.getParameter(Attributes.CAPTCHA_ID);
-            LOG.trace("captchaID: "+captchaID);
+            LOG.trace("captchaID: " + captchaID);
             String foundCaptcha = captchaMap.get(captchaID);
-            LOG.trace("foundCaptcha: "+foundCaptcha);
+            LOG.trace("foundCaptcha: " + foundCaptcha);
             return foundCaptcha.equals(captcha);
         } catch (NullPointerException exception) {
             LOG.error("Cannot parse attribute value", exception);

@@ -1,11 +1,8 @@
 package com.webShop.servlet;
 
-import com.shop.Runner;
-import com.webShop.dao.impl.UsersDAOImpl;
 import com.webShop.entity.RegistrationFormBean;
 import com.webShop.entity.User;
 import com.webShop.service.UsersService;
-import com.webShop.service.impl.UsersServiceImpl;
 import com.webShop.util.Attributes;
 import com.webShop.util.Constants;
 import com.webShop.util.Parameters;
@@ -18,12 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-@WebServlet(Constants.REGISTRATION_SERVLET)
+@WebServlet("/" + Constants.REGISTRATION_SERVLET)
 public class RegistrationServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(RegistrationServlet.class);
 
@@ -31,16 +27,19 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        LOG.trace("init start");
-        List<User> users = new ArrayList<>();
-        fillUsers(users);
-        usersService = new UsersServiceImpl(new UsersDAOImpl(users));
-        LOG.trace("init end");
+        usersService = (UsersService) getServletContext().getAttribute(Attributes.USERS_SERVICE);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOG.trace("doGet start");
+        HttpSession session = req.getSession();
+        RegistrationFormBean bean = (RegistrationFormBean) session.getAttribute(Attributes.REGISTRATION_BEAN);
+        req.setAttribute(Attributes.REGISTRATION_BEAN, bean);
+        session.removeAttribute(Attributes.REGISTRATION_BEAN);
+        Map<String, String> errors = (Map<String, String>) session.getAttribute(Attributes.ERRORS);
+        req.setAttribute(Attributes.ERRORS, errors);
+        session.removeAttribute(Attributes.ERRORS);
         req.getRequestDispatcher(Constants.REGISTRATION_PAGE_PATH).forward(req, resp);
     }
 
@@ -53,37 +52,27 @@ public class RegistrationServlet extends HttpServlet {
         LOG.debug("errors: " + errors);
         if (errors.isEmpty()) {
             User user = new User(bean);
-            LOG.debug("user: "+user);
+            LOG.debug("user: " + user);
             usersService.addUser(user);
             resp.sendRedirect(Constants.LOGIN_PAGE_PATH);
         } else {
-            req.setAttribute(Attributes.ERRORS, errors);
-            req.setAttribute(Attributes.REGISTRATION_BEAN, bean);
-            doGet(req, resp);
+            HttpSession session = req.getSession();
+            session.setAttribute(Attributes.ERRORS, errors);
+            session.setAttribute(Attributes.REGISTRATION_BEAN, bean);
+            resp.sendRedirect(Constants.REGISTRATION_SERVLET);
         }
     }
 
 
     private RegistrationFormBean readBean(HttpServletRequest request) {
-        String login =  request.getParameter(Parameters.LOGIN);
+        String login = request.getParameter(Parameters.LOGIN);
         String name = request.getParameter(Parameters.NAME);
-        String surname =  request.getParameter(Parameters.SURNAME);
-        String password =  request.getParameter(Parameters.PASSWORD);
-        String passwordRepeat =  request.getParameter(Parameters.REPEAT_PASSWORD);
+        String surname = request.getParameter(Parameters.SURNAME);
+        String password = request.getParameter(Parameters.PASSWORD);
+        String passwordRepeat = request.getParameter(Parameters.REPEAT_PASSWORD);
         String email = request.getParameter(Parameters.EMAIL);
         boolean sendMail = Boolean.parseBoolean(request.getParameter(Parameters.SEND_MAIL));
         String userCaptcha = request.getParameter(Parameters.USER_CAPTCHA);
         return new RegistrationFormBean(login, name, surname, password, passwordRepeat, email, sendMail, userCaptcha);
-    }
-
-    private void fillUsers(List<User> users) {
-        users.add(new User("dmytro", "Dmytro", "Sihov",
-                "abrakadabra", "Dmytro_Sihov@epam.com", false));
-        users.add(new User("vasya", "Vas", "Vass",
-                "123456", "Vasya@epam.com", true));
-        users.add(new User("petya", "Petya", "Pet",
-                "qwerty", "Petya@epam.com", false));
-        users.add(new User("dasdasasd", "adsasdasd", "asdasdasd",
-                "asdasdasdas", "dasdasdda@epam.com", true));
     }
 }
