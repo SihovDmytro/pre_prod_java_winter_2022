@@ -33,11 +33,9 @@ public class CaptchaProviderCookie implements CaptchaProvider {
     public String getCaptcha(HttpServletRequest request) {
         Map<String, String> captchaMap = (Map<String, String>) request.getServletContext().getAttribute(Attributes.CAPTCHA_MAP);
         LOG.trace("captchaMap: " + captchaMap);
-        Cookie[] cookies = request.getCookies();
-        LOG.trace("cookies: " + cookies);
         Cookie cookie = null;
 
-        for (Cookie tempCookie : cookies) {
+        for (Cookie tempCookie : request.getCookies()) {
             if (tempCookie.getName().equals(Attributes.CAPTCHA_ID)) {
                 cookie = tempCookie;
                 break;

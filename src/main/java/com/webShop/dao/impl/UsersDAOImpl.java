@@ -6,6 +6,7 @@ import com.webShop.entity.User;
 import java.util.List;
 
 public class UsersDAOImpl implements UsersDAO {
+
     private List<User> users;
 
     public UsersDAOImpl(List<User> users) {
@@ -20,10 +21,8 @@ public class UsersDAOImpl implements UsersDAO {
     @Override
     public User getUserByLogin(String login) {
         User foundUser = null;
-        for (User user : users)
-        {
-            if (user.getLogin().equals(login))
-            {
+        for (User user : users) {
+            if (user.getLogin().equals(login)) {
                 foundUser = user;
                 break;
             }
