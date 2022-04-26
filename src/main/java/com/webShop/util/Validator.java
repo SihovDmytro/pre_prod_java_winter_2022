@@ -1,6 +1,6 @@
 package com.webShop.util;
 
-import com.webShop.captcha.CaptchaProvider;
+import com.webShop.captcha.strategy.CaptchaProvider;
 import com.webShop.captcha.CaptchaSettings;
 import com.webShop.entity.RegistrationFormBean;
 import com.webShop.service.UsersService;
@@ -71,7 +71,7 @@ public class Validator {
         boolean result = false;
         CaptchaProvider captchaProvider = (CaptchaProvider) request.getServletContext().getAttribute(Attributes.CAPTCHA_PROVIDER);
         if (captchaProvider != null) {
-            result = captchaProvider.checkCaptcha(captcha, request);
+            result = captchaProvider.getCaptcha(request).equals(captcha);
         }
         return result;
     }

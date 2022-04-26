@@ -1,11 +1,14 @@
-package com.webShop.captcha;
+package com.webShop.captcha.strategy;
 
 import com.webShop.util.Attributes;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CaptchaProviderSession implements CaptchaProvider {
+    private static final Logger LOG = LogManager.getLogger(CaptchaProviderSession.class);
 
     @Override
     public void addCaptcha(String captcha, HttpServletRequest request, HttpServletResponse response) {
@@ -13,10 +16,11 @@ public class CaptchaProviderSession implements CaptchaProvider {
     }
 
     @Override
-    public boolean checkCaptcha(String captcha, HttpServletRequest request) {
-        boolean result = captcha.equals(request.getSession().getAttribute(Attributes.CAPTCHA));
+    public String getCaptcha(HttpServletRequest request) {
+        String foundCaptcha = (String) request.getSession().getAttribute(Attributes.CAPTCHA);
         request.getSession().removeAttribute(Attributes.CAPTCHA);
-        return result;
+        LOG.trace("foundCaptcha: " + foundCaptcha);
+        return foundCaptcha;
     }
 
 }

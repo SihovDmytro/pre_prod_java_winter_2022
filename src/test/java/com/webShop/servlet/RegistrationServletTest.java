@@ -1,6 +1,6 @@
 package com.webShop.servlet;
 
-import com.webShop.captcha.CaptchaProvider;
+import com.webShop.captcha.strategy.CaptchaProvider;
 import com.webShop.entity.User;
 import com.webShop.service.UsersService;
 import com.webShop.util.Attributes;
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.anyMap;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.eq;
@@ -63,7 +62,7 @@ class RegistrationServletTest {
         when(usersService.getUserByLogin(any())).thenReturn(null);
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
-        when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
+        when(provider.getCaptcha(any())).thenReturn("123456");
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
@@ -91,7 +90,7 @@ class RegistrationServletTest {
         when(usersService.getUserByLogin(any())).thenReturn(null);
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
-        when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
+        when(provider.getCaptcha(any())).thenReturn("123456");
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
@@ -121,7 +120,7 @@ class RegistrationServletTest {
         when(usersService.getUserByLogin(any())).thenReturn(mock(User.class));
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
-        when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
+        when(provider.getCaptcha(any())).thenReturn("123456");
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
@@ -151,7 +150,7 @@ class RegistrationServletTest {
         when(usersService.getUserByLogin(any())).thenReturn(null);
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
-        when(provider.checkCaptcha(anyString(), any())).thenReturn(false);
+        when(provider.getCaptcha(any())).thenReturn("not correct captcha");
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis());
         doCallRealMethod().when(servlet).init();
@@ -181,7 +180,7 @@ class RegistrationServletTest {
         when(usersService.getUserByLogin(any())).thenReturn(null);
         when(request.getServletContext()).thenReturn(context);
         when(context.getAttribute(Attributes.CAPTCHA_PROVIDER)).thenReturn(provider);
-        when(provider.checkCaptcha(anyString(), any())).thenReturn(true);
+        when(provider.getCaptcha(any())).thenReturn("123456");
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute(Attributes.PAGE_GENERATION_TIME)).thenReturn(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1));
         doCallRealMethod().when(servlet).init();

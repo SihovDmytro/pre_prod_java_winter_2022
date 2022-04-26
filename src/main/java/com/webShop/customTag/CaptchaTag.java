@@ -1,11 +1,10 @@
 package com.webShop.customTag;
 
 
-import com.webShop.captcha.CaptchaProvider;
-import com.webShop.captcha.CaptchaProviderHiddenField;
+import com.webShop.captcha.strategy.CaptchaProvider;
+import com.webShop.captcha.strategy.CaptchaProviderHiddenField;
 import com.webShop.captcha.CaptchaSettings;
 import com.webShop.util.Attributes;
-import com.webShop.util.Constants;
 import com.webShop.util.RandomUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

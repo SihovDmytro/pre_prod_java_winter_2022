@@ -1,4 +1,4 @@
-package com.webShop.captcha;
+package com.webShop.captcha.strategy;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface CaptchaProvider {
     void addCaptcha(String captcha, HttpServletRequest request, HttpServletResponse response);
 
-    boolean checkCaptcha(String captcha, HttpServletRequest request);
+    String getCaptcha(HttpServletRequest request);
 }

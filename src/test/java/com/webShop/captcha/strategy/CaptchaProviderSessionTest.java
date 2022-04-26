@@ -1,4 +1,4 @@
-package com.webShop.captcha;
+package com.webShop.captcha.strategy;
 
 import com.webShop.util.Attributes;
 import org.junit.jupiter.api.Assertions;
@@ -40,22 +40,11 @@ class CaptchaProviderSessionTest {
     }
 
     @Test
-    public void shouldReturnTrueIfCaptchaIsCorrect() {
+    public void shouldReturnCaptchaValue() {
         when(request.getSession()).thenReturn(session);
-        String correctCaptcha = "1234560";
-        when(session.getAttribute(Attributes.CAPTCHA)).thenReturn(correctCaptcha);
+        String captchaValue = "1234560";
+        when(session.getAttribute(Attributes.CAPTCHA)).thenReturn(captchaValue);
 
-        Assertions.assertTrue(provider.checkCaptcha(correctCaptcha, request));
+        Assertions.assertEquals(captchaValue, provider.getCaptcha(request));
     }
-
-    @Test
-    public void shouldReturnFalseIfCaptchaIsNotCorrect() {
-        when(request.getSession()).thenReturn(session);
-        String correctCaptcha = "1234560";
-        String notCorrectCaptcha = "111111";
-        when(session.getAttribute(Attributes.CAPTCHA)).thenReturn(correctCaptcha);
-
-        Assertions.assertFalse(provider.checkCaptcha(notCorrectCaptcha, request));
-    }
-
 }

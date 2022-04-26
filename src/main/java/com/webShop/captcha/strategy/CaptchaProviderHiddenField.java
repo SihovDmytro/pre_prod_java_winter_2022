@@ -1,18 +1,17 @@
-package com.webShop.captcha;
+package com.webShop.captcha.strategy;
 
 import com.webShop.util.Attributes;
 import com.webShop.util.RandomUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CaptchaProviderCookie implements CaptchaProvider {
-    private static final Logger LOG = LogManager.getLogger(CaptchaProviderCookie.class);
+public class CaptchaProviderHiddenField implements CaptchaProvider {
+    private static final Logger LOG = LogManager.getLogger(CaptchaProviderHiddenField.class);
 
     @Override
     public void addCaptcha(String captcha, HttpServletRequest request, HttpServletResponse response) {
@@ -25,38 +24,28 @@ public class CaptchaProviderCookie implements CaptchaProvider {
 
         String captchaID = String.valueOf(RandomUtil.generateLong());
         captchaMap.put(captchaID, captcha);
-        Cookie cookie = new Cookie(Attributes.CAPTCHA_ID, captchaID);
-        response.addCookie(cookie);
+        request.setAttribute(Attributes.CAPTCHA_ID, captchaID);
     }
 
     @Override
-    public boolean checkCaptcha(String captcha, HttpServletRequest request) {
+    public String getCaptcha(HttpServletRequest request) {
         Map<String, String> captchaMap = (Map<String, String>) request.getServletContext().getAttribute(Attributes.CAPTCHA_MAP);
         LOG.trace("captchaMap: " + captchaMap);
-        Cookie[] cookies = request.getCookies();
-        LOG.trace("cookies: " + cookies);
-        Cookie cookie = null;
 
-        for (Cookie tempCookie : cookies) {
-            if (tempCookie.getName().equals(Attributes.CAPTCHA_ID)) {
-                cookie = tempCookie;
-                break;
-            }
+        String foundCaptcha = null;
+        if (captchaMap == null) {
+            return foundCaptcha;
         }
-        LOG.trace("cookie: " + cookie);
 
-        if (captchaMap == null || cookie == null) {
-            return false;
-        }
         try {
-            String captchaID = cookie.getValue();
+            String captchaID = request.getParameter(Attributes.CAPTCHA_ID);
             LOG.trace("captchaID: " + captchaID);
-            boolean result = captchaMap.get(captchaID).equals(captcha);
+            foundCaptcha = captchaMap.get(captchaID);
             captchaMap.remove(captchaID);
-            return result;
-        } catch (NumberFormatException exception) {
-            LOG.error("Cannot parse cookie value", exception);
-            return false;
+        } catch (NullPointerException exception) {
+            LOG.error("Cannot parse attribute value", exception);
         }
+        LOG.trace("foundCaptcha: " + foundCaptcha);
+        return foundCaptcha;
     }
 }

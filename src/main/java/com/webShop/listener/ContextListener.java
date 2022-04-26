@@ -1,9 +1,9 @@
 package com.webShop.listener;
 
-import com.webShop.captcha.CaptchaProvider;
-import com.webShop.captcha.CaptchaProviderCookie;
-import com.webShop.captcha.CaptchaProviderHiddenField;
-import com.webShop.captcha.CaptchaProviderSession;
+import com.webShop.captcha.strategy.CaptchaProvider;
+import com.webShop.captcha.strategy.CaptchaProviderCookie;
+import com.webShop.captcha.strategy.CaptchaProviderHiddenField;
+import com.webShop.captcha.strategy.CaptchaProviderSession;
 import com.webShop.dao.impl.UsersDAOImpl;
 import com.webShop.entity.User;
 import com.webShop.service.UsersService;
