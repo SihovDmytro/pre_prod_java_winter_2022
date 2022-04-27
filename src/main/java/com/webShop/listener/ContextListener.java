@@ -1,12 +1,13 @@
 package com.webShop.listener;
 
-import com.webShop.captcha.strategy.CaptchaProvider;
-import com.webShop.captcha.strategy.CaptchaProviderCookie;
-import com.webShop.captcha.strategy.CaptchaProviderHiddenField;
-import com.webShop.captcha.strategy.CaptchaProviderSession;
+import com.webShop.captcha.strategy.CaptchaProviderStrategy;
+import com.webShop.captcha.strategy.impl.CaptchaProviderCookieStrategyImpl;
+import com.webShop.captcha.strategy.impl.CaptchaProviderHiddenFieldStrategyImpl;
+import com.webShop.captcha.strategy.impl.CaptchaProviderSessionStrategyImpl;
 import com.webShop.dao.impl.UsersDAOImpl;
 import com.webShop.entity.User;
 import com.webShop.service.UsersService;
+import com.webShop.service.impl.CaptchaServiceImpl;
 import com.webShop.service.impl.UsersServiceImpl;
 import com.webShop.util.Attributes;
 import com.webShop.util.Constants;
@@ -22,7 +23,7 @@ import java.util.Map;
 
 @WebListener
 public class ContextListener implements ServletContextListener {
-    private static final CaptchaProvider DEFAULT_CAPTCHA_PROVIDER = new CaptchaProviderSession();
+    private static final CaptchaProviderStrategy DEFAULT_CAPTCHA_PROVIDER = new CaptchaProviderSessionStrategyImpl();
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -31,11 +32,11 @@ public class ContextListener implements ServletContextListener {
         System.setProperty("logFile", path);
 
         String captchaProviderString = context.getInitParameter(Attributes.CAPTCHA_PROVIDER);
-        CaptchaProvider captchaProvider = getCaptchaProviders().get(captchaProviderString);
+        CaptchaProviderStrategy captchaProvider = getCaptchaProviders().get(captchaProviderString);
         if (captchaProvider == null) {
             captchaProvider = DEFAULT_CAPTCHA_PROVIDER;
         }
-        context.setAttribute(Attributes.CAPTCHA_PROVIDER, captchaProvider);
+        context.setAttribute(Attributes.CAPTCHA_SERVICE, new CaptchaServiceImpl(captchaProvider));
 
         List<User> users = new ArrayList<>();
         fillUsers(users);
@@ -43,11 +44,11 @@ public class ContextListener implements ServletContextListener {
         context.setAttribute(Attributes.USERS_SERVICE, usersService);
     }
 
-    private Map<String, CaptchaProvider> getCaptchaProviders() {
-        Map<String, CaptchaProvider> captchaProviderMap = new HashMap<>();
-        captchaProviderMap.put("cookie", new CaptchaProviderCookie());
-        captchaProviderMap.put("hiddenField", new CaptchaProviderHiddenField());
-        captchaProviderMap.put("session", new CaptchaProviderSession());
+    private Map<String, CaptchaProviderStrategy> getCaptchaProviders() {
+        Map<String, CaptchaProviderStrategy> captchaProviderMap = new HashMap<>();
+        captchaProviderMap.put("cookie", new CaptchaProviderCookieStrategyImpl());
+        captchaProviderMap.put("hiddenField", new CaptchaProviderHiddenFieldStrategyImpl());
+        captchaProviderMap.put("session", new CaptchaProviderSessionStrategyImpl());
         return captchaProviderMap;
     }
 

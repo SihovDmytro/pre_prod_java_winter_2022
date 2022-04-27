@@ -4,6 +4,7 @@ import com.webShop.dao.UsersDAO;
 import com.webShop.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UsersDAOImpl implements UsersDAO {
 
@@ -19,15 +20,13 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public User getUserByLogin(String login) {
-        User foundUser = null;
+    public Optional<User> getUserByLogin(String login) {
         for (User user : users) {
             if (user.getLogin().equals(login)) {
-                foundUser = user;
-                break;
+                return Optional.of(user);
             }
         }
-        return foundUser;
+        return Optional.empty();
     }
 
     @Override

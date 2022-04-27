@@ -1,5 +1,8 @@
 package com.webShop.captcha.strategy;
 
+import com.webShop.captcha.strategy.impl.CaptchaProviderCookieStrategyImpl;
+import com.webShop.service.CaptchaService;
+import com.webShop.service.impl.CaptchaServiceImpl;
 import com.webShop.util.Attributes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +22,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class CaptchaProviderCookieTest {
-    private CaptchaProvider provider = new CaptchaProviderCookie();
+class CaptchaProviderCookieStrategyImplTest {
+    private CaptchaService captchaService = new CaptchaServiceImpl(new CaptchaProviderCookieStrategyImpl());
     private HttpServletRequest request;
     private HttpServletResponse response;
     private static ServletContext context;
@@ -39,7 +42,7 @@ class CaptchaProviderCookieTest {
         String captcha = "1234560";
         when(context.getAttribute(Attributes.CAPTCHA_MAP)).thenReturn(null);
 
-        provider.addCaptcha(captcha, request, response);
+        captchaService.addCaptcha(captcha, request, response);
 
         verify(response, times(1)).addCookie(any());
     }
@@ -56,6 +59,6 @@ class CaptchaProviderCookieTest {
         Cookie cookie = new Cookie(Attributes.CAPTCHA_ID, "1");
         when(request.getCookies()).thenReturn(new Cookie[]{cookie});
 
-        Assertions.assertEquals(captchaValue, provider.getCaptcha(request));
+        Assertions.assertEquals(captchaValue, captchaService.getCaptcha(request).get());
     }
 }

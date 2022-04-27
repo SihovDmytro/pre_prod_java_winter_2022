@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,15 +26,15 @@ class UsersDAOImplTest {
         users.add(user2);
         dao = new UsersDAOImpl(users);
 
-        User actual = dao.getUserByLogin("vasya");
+        User actual = dao.getUserByLogin("vasya").get();
         Assertions.assertEquals(user2, actual);
     }
 
     @Test
-    public void shouldReturnNullWhenGetUserByLoginMethodCalledIfUserDoesNotExist() {
+    public void shouldReturnEmptyOptionalWhenGetUserByLoginMethodCalledIfUserDoesNotExist() {
         dao = new UsersDAOImpl(new ArrayList<>());
 
-        User actual = dao.getUserByLogin("vasya");
-        assertNull(actual);
+        Optional<User> actual = dao.getUserByLogin("vasya");
+        assertFalse(actual.isPresent());
     }
 }

@@ -1,13 +1,14 @@
 package com.webShop.util;
 
-import com.webShop.captcha.strategy.CaptchaProvider;
 import com.webShop.captcha.CaptchaSettings;
 import com.webShop.entity.RegistrationFormBean;
+import com.webShop.service.CaptchaService;
 import com.webShop.service.UsersService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Validator {
     public static Map<String, String> validateRegistration(RegistrationFormBean bean, UsersService usersService, HttpServletRequest request) {
@@ -17,7 +18,7 @@ public class Validator {
         }
         if (!validateLogin(bean.getLogin())) {
             errors.put(Parameters.LOGIN, Messages.INVALID_LOGIN);
-        } else if (usersService.getUserByLogin(bean.getLogin()) != null) {
+        } else if (usersService.getUserByLogin(bean.getLogin()).isPresent()) {
             errors.put(Parameters.LOGIN, Messages.LOGIN_EXISTS);
         }
         if (!validateCaptcha(bean.getUserCaptcha(), request)) {
@@ -68,12 +69,9 @@ public class Validator {
     }
 
     private static boolean validateCaptcha(String captcha, HttpServletRequest request) {
-        boolean result = false;
-        CaptchaProvider captchaProvider = (CaptchaProvider) request.getServletContext().getAttribute(Attributes.CAPTCHA_PROVIDER);
-        if (captchaProvider != null) {
-            result = captchaProvider.getCaptcha(request).equals(captcha);
-        }
-        return result;
+        CaptchaService captchaService = (CaptchaService) request.getServletContext().getAttribute(Attributes.CAPTCHA_SERVICE);
+        Optional<String> generatedCaptcha = captchaService.getCaptcha(request);
+        return generatedCaptcha.isPresent() && generatedCaptcha.get().equals(captcha);
     }
 
     private static boolean isPageExpired(HttpServletRequest request) {

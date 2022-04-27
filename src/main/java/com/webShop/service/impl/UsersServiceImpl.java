@@ -5,9 +5,10 @@ import com.webShop.entity.User;
 import com.webShop.service.UsersService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UsersServiceImpl implements UsersService {
-    UsersDAO usersDAO;
+    private UsersDAO usersDAO;
 
     public UsersServiceImpl(UsersDAO usersDAO) {
         this.usersDAO = usersDAO;
@@ -19,7 +20,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User getUserByLogin(String login) {
+    public Optional<User> getUserByLogin(String login) {
         return usersDAO.getUserByLogin(login);
     }
 

@@ -1,5 +1,8 @@
 package com.webShop.captcha.strategy;
 
+import com.webShop.captcha.strategy.impl.CaptchaProviderHiddenFieldStrategyImpl;
+import com.webShop.service.CaptchaService;
+import com.webShop.service.impl.CaptchaServiceImpl;
 import com.webShop.util.Attributes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +22,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class CaptchaProviderHiddenFieldTest {
-    private CaptchaProvider provider = new CaptchaProviderHiddenField();
+class CaptchaProviderHiddenFieldStrategyImplTest {
+    private CaptchaService captchaService = new CaptchaServiceImpl(new CaptchaProviderHiddenFieldStrategyImpl());
     private HttpServletRequest request;
     private HttpServletResponse response;
     private static ServletContext context;
@@ -39,7 +42,7 @@ class CaptchaProviderHiddenFieldTest {
         String captcha = "1234560";
         when(context.getAttribute(Attributes.CAPTCHA_MAP)).thenReturn(null);
 
-        provider.addCaptcha(captcha, request, response);
+        captchaService.addCaptcha(captcha, request, response);
 
         verify(request, times(1)).setAttribute(eq(Attributes.CAPTCHA_ID), anyString());
     }
@@ -55,6 +58,6 @@ class CaptchaProviderHiddenFieldTest {
         when(context.getAttribute(Attributes.CAPTCHA_MAP)).thenReturn(captchaMap);
         when(request.getParameter(Attributes.CAPTCHA_ID)).thenReturn("1");
 
-        Assertions.assertEquals(captchaValue, provider.getCaptcha(request));
+        Assertions.assertEquals(captchaValue, captchaService.getCaptcha(request).get());
     }
 }

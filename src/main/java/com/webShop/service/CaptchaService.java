@@ -1,10 +1,11 @@
-package com.webShop.captcha.strategy;
+package com.webShop.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
-public interface CaptchaProvider {
+public interface CaptchaService {
     void addCaptcha(String captcha, HttpServletRequest request, HttpServletResponse response);
 
-    String getCaptcha(HttpServletRequest request);
+    Optional<String> getCaptcha(HttpServletRequest request);
 }

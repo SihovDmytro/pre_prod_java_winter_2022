@@ -1,5 +1,8 @@
 package com.webShop.captcha.strategy;
 
+import com.webShop.captcha.strategy.impl.CaptchaProviderSessionStrategyImpl;
+import com.webShop.service.CaptchaService;
+import com.webShop.service.impl.CaptchaServiceImpl;
 import com.webShop.util.Attributes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +19,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class CaptchaProviderSessionTest {
-    private CaptchaProvider provider = new CaptchaProviderSession();
+class CaptchaProviderSessionStrategyImplTest {
+    private CaptchaService captchaService = new CaptchaServiceImpl(new CaptchaProviderSessionStrategyImpl());
     private HttpServletRequest request;
     private HttpServletResponse response;
     private HttpSession session;
@@ -34,7 +37,7 @@ class CaptchaProviderSessionTest {
         when(request.getSession()).thenReturn(session);
         String captcha = "1234560";
 
-        provider.addCaptcha(captcha, request, response);
+        captchaService.addCaptcha(captcha, request, response);
 
         verify(session, times(1)).setAttribute(eq(Attributes.CAPTCHA), anyString());
     }
@@ -45,6 +48,6 @@ class CaptchaProviderSessionTest {
         String captchaValue = "1234560";
         when(session.getAttribute(Attributes.CAPTCHA)).thenReturn(captchaValue);
 
-        Assertions.assertEquals(captchaValue, provider.getCaptcha(request));
+        Assertions.assertEquals(captchaValue, captchaService.getCaptcha(request).get());
     }
 }
