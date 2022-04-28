@@ -2,7 +2,6 @@ package com.webShop.captcha.strategy.impl;
 
 import com.webShop.captcha.strategy.CaptchaProviderStrategy;
 import com.webShop.util.Attributes;
-import com.webShop.util.RandomUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,10 +16,7 @@ public class CaptchaProviderCookieStrategyImpl extends CaptchaProviderStrategy {
 
     @Override
     public void addCaptcha(String captcha, HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String> captchaMap = getCaptchaMap(request);
-
-        String captchaID = String.valueOf(RandomUtil.generateLong());
-        captchaMap.put(captchaID, captcha);
+        String captchaID = addCaptchaToMap(request, captcha);
         Cookie cookie = new Cookie(Attributes.CAPTCHA_ID, captchaID);
         response.addCookie(cookie);
     }
@@ -30,16 +26,8 @@ public class CaptchaProviderCookieStrategyImpl extends CaptchaProviderStrategy {
         Map<String, String> captchaMap = getCaptchaMap(request);
         LOG.trace("captchaMap: " + captchaMap);
 
-        Optional<String> captchaIDOptional = getCaptchaID(request.getCookies());
-        Optional<String> foundCaptcha = Optional.empty();
-
-        if (captchaIDOptional.isPresent()) {
-            String captchaID = captchaIDOptional.get();
-            LOG.debug("captchaID: " + captchaID);
-            foundCaptcha = Optional.ofNullable(captchaMap.get(captchaID));
-            captchaMap.remove(captchaID);
-        }
-
+        Optional<String> captchaID = getCaptchaID(request.getCookies());
+        Optional<String> foundCaptcha = getCaptchaFromMap(captchaID, request);
         LOG.debug("foundCaptcha: " + foundCaptcha);
         return foundCaptcha;
     }

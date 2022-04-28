@@ -2,7 +2,6 @@ package com.webShop.captcha.strategy.impl;
 
 import com.webShop.captcha.strategy.CaptchaProviderStrategy;
 import com.webShop.util.Attributes;
-import com.webShop.util.RandomUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,10 +15,7 @@ public class CaptchaProviderHiddenFieldStrategyImpl extends CaptchaProviderStrat
 
     @Override
     public void addCaptcha(String captcha, HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String> captchaMap = getCaptchaMap(request);
-
-        String captchaID = String.valueOf(RandomUtil.generateLong());
-        captchaMap.put(captchaID, captcha);
+        String captchaID = addCaptchaToMap(request, captcha);
         request.setAttribute(Attributes.CAPTCHA_ID, captchaID);
     }
 
@@ -28,13 +24,8 @@ public class CaptchaProviderHiddenFieldStrategyImpl extends CaptchaProviderStrat
         Map<String, String> captchaMap = getCaptchaMap(request);
         LOG.trace("captchaMap: " + captchaMap);
 
-        Optional<String> foundCaptcha = Optional.empty();
-        String captchaID = request.getParameter(Attributes.CAPTCHA_ID);
-        LOG.trace("captchaID: " + captchaID);
-        if (captchaID != null) {
-            foundCaptcha = Optional.ofNullable(captchaMap.get(captchaID));
-            captchaMap.remove(captchaID);
-        }
+        Optional<String> captchaID = Optional.ofNullable(request.getParameter(Attributes.CAPTCHA_ID));
+        Optional<String> foundCaptcha = getCaptchaFromMap(captchaID, request);
         LOG.trace("foundCaptcha: " + foundCaptcha);
         return foundCaptcha;
     }
