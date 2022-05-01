@@ -1,12 +1,11 @@
-<%@ taglib prefix="cap" uri="http://webShopTags.com" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.webShop.util.Constants" %>
 <%@page import="com.webShop.util.Parameters" %>
 <%@page import="com.webShop.util.Attributes" %>
-<%@page import="com.webShop.util.Constants" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Sign Up</title>
+    <title>Sign In</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -35,41 +34,22 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <form class="login100-form validate-form p-l-55 p-r-55 p-t-178" action="${Constants.REGISTRATION_SERVLET}" method="post">
+            <form class="login100-form p-l-55 p-r-55 p-t-178" action="${Constants.LOGIN_SERVLET}" method="post">
 					<span class="login100-form-title">
-						Sign Up
-					</span>
+						Sign In
+                    </span>
 
-                ${requestScope.errors.get(Attributes.PAGE_GENERATION_TIME)}
+                ${requestScope.errors.get(Attributes.CREDENTIALS)}
 
-                <div class="wrap-input100 validate-login m-b-16">
-                    <input class="input100" type="text" name="login" id="login" placeholder="Login"
-                           value="${requestScope.regBean.login}">
+                <div class="wrap-input100 m-b-16">
+                    <input class="input100" type="text" name="login" id="login" placeholder="Login">
                     <span id="loginError">
                         Login must have at least 3 characters: uppercase letters, lowercase letters, numbers, '_' , '-'.
                     </span>
                     ${requestScope.errors.get(Parameters.LOGIN)}
                 </div>
 
-                <div class="wrap-input100 validate-name m-b-16">
-                    <input class="input100" type="text" name="name" id="name" placeholder="Name"
-                           value="${requestScope.regBean.name}">
-                    <span id="nameError">
-                        Name must have at least 1 character
-                    </span>
-                    ${requestScope.errors.get(Parameters.NAME)}
-                </div>
-
-                <div class="wrap-input100 validate-surname m-b-16">
-                    <input class="input100" type="text" name="surname" id="surname" placeholder="Surname"
-                           value="${requestScope.regBean.surname}">
-                    <span id="surnameError">
-                        Surname must have at least 1 character
-                    </span>
-                    ${requestScope.errors.get(Parameters.SURNAME)}
-                </div>
-
-                <div class="wrap-input100 validate-password m-b-16">
+                <div class="wrap-input100">
                     <input class="input100" type="password" name="password" id="password" placeholder="Password">
                     <span id="passwordError">
                         Password must have at least 6 characters
@@ -77,48 +57,21 @@
                     ${requestScope.errors.get(Parameters.PASSWORD)}
                 </div>
 
-                <div class="wrap-input100 validate-password-repeat m-b-16">
-                    <input class="input100" type="password" name="repeat-password" id="repeat-password"
-                           placeholder="Repeat password">
-                    <span id="passwordRepeatError">
-                        Passwords are different
-                    </span>
-                    ${requestScope.errors.get(Parameters.REPEAT_PASSWORD)}
-                </div>
-
-                <div class="wrap-input100 validate-email">
-                    <input class="input100" type="email" name="email" id="email" placeholder="Email"
-                           value="${requestScope.regBean.email}">
-                    <span id="emailError">
-                        Please enter the email in the format: "example@example.com"
-                    </span>
-                    ${requestScope.errors.get(Parameters.EMAIL)}
-                </div>
-
-                <div class="wrap-input100">
-                    <input type="checkbox" name="sendMail" id="sendMail" value="true">
-                    <label for="sendMail">I want to receive the newsletter</label>
-                </div>
-
-                <div class="wrap-input100">
-                    <cap:captchaTag/>
-                    ${requestScope.errors.get(Parameters.USER_CAPTCHA)}
-                </div>
-
                 <div class="p-t-13 p-b-23"></div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" id="submitRegistration">
-                        Create
+                    <button class="login100-form-btn" id="submitLogin">
+                        Login
                     </button>
                 </div>
 
                 <div class="flex-col-c p-t-170 p-b-40">
-                    <span class="txt1 p-b-9">
-                        Already registered?
-                    </span>
-                    <a href="${Constants.LOGIN_PAGE_PATH}" class="txt3">
-                        Sign in
+						<span class="txt1 p-b-9">
+							Don'`t have an account?
+						</span>
+
+                    <a href="${Constants.REGISTRATION_PAGE_PATH}" class="txt3">
+                        Sign up now
                     </a>
                 </div>
             </form>
@@ -142,7 +95,7 @@
 <!--===============================================================================================-->
 <script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-<script src="js/validateRegistration.js"></script>
+<script src="js/validateLogin.js"></script>
 
 </body>
 </html>

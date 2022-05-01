@@ -1,4 +1,4 @@
-const submit = document.getElementById("submit");
+const submitRegistration = document.getElementById("submitRegistration");
 
 const loginError = document.getElementById("loginError");
 const passwordError = document.getElementById("passwordError");
@@ -14,7 +14,7 @@ passwordRepeatError.hidden = true;
 nameError.hidden = true;
 surnameError.hidden = true;
 
-submit.addEventListener("click", function (e) {
+submitRegistration.addEventListener("click", function (e) {
         let loginField = document.getElementById("login");
         let emailField = document.getElementById("email");
         let passwordField = document.getElementById("password");

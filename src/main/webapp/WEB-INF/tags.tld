@@ -14,6 +14,11 @@
         <tag-class>com.webShop.customTag.CaptchaTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>loginTag</name>
+        <tag-class>com.webShop.customTag.LoginTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 
 
     <!-- Invoke 'Generate' action to add tags or functions -->

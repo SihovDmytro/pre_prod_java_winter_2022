@@ -5,7 +5,7 @@
          version="4.0">
 
     <welcome-file-list>
-        <welcome-file>loginPage.html</welcome-file>
+        <welcome-file>loginPage.jsp</welcome-file>
     </welcome-file-list>
     <context-param>
         <param-name>captchaProvider</param-name>

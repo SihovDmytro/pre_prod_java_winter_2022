@@ -1,6 +1,7 @@
 package com.webShop.util;
 
 import com.webShop.captcha.CaptchaSettings;
+import com.webShop.entity.LoginFormBean;
 import com.webShop.entity.RegistrationFormBean;
 import com.webShop.service.CaptchaService;
 import com.webShop.service.UsersService;
@@ -11,6 +12,21 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Validator {
+    public static Map<String,String> validateLogin(LoginFormBean bean, UsersService usersService, HttpServletRequest request){
+        Map<String, String> errors = new HashMap<>();
+        if (!validateLogin(bean.getLogin())) {
+            errors.put(Parameters.LOGIN, Messages.INVALID_LOGIN);
+        }
+        if (!validatePassword(bean.getPassword())) {
+            errors.put(Parameters.PASSWORD, Messages.INVALID_PASSWORD);
+        }
+        if (errors.isEmpty() && !usersService.login(bean.getLogin(), bean.getPassword()))
+        {
+            errors.put(Attributes.CREDENTIALS, Messages.LOGIN_FAIL);
+        }
+        return errors;
+    }
+
     public static Map<String, String> validateRegistration(RegistrationFormBean bean, UsersService usersService, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         if (isPageExpired(request)) {

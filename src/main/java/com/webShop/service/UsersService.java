@@ -11,4 +11,6 @@ public interface UsersService {
     Optional<User> getUserByLogin(String login);
 
     void addUser(User user);
+
+    boolean login(String login, String password);
 }
