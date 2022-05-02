@@ -109,6 +109,7 @@
                 <div class="wrap-input100 p-t-13 p-b-23">
                     <label for="avatar">Your avatar</label>
                     <input type="file" name="avatar" id="avatar" accept=".png, .jpeg, .jpg">
+                    ${requestScope.errors.get(Parameters.AVATAR)}
                 </div>
 
                 <div class="container-login100-form-btn">

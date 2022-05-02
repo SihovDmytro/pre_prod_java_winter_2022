@@ -99,7 +99,11 @@ public class Validator {
     }
 
     private static boolean validateAvatar(Part avatar) {
-        return avatar.getSize() <= AvatarConfig.MAX_FILE_SIZE &&
-                avatar.getContentType().toLowerCase().startsWith(Constants.IMAGE);
+        return isPartEmpty(avatar) || (avatar.getSize() <= AvatarConfig.MAX_FILE_SIZE &&
+                avatar.getContentType().toLowerCase().startsWith(Constants.IMAGE));
+    }
+
+    public static boolean isPartEmpty(Part part) {
+        return part.getSubmittedFileName().equals("") || part.getSize() == 0;
     }
 }

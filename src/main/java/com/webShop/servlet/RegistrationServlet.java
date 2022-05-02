@@ -60,7 +60,10 @@ public class RegistrationServlet extends HttpServlet {
         if (errors.isEmpty()) {
             User user = new User(bean);
             LOG.debug("user: " + user);
-            saveAvatar(bean, req);
+            if (!Validator.isPartEmpty(bean.getAvatar())) {
+                LOG.trace("Save user avatar");
+                saveAvatar(bean, req);
+            }
             usersService.addUser(user);
             resp.sendRedirect(Constants.LOGIN_PAGE_PATH);
         } else {
