@@ -1,4 +1,5 @@
 const submitRegistration = document.getElementById("submitRegistration");
+console.log("submitRegistration: "+submitRegistration);
 
 const loginError = document.getElementById("loginError");
 const passwordError = document.getElementById("passwordError");
@@ -26,6 +27,7 @@ submitRegistration.addEventListener("click", function (e) {
         passwordRepeatError.hidden = true;
         nameError.hidden = true;
         surnameError.hidden = true;
+
         let valid = true;
 
         if (!validateLogin(loginField.value)) {

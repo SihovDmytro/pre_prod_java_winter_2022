@@ -1,6 +1,5 @@
 package com.webShop.util;
 
-import com.webShop.transaction.impl.TransactionManagerImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

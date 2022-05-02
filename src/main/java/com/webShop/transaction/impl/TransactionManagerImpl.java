@@ -1,6 +1,5 @@
 package com.webShop.transaction.impl;
 
-import com.webShop.captcha.strategy.impl.CaptchaProviderCookieStrategyImpl;
 import com.webShop.transaction.Operation;
 import com.webShop.transaction.TransactionManager;
 import com.webShop.util.DBUtils;

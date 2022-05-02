@@ -11,4 +11,5 @@ public class Messages {
     public static final String WRONG_CAPTCHA = "Wrong captcha";
     public static final String EXPIRED_PAGE = "Please reload the page and repeat registration";
     public static final String LOGIN_FAIL = "Wrong login or password";
+    public static final String INVALID_AVATAR = "Invalid avatar";
 }

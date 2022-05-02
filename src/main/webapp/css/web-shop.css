@@ -6,3 +6,9 @@
     border: 1px solid black;
     text-align: center;
 }
+
+.login-tag-form{
+    height: 650px;
+    width: 500px;
+    position: relative;
+}

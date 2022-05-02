@@ -12,4 +12,5 @@ public class Attributes {
     public static final String PAGE_GENERATION_TIME = "pageGenerationTime";
     public static final String CREDENTIALS = "credentials";
     public static final String CURRENT_USER = "user";
+    public static final String AVATARS_FOLDER = "avatarsFolder";
 }

@@ -5,7 +5,6 @@ import com.webShop.entity.User;
 import com.webShop.service.UsersService;
 import com.webShop.transaction.TransactionManager;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 

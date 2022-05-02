@@ -1,14 +1,15 @@
 package com.webShop.servlet;
 
 import com.webShop.entity.LoginFormBean;
-import com.webShop.entity.RegistrationFormBean;
 import com.webShop.entity.User;
 import com.webShop.service.UsersService;
-import com.webShop.util.*;
+import com.webShop.util.Attributes;
+import com.webShop.util.Constants;
+import com.webShop.util.Parameters;
+import com.webShop.util.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.jms.Session;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +40,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         LOG.trace("doPost start");
         LoginFormBean bean = readBean(req);
         LOG.debug("loginFormBean: " + bean);

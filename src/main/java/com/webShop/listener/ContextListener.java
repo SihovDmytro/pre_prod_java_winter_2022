@@ -5,14 +5,13 @@ import com.webShop.captcha.strategy.impl.CaptchaProviderCookieStrategyImpl;
 import com.webShop.captcha.strategy.impl.CaptchaProviderHiddenFieldStrategyImpl;
 import com.webShop.captcha.strategy.impl.CaptchaProviderSessionStrategyImpl;
 import com.webShop.dao.impl.UsersDAOImpl;
-import com.webShop.entity.User;
 import com.webShop.service.UsersService;
 import com.webShop.service.impl.CaptchaServiceImpl;
 import com.webShop.service.impl.UsersServiceImpl;
 import com.webShop.transaction.TransactionManager;
 import com.webShop.transaction.impl.TransactionManagerImpl;
 import com.webShop.util.Attributes;
-import com.webShop.util.Constants;
+import com.webShop.util.AvatarConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,9 +22,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @WebListener
@@ -44,6 +42,9 @@ public class ContextListener implements ServletContextListener {
         }
 
         ServletContext context = sce.getServletContext();
+        String pathToAvatarsFolder = context.getRealPath(File.separator + AvatarConfig.AVATARS_FOLDER);
+        LOG.trace("pathToAvatarsFolder: " + pathToAvatarsFolder);
+        context.setAttribute(Attributes.AVATARS_FOLDER, pathToAvatarsFolder);
 
         String captchaProviderString = context.getInitParameter(Attributes.CAPTCHA_PROVIDER);
         LOG.debug("captchaProviderString: " + captchaProviderString);
@@ -65,16 +66,5 @@ public class ContextListener implements ServletContextListener {
         captchaProviderMap.put("hiddenField", new CaptchaProviderHiddenFieldStrategyImpl());
         captchaProviderMap.put("session", new CaptchaProviderSessionStrategyImpl());
         return captchaProviderMap;
-    }
-
-    private void fillUsers(List<User> users) {
-        users.add(new User("dmytro", "Dmytro", "Sihov",
-                "abrakadabra", "Dmytro_Sihov@epam.com", false));
-        users.add(new User("vasya", "Vas", "Vass",
-                "123456", "Vasya@epam.com", true));
-        users.add(new User("petya", "Petya", "Pet",
-                "qwerty", "Petya@epam.com", false));
-        users.add(new User("dasdasasd", "adsasdasd", "asdasdasd",
-                "asdasdasdas", "dasdasdda@epam.com", true));
     }
 }
