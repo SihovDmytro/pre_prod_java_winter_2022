@@ -11,4 +11,12 @@ public class Parameters {
     public static final String USER_CAPTCHA = "userCaptcha";
     public static final String CAPTCHA = "captcha";
     public static final String AVATAR = "avatar";
+    public static final String MIN_PRICE = "minPrice";
+    public static final String MAX_PRICE = "maxPrice";
+    public static final String PRICE = "price";
+    public static final String CATEGORY = "category";
+    public static final String PRODUCERS = "producer";
+    public static final String PAGE_SIZE = "pageSize";
+    public static final String PAGE = "page";
+    public static final String SORT_TYPE = "sortType";
 }

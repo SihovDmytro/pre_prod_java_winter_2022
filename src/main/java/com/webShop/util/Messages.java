@@ -12,4 +12,5 @@ public class Messages {
     public static final String EXPIRED_PAGE = "Please reload the page and repeat registration";
     public static final String LOGIN_FAIL = "Wrong login or password";
     public static final String INVALID_AVATAR = "Invalid avatar";
+    public static final String DID_NOT_MATCH = "Sorry, your search did not match any products.";
 }

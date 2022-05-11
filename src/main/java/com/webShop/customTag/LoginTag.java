@@ -50,7 +50,7 @@ public class LoginTag extends TagSupport {
                     "                    </button>\n" +
                     "                </div>\n" +
                     "\n" +
-                    "                <div class=\"flex-col-c p-t-170 p-b-40\">\n" +
+                    "                <div class=\"flex-col-c p-t-100 p-b-40\">\n" +
                     "\t\t\t\t\t\t<span class=\"txt1 p-b-9\">\n" +
                     "\t\t\t\t\t\t\tDon't have an account?\n" +
                     "\t\t\t\t\t\t</span>\n" +
