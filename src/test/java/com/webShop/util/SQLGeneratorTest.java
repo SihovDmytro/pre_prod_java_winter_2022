@@ -23,10 +23,8 @@ class SQLGeneratorTest {
     @Test
     public void shouldGenerateGetProductsQueryUsingAllOptions() {
 
-        String expected = "SELECT product.name, product.price, category.name, producer.name, product.description, product.image " +
-                "from product join category on product.categoryID=category.categoryID " +
-                "join producer on product.producerID=producer.producerID " +
-                "where product.name like ? " +
+        String expected = SQLCommands.GET_ALL_PRODUCTS +
+                " where product.name like ? " +
                 "and product.price >= ? " +
                 "and product.price <= ? " +
                 "and category.name = ? " +
@@ -41,10 +39,8 @@ class SQLGeneratorTest {
     @Test
     public void shouldGenerateCountProductsQueryUsingAllOptions() {
 
-        String expected = "SELECT count(*) " +
-                "from product join category on product.categoryID=category.categoryID " +
-                "join producer on product.producerID=producer.producerID " +
-                "where product.name like ? " +
+        String expected = SQLCommands.COUNT_PRODUCTS +
+                " where product.name like ? " +
                 "and product.price >= ? " +
                 "and product.price <= ? " +
                 "and category.name = ? " +
@@ -57,10 +53,8 @@ class SQLGeneratorTest {
     @Test
     public void shouldGenerateGetProductsQueryWithoutFilters() {
 
-        String expected = "SELECT product.name, product.price, category.name, producer.name, product.description, product.image " +
-                "from product join category on product.categoryID=category.categoryID " +
-                "join producer on product.producerID=producer.producerID " +
-                "order by product.price DESC " +
+        String expected = SQLCommands.GET_ALL_PRODUCTS +
+                " order by product.price DESC " +
                 "limit ?,?";
 
         String actual = SQLGenerator.getProductsQuery(new ProductsPageBean());

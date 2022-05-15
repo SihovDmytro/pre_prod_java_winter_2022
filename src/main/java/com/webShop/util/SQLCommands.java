@@ -6,11 +6,12 @@ public class SQLCommands {
     public static final String INSERT_USER = "INSERT INTO user (login, name, surname, password, email, sendMail) VALUES (?, ?, ?, ?, ?, ?)";
     public static final String GET_ALL_CATEGORIES = "SELECT name FROM category";
     public static final String GET_ALL_PRODUCERS = "SELECT name FROM producer";
-    public static final String GET_PRODUCER_BY_NAME = "SELECT name FROM producer WHERE name=?";
-    public static final String GET_ALL_PRODUCTS = "SELECT product.name, product.price, category.name, producer.name, product.description, product.image " +
+    public static final String GET_ALL_PRODUCTS = "SELECT product.productID, product.name, product.price, category.name, producer.name, product.description, product.image " +
             "from product join category on product.categoryID=category.categoryID " +
             "join producer on product.producerID=producer.producerID";
     public static final String COUNT_PRODUCTS = "SELECT count(*) " +
             "from product join category on product.categoryID=category.categoryID " +
             "join producer on product.producerID=producer.producerID";
+    public static final String INSERT_ORDER="insert into orders (status, statusDescription, date, userID) values (?, ?, ?, (select userID from user where login=?))";
+    public static final String INSERT_LIST_ORDERS="insert into list_orders values(?, ?, ?)";
 }

@@ -1,5 +1,6 @@
 package com.webShop.util;
 
+import com.webShop.entity.Order;
 import com.webShop.entity.ProductsPageBean;
 import com.webShop.entity.SortOption;
 
@@ -16,6 +17,15 @@ public class SQLGenerator {
     private static final String OPEN_BRACKET = " (";
     private static final String CLOSE_BRACKET = ")";
     private static final String WHERE = " where";
+    private static final String SEMICOLON = ";";
+
+    public static String insertListOrdersQuery(Order order) {
+        StringBuilder query = new StringBuilder();
+        for (int i = 0; i < order.getProducts().size(); i++) {
+            query.append(SQLCommands.INSERT_LIST_ORDERS).append(SEMICOLON);
+        }
+        return query.toString();
+    }
 
     public static String countProductsQuery(ProductsPageBean bean) {
 

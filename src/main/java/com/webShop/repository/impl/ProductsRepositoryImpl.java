@@ -89,6 +89,7 @@ public class ProductsRepositoryImpl implements ProductsRepository {
     private static Product unmap(ResultSet resultSet) throws SQLException {
         int i = 1;
         Product product = new Product();
+        product.setId(resultSet.getInt(i++));
         product.setName(resultSet.getString(i++));
         product.setPrice(resultSet.getBigDecimal(i++));
         product.setCategory(resultSet.getString(i++));

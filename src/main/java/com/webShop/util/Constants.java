@@ -7,6 +7,7 @@ public class Constants {
     public static final String FILTER_PRODUCTS_SERVLET = "filter";
     public static final String LOG_FILE_PATH = "/WEB-INF/logs/webShop.log";
     public static final String CAPTCHA_SERVLET = "captcha-generator";
+    public static final String CART_SERVLET = "cart";
     public static final String REGISTRATION_PAGE_PATH = "registrationPage.jsp";
     public static final String LOGIN_PAGE_PATH = "loginPage.jsp";
     public static final String PRODUCTS_PAGE_PATH = "productsPage.jsp";

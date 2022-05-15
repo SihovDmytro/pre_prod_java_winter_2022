@@ -49,8 +49,7 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public boolean addUser(User user, Connection connection) {
-        boolean result = true;
+    public boolean addUser(User user, Connection connection) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SQLCommands.INSERT_USER)) {
             map(statement, user);
 
@@ -59,9 +58,9 @@ public class UsersDAOImpl implements UsersDAO {
             }
         } catch (SQLException exception) {
             LOG.error("Cannot get user by login", exception);
-            result = false;
+            throw new SQLException();
         }
-        return result;
+        return true;
     }
 
     private void map(PreparedStatement preparedStatement, User user) throws SQLException {
