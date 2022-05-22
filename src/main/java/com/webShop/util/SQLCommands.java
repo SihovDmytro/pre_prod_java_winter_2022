@@ -12,6 +12,9 @@ public class SQLCommands {
     public static final String COUNT_PRODUCTS = "SELECT count(*) " +
             "from product join category on product.categoryID=category.categoryID " +
             "join producer on product.producerID=producer.producerID";
-    public static final String INSERT_ORDER="insert into orders (status, statusDescription, date, userID) values (?, ?, ?, (select userID from user where login=?))";
-    public static final String INSERT_LIST_ORDERS="insert into list_orders values(?, ?, ?)";
+    public static final String INSERT_ORDER = "insert into orders (status, statusDescription, date, userID) values (?, ?, ?, (select userID from user where login=?))";
+    public static final String INSERT_LIST_ORDERS = "insert into list_orders values(?, ?, ?)";
+    public static final String GET_PRODUCT_BY_ID = "SELECT product.productID, product.name, product.price, category.name, producer.name, product.description, product.image \n" +
+            "            from product join category on product.categoryID=category.categoryID \n" +
+            "            join producer on product.producerID=producer.producerID where product.productID=?";
 }

@@ -2,6 +2,7 @@ package com.webShop.customTag;
 
 import com.webShop.entity.Product;
 import com.webShop.entity.ProductsPageBean;
+import com.webShop.service.CartService;
 import com.webShop.util.Attributes;
 import com.webShop.util.Messages;
 import com.webShop.util.Parameters;
@@ -33,7 +34,7 @@ public class ProductsTag extends TagSupport {
             "                                <p>%s</p>\n" +
             "                                <p>Price: %.2f UAN</p>\n" +
             "                                <hr>\n" +
-            "                                <button>Add to cart</button>\n" +
+            "                                <button onclick=\"addToCart(%d)\">Add to cart</button>\n" +
             "                            </td>";
     private static final String DID_NOT_MATCH = "<td>\n" +
             "                                <p>%s</p>\n" +
@@ -44,6 +45,10 @@ public class ProductsTag extends TagSupport {
     private static final int FIRST_PAGE = 1;
     private static final String PAGE_NUMBER_FORMAT = "%d ";
     private static final String QUESTION_MARK = "?";
+    private static final String CART = "<div>\n" +
+            "                <a href=\"cart.jsp\"><img id=\"cart-img\" src=\"images/icons/cart.png\" width=\"64\" height=\"64\"></a>\n" +
+            "                <label id=\"cart-size\" for=\"cart-img\">%d</label>\n" +
+            "            </div>";
 
     @Override
     public int doStartTag() {
@@ -62,7 +67,7 @@ public class ProductsTag extends TagSupport {
                         writer.write(START_ROW);
                     }
 
-                    writer.write(String.format(PRODUCT_INFO, product.getImage(), product.getName(), product.getDescription(), product.getPrice()));
+                    writer.write(String.format(PRODUCT_INFO, product.getImage(), product.getName(), product.getDescription(), product.getPrice(), product.getId()));
                     count++;
 
                     if (count >= ProductsPageConfig.PRODUCTS_PER_LINE) {
@@ -120,11 +125,14 @@ public class ProductsTag extends TagSupport {
             }
 
             writer.write(END_DIV);
+
+            CartService cartService = (CartService) pageContext.getSession().getAttribute(Attributes.CART);
+            writer.write(String.format(CART, cartService.count()));
         }
     }
 
     private String updatePage(String params, int page) {
-        LOG.debug("before: " + params + "| " + page);
+        LOG.debug("before: " + params);
         Map<String, List<String>> paramsMap = WebShopUtil.extractParams(params);
         paramsMap.put(Parameters.PAGE, Arrays.asList(String.valueOf(page)));
         LOG.debug("after: " + WebShopUtil.paramsToString(paramsMap));

@@ -25,14 +25,6 @@ public class Product {
         this.id = product.getId();
     }
 
-    public Product(String name, BigDecimal price, String category, String producer, String description, String image) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.producer = producer;
-        this.description = description;
-        this.image = image;
-    }
 
     public Product(int id, String name, BigDecimal price, String category, String producer, String description, String image) {
         this.name = name;

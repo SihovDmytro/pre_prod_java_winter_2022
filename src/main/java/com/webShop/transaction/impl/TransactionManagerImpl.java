@@ -26,7 +26,7 @@ public class TransactionManagerImpl implements TransactionManager {
             connection = dataSource.getConnection();
 
             connection.setAutoCommit(false);
-            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
             result = operation.execute(connection);
 

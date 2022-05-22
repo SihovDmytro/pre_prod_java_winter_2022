@@ -6,9 +6,13 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public interface CartService {
-    void add(Product product, int number);
+    void add(Product product);
 
-    void remove(Product product, int number);
+    void changeCount(Product product, int count);
+
+    void remove(Product product);
+
+    boolean contains(Product product);
 
     int count();
 

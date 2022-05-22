@@ -4,6 +4,7 @@ import com.task1.subtask2.ArrayList;
 import com.webShop.entity.Product;
 import com.webShop.entity.ProductsPageBean;
 import com.webShop.repository.ProductsRepository;
+import com.webShop.util.SQLCommands;
 import com.webShop.util.SQLGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class ProductsRepositoryImpl implements ProductsRepository {
     private static final Logger LOG = LogManager.getLogger(ProductsRepositoryImpl.class);
@@ -52,6 +54,24 @@ public class ProductsRepositoryImpl implements ProductsRepository {
             LOG.error("Cannot get all users", exception);
         }
         return count;
+    }
+
+    @Override
+    public Optional<Product> getProduct(int id, Connection connection) {
+        Optional<Product> product = Optional.empty();
+        String query = SQLCommands.GET_PRODUCT_BY_ID;
+        LOG.trace("query: " + query);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    product = Optional.of(unmap(resultSet));
+                }
+            }
+        } catch (SQLException exception) {
+            LOG.error("Cannot get all users", exception);
+        }
+        return product;
     }
 
     private static int setFilters(PreparedStatement statement, ProductsPageBean bean) throws SQLException {

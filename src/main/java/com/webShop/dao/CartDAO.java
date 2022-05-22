@@ -6,9 +6,13 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public interface CartDAO {
-    void add(Product product, int number);
+    void add(Product product);
 
-    void remove(Product product, int number);
+    void remove(Product product);
+
+    void changeCount(Product product, int count);
+
+    boolean contains(Product product);
 
     int count();
 

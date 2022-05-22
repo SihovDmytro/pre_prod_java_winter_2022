@@ -9,16 +9,30 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class CartServiceImpl implements CartService {
-    private CartDAO cartDAO = new CartDAOImpl();
+    private CartDAO cartDAO;
 
-    @Override
-    public void add(Product product, int number) {
-        cartDAO.add(product, number);
+    public CartServiceImpl(CartDAO cartDAO) {
+        this.cartDAO = cartDAO;
     }
 
     @Override
-    public void remove(Product product, int number) {
-        cartDAO.remove(product, number);
+    public void add(Product product) {
+        cartDAO.add(product);
+    }
+
+    @Override
+    public void changeCount(Product product, int count) {
+        cartDAO.changeCount(product, count);
+    }
+
+    @Override
+    public void remove(Product product) {
+        cartDAO.remove(product);
+    }
+
+    @Override
+    public boolean contains(Product product) {
+        return cartDAO.contains(product);
     }
 
     @Override

@@ -42,8 +42,8 @@ class OrdersServiceImplTest {
     @Test
     public void shouldAddNewOrder() throws SQLException {
         List<ProductInfo> products = new ArrayList<>();
-        products.add(new ProductInfo(new Product("bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1"), 2, new BigDecimal("1000")));
-        products.add(new ProductInfo(new Product("Abc", new BigDecimal("123"), "cat2", "prod2", "desk2", "img2"), 1, new BigDecimal("2000")));
+        products.add(new ProductInfo(new Product(1, "bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1"), 2, new BigDecimal("1000")));
+        products.add(new ProductInfo(new Product(2, "Abc", new BigDecimal("123"), "cat2", "prod2", "desk2", "img2"), 1, new BigDecimal("2000")));
         Order order = new Order(OrderStatus.CANCELED,
                 "description", Calendar.getInstance(),
                 new User("dmytro", "Dmytro", "Sihov", "abrakadabra", "Dmytro_Sihov@epam.com", false),
@@ -64,8 +64,8 @@ class OrdersServiceImplTest {
     @Test
     public void shouldNotAddNewOrder() throws SQLException {
         List<ProductInfo> products = new ArrayList<>();
-        products.add(new ProductInfo(new Product("bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1"), 2, new BigDecimal("1000")));
-        products.add(new ProductInfo(new Product("Abc", new BigDecimal("123"), "cat2", "prod2", "desk2", "img2"), 1, new BigDecimal("2000")));
+        products.add(new ProductInfo(new Product(1, "bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1"), 2, new BigDecimal("1000")));
+        products.add(new ProductInfo(new Product(2, "Abc", new BigDecimal("123"), "cat2", "prod2", "desk2", "img2"), 1, new BigDecimal("2000")));
         Order order = new Order(OrderStatus.CANCELED,
                 "description", Calendar.getInstance(),
                 new User("dmytro", "Dmytro", "Sihov", "abrakadabra", "Dmytro_Sihov@epam.com", false),

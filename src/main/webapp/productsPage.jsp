@@ -1,13 +1,14 @@
 <%@page import="com.webShop.entity.SortOption" %>
 <%@page import="com.webShop.util.Attributes" %>
 <%@page import="com.webShop.util.Constants" %>
+<%@page import="com.webShop.service.CartService" %>
 <%@ taglib prefix="WStags" uri="http://webShopTags.com" %>
 <%@page import="com.webShop.util.WebShopUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Sign Up</title>
+    <title>Products</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/webShop.css">
@@ -81,7 +82,6 @@
     </div>
     <div class="container-products">
         <WStags:productsTag/>
-
     </div>
 </div>
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>

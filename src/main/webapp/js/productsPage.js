@@ -13,7 +13,7 @@ jQuery(document).ready(function ($) {
     pageSize.addEventListener('change', (event) => {
         let params = new URLSearchParams(document.location.search);
         params.set("pageSize", pageSize.value);
-        document.location.search=params;
+        document.location.search = params;
     });
 
     const sortType = document.querySelector('#sortType');
@@ -21,7 +21,18 @@ jQuery(document).ready(function ($) {
     sortType.addEventListener('change', (event) => {
         let params = new URLSearchParams(document.location.search);
         params.set("sortType", sortType.value);
-        document.location.search=params;
+        document.location.search = params;
     });
 })
 
+function addToCart(id) {
+    $.ajax({
+        type: "POST",
+        url: "cart",
+        data: "productID=" + id,
+        dataType: "json",
+        success: function (response) {
+            document.getElementById("cart-size").innerHTML = response.count;
+        }
+    })
+}

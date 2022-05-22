@@ -19,4 +19,6 @@ public class Parameters {
     public static final String PAGE_SIZE = "pageSize";
     public static final String PAGE = "page";
     public static final String SORT_TYPE = "sortType";
+    public static final String PRODUCT_ID = "productID";
+    public static final String COUNT = "count";
 }

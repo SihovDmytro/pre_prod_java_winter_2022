@@ -24,4 +24,13 @@ public final class ProductInfo {
     public BigDecimal getUnitPrice() {
         return unitPrice;
     }
+
+    @Override
+    public String toString() {
+        return "ProductInfo{" +
+                "product=" + product +
+                ", number=" + number +
+                ", unitPrice=" + unitPrice +
+                '}';
+    }
 }

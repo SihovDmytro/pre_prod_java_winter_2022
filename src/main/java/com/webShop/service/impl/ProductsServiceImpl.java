@@ -7,6 +7,7 @@ import com.webShop.service.ProductsService;
 import com.webShop.transaction.TransactionManager;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductsServiceImpl implements ProductsService {
     private ProductsRepository productsRepository;
@@ -25,5 +26,10 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public int countProducts(ProductsPageBean bean) {
         return transactionManager.doInTransaction((connection -> productsRepository.countProducts(bean, connection)));
+    }
+
+    @Override
+    public Optional<Product> getProduct(int id) {
+        return transactionManager.doInTransaction(connection -> productsRepository.getProduct(id, connection));
     }
 }

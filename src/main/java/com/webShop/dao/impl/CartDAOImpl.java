@@ -11,25 +11,27 @@ public class CartDAOImpl implements CartDAO {
     private HashMap<Product, Integer> cart = new HashMap<>();
 
     @Override
-    public void add(Product product, int number) {
-        if (number < 1) return;
-        if (!cart.containsKey(product)) {
-            cart.put(product, number);
-        } else {
-            cart.replace(product, cart.get(product) + number);
+    public void add(Product product) {
+        cart.put(product, 1);
+    }
+
+    @Override
+    public void remove(Product product) {
+        if (contains(product)) {
+            cart.remove(product);
         }
     }
 
     @Override
-    public void remove(Product product, int number) {
+    public void changeCount(Product product, int count) {
         if (cart.containsKey(product)) {
-            int oldCount = cart.get(product);
-            if (oldCount > number) {
-                cart.remove(product);
-            } else {
-                cart.replace(product, oldCount - number);
-            }
+            cart.replace(product, count);
         }
+    }
+
+    @Override
+    public boolean contains(Product product) {
+        return cart.containsKey(product);
     }
 
     @Override

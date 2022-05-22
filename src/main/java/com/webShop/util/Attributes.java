@@ -7,6 +7,7 @@ public class Attributes {
     public static final String CATEGORIES_SERVICE = "categoriesService";
     public static final String PRODUCERS_SERVICE = "producersService";
     public static final String PRODUCTS_SERVICE = "productsService";
+    public static final String ORDERS_SERVICE = "ordersService";
     public static final String REGISTRATION_BEAN = "regBean";
     public static final String PRODUCTS_PAGE_BEAN = "productsPageBean";
     public static final String CAPTCHA = "captcha";
@@ -22,4 +23,5 @@ public class Attributes {
     public static final String PRODUCTS = "products";
     public static final String COUNT_PRODUCTS = "countProducts";
     public static final String URL = "url";
+    public static final String CART = "cart";
 }
