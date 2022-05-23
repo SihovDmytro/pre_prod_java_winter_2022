@@ -53,8 +53,8 @@ class OrdersServiceImplTest {
         when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true);
         when(resultSet.getInt(1)).thenReturn(1);
-        when(connection.prepareStatement(SQLGenerator.insertListOrdersQuery(order))).thenReturn(preparedStatement2);
-        when(preparedStatement2.executeUpdate()).thenReturn(2);
+        when(connection.prepareStatement(SQLCommands.INSERT_LIST_ORDERS)).thenReturn(preparedStatement2).thenReturn(preparedStatement2);
+        when(preparedStatement2.executeUpdate()).thenReturn(1).thenReturn(1);
 
         ordersService.add(order);
 
@@ -75,7 +75,7 @@ class OrdersServiceImplTest {
         when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true);
         when(resultSet.getInt(1)).thenReturn(1);
-        when(connection.prepareStatement(SQLGenerator.insertListOrdersQuery(order))).thenReturn(preparedStatement2);
+        when(connection.prepareStatement(SQLCommands.INSERT_LIST_ORDERS)).thenReturn(preparedStatement2);
         when(preparedStatement2.executeUpdate()).thenReturn(0);
 
         ordersService.add(order);
