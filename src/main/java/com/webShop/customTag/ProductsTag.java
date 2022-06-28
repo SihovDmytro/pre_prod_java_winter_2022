@@ -125,10 +125,9 @@ public class ProductsTag extends TagSupport {
             }
 
             writer.write(END_DIV);
-
-            CartService cartService = (CartService) pageContext.getSession().getAttribute(Attributes.CART);
-            writer.write(String.format(CART, cartService.count()));
         }
+        CartService cartService = (CartService) pageContext.getSession().getAttribute(Attributes.CART);
+        writer.write(String.format(CART, cartService.count()));
     }
 
     private String updatePage(String params, int page) {

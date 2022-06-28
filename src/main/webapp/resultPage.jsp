@@ -12,6 +12,7 @@
 <div class="limit">
     <div class="content-container">
         Your order was created
+        <a href="filter">Products</a>
     </div>
 
 </div>
