@@ -1,7 +1,8 @@
-<%@ taglib prefix="cap" uri="http://webShopTags.com" %>
+<%@ taglib prefix="WStags" uri="http://webShopTags.com" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.webShop.util.Parameters" %>
 <%@page import="com.webShop.util.Attributes" %>
+<%@page import="com.webShop.util.Constants" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,14 +35,15 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <form class="login100-form validate-form p-l-55 p-r-55 p-t-178" action="register" method="post">
+            <form class="login100-form validate-form p-l-55 p-r-55 p-t-178" action="${Constants.REGISTRATION_SERVLET}"
+                  method="post" enctype="multipart/form-data">
 					<span class="login100-form-title">
 						Sign Up
 					</span>
 
                 ${requestScope.errors.get(Attributes.PAGE_GENERATION_TIME)}
 
-                <div class="wrap-input100 validate-login m-b-16">
+                <div class="wrap-input100 m-b-16">
                     <input class="input100" type="text" name="login" id="login" placeholder="Login"
                            value="${requestScope.regBean.login}">
                     <span id="loginError">
@@ -50,7 +52,7 @@
                     ${requestScope.errors.get(Parameters.LOGIN)}
                 </div>
 
-                <div class="wrap-input100 validate-name m-b-16">
+                <div class="wrap-input100 m-b-16">
                     <input class="input100" type="text" name="name" id="name" placeholder="Name"
                            value="${requestScope.regBean.name}">
                     <span id="nameError">
@@ -59,7 +61,7 @@
                     ${requestScope.errors.get(Parameters.NAME)}
                 </div>
 
-                <div class="wrap-input100 validate-surname m-b-16">
+                <div class="wrap-input100 m-b-16">
                     <input class="input100" type="text" name="surname" id="surname" placeholder="Surname"
                            value="${requestScope.regBean.surname}">
                     <span id="surnameError">
@@ -68,7 +70,7 @@
                     ${requestScope.errors.get(Parameters.SURNAME)}
                 </div>
 
-                <div class="wrap-input100 validate-password m-b-16">
+                <div class="wrap-input100 m-b-16">
                     <input class="input100" type="password" name="password" id="password" placeholder="Password">
                     <span id="passwordError">
                         Password must have at least 6 characters
@@ -76,7 +78,7 @@
                     ${requestScope.errors.get(Parameters.PASSWORD)}
                 </div>
 
-                <div class="wrap-input100 validate-password-repeat m-b-16">
+                <div class="wrap-input100 m-b-16">
                     <input class="input100" type="password" name="repeat-password" id="repeat-password"
                            placeholder="Repeat password">
                     <span id="passwordRepeatError">
@@ -85,7 +87,7 @@
                     ${requestScope.errors.get(Parameters.REPEAT_PASSWORD)}
                 </div>
 
-                <div class="wrap-input100 validate-email">
+                <div class="wrap-input100">
                     <input class="input100" type="email" name="email" id="email" placeholder="Email"
                            value="${requestScope.regBean.email}">
                     <span id="emailError">
@@ -100,14 +102,18 @@
                 </div>
 
                 <div class="wrap-input100">
-                    <cap:captchaTag/>
+                    <WStags:captchaTag/>
                     ${requestScope.errors.get(Parameters.USER_CAPTCHA)}
                 </div>
 
-                <div class="p-t-13 p-b-23"></div>
+                <div class="wrap-input100 p-t-13 p-b-23">
+                    <label for="avatar">Your avatar</label>
+                    <input type="file" name="avatar" id="avatar" accept=".png, .jpeg, .jpg">
+                    ${requestScope.errors.get(Parameters.AVATAR)}
+                </div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" id="submit">
+                    <button class="login100-form-btn" id="submitRegistration">
                         Create
                     </button>
                 </div>
@@ -116,7 +122,7 @@
                     <span class="txt1 p-b-9">
                         Already registered?
                     </span>
-                    <a href="loginPage.html" class="txt3">
+                    <a href="${Constants.LOGIN_PAGE_PATH}" class="txt3">
                         Sign in
                     </a>
                 </div>
@@ -141,7 +147,7 @@
 <!--===============================================================================================-->
 <script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-<script src="js/validation.js"></script>
+<script src="js/validateRegistration.js"></script>
 
 </body>
 </html>

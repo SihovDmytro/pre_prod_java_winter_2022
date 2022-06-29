@@ -2,13 +2,14 @@ package com.webShop.dao;
 
 import com.webShop.entity.User;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
 public interface UsersDAO {
-    List<User> getAllUsers();
+    List<User> getAllUsers(Connection connection);
 
-    Optional<User> getUserByLogin(String login);
+    Optional<User> getUserByLogin(String login, Connection connection);
 
-    void addUser(User user);
+    boolean addUser(User user, Connection connection);
 }

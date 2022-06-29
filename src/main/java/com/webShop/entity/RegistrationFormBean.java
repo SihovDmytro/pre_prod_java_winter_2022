@@ -1,5 +1,7 @@
 package com.webShop.entity;
 
+import javax.servlet.http.Part;
+
 public class RegistrationFormBean {
     private String login;
     private String name;
@@ -9,8 +11,9 @@ public class RegistrationFormBean {
     private String email;
     private boolean sendMail;
     private String userCaptcha;
+    private Part avatar;
 
-    public RegistrationFormBean(String login, String name, String sName, String password, String passwordRepeat, String email, boolean sendMail, String userCaptcha) {
+    public RegistrationFormBean(String login, String name, String sName, String password, String passwordRepeat, String email, boolean sendMail, String userCaptcha, Part avatar) {
         this.login = login;
         this.name = name;
         this.surname = sName;
@@ -19,6 +22,7 @@ public class RegistrationFormBean {
         this.email = email;
         this.sendMail = sendMail;
         this.userCaptcha = userCaptcha;
+        this.avatar = avatar;
     }
 
     public String getLogin() {
@@ -85,6 +89,14 @@ public class RegistrationFormBean {
         this.userCaptcha = userCaptcha;
     }
 
+    public Part getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Part avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "RegistrationFormBean{" +
@@ -96,6 +108,7 @@ public class RegistrationFormBean {
                 ", email='" + email + '\'' +
                 ", sendMail=" + sendMail +
                 ", userCaptcha='" + userCaptcha + '\'' +
+                ", avatar=" + avatar +
                 '}';
     }
 }

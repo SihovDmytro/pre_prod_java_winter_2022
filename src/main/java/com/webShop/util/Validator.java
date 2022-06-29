@@ -1,16 +1,32 @@
 package com.webShop.util;
 
 import com.webShop.captcha.CaptchaSettings;
+import com.webShop.entity.LoginFormBean;
 import com.webShop.entity.RegistrationFormBean;
 import com.webShop.service.CaptchaService;
 import com.webShop.service.UsersService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class Validator {
+    public static Map<String, String> validateLogin(LoginFormBean bean, UsersService usersService, HttpServletRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        if (!validateLogin(bean.getLogin())) {
+            errors.put(Parameters.LOGIN, Messages.INVALID_LOGIN);
+        }
+        if (!validatePassword(bean.getPassword())) {
+            errors.put(Parameters.PASSWORD, Messages.INVALID_PASSWORD);
+        }
+        if (errors.isEmpty() && !usersService.login(bean.getLogin(), bean.getPassword())) {
+            errors.put(Attributes.CREDENTIALS, Messages.LOGIN_FAIL);
+        }
+        return errors;
+    }
+
     public static Map<String, String> validateRegistration(RegistrationFormBean bean, UsersService usersService, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         if (isPageExpired(request)) {
@@ -38,6 +54,9 @@ public class Validator {
         }
         if (!validateSurname(bean.getSurname())) {
             errors.put(Parameters.SURNAME, Messages.INVALID_SURNAME);
+        }
+        if (!validateAvatar(bean.getAvatar())) {
+            errors.put(Parameters.AVATAR, Messages.INVALID_AVATAR);
         }
         return errors;
     }
@@ -79,4 +98,12 @@ public class Validator {
         return System.currentTimeMillis() - generationTime > CaptchaSettings.MAX_INTERVAL;
     }
 
+    private static boolean validateAvatar(Part avatar) {
+        return isPartEmpty(avatar) || (avatar.getSize() <= AvatarConfig.MAX_FILE_SIZE &&
+                avatar.getContentType().toLowerCase().startsWith(Constants.IMAGE));
+    }
+
+    public static boolean isPartEmpty(Part part) {
+        return part.getSubmittedFileName().equals("") || part.getSize() == 0;
+    }
 }

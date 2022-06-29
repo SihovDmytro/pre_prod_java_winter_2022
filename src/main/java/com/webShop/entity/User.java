@@ -10,6 +10,9 @@ public class User {
     private String email;
     private boolean sendMail;
 
+    public User() {
+    }
+
     public User(RegistrationFormBean bean) {
         this.login = bean.getLogin();
         this.name = bean.getName();
