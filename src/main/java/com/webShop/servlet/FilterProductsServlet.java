@@ -55,6 +55,8 @@ public class FilterProductsServlet extends HttpServlet {
         LOG.trace("url: " + url);
         req.setAttribute(Attributes.URL, url);
 
+        req.setAttribute(Attributes.QUERY_STRING, req.getQueryString());
+
         req.getRequestDispatcher(Constants.PRODUCTS_PAGE_PATH).forward(req, resp);
     }
 
