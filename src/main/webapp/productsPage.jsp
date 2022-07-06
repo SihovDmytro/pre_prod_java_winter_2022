@@ -85,6 +85,10 @@
         </form>
     </div>
     <div class="container-products">
+        <div>
+            <a href="cart.jsp"><img id="cart-img" src="images/icons/cart.png" width="64" height="64"></a>
+            <label id="cart-size" for="cart-img">${sessionScope.cart.count()}</label>
+        </div>
         <c:choose>
             <c:when test="${requestScope.products.size() > 0}">
                 <c:if test="${sessionScope.productsPageBean.pageSize < requestScope.countProducts}">
@@ -94,7 +98,7 @@
 
                             <c:forEach begin="${Math.max(currPage - ProductsPageConfig.PAGINATION_RANGE, 1)}" step="1"
                                        end="${currPage-1}" varStatus="loop">
-                                    <a href=${requestScope.url}?${WebShopUtil.updatePage(requestScope.queryString, loop.index)}>${loop.index}</a>
+                                <a href=${requestScope.url}?${WebShopUtil.updatePage(requestScope.queryString, loop.index)}>${loop.index}</a>
                             </c:forEach>
                         </c:if>
 
@@ -125,7 +129,7 @@
                             <p>${product.description}</p>
                             <p>Price: ${String.format("%.2f",product.price)} UAN</p>
                             <hr>
-                            <button>Add to cart</button>
+                            <button onclick="addToCart(${product.id})">Add to cart</button>
                         </td>
                         <c:set var="productsInRow" value="${productsInRow+1}"/>
                         <c:if test="${productsInRow>=ProductsPageConfig.PRODUCTS_PER_LINE}">
