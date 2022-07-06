@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn" strict="true">
     <Appenders>
-        <RollingFile name="File" fileName="D:\java\pre_prod_java_winter_2022\target\webShop-1.0-SNAPSHOT\WEB-INF\logs\webShop.log" append="true"
+        <RollingFile name="File" fileName="logs\webShop.log" append="true"
                      filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">>
             <PatternLayout>
                 <Pattern>%sn %d{yyyy/MM/dd HH:mm:ss} %-5p [%t] %C{3}.%M(%F:%L) – %m%n</Pattern>

@@ -20,16 +20,10 @@
         <body-content>empty</body-content>
     </tag>
     <tag>
-        <name>productsTag</name>
-        <tag-class>com.webShop.customTag.ProductsTag</tag-class>
-        <body-content>empty</body-content>
-    </tag>
-    <tag>
         <name>cartTag</name>
         <tag-class>com.webShop.customTag.CartTag</tag-class>
         <body-content>empty</body-content>
     </tag>
-
 
     <!-- Invoke 'Generate' action to add tags or functions -->
 
