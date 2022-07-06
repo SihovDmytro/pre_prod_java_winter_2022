@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Validator {
+
     public static Map<String, String> validateLogin(LoginFormBean bean, UsersService usersService, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
         if (!validateLogin(bean.getLogin())) {

@@ -1,6 +1,3 @@
-<%@page import="com.webShop.util.Constants" %>
-<%@page import="com.webShop.util.Parameters" %>
-<%@page import="com.webShop.util.Attributes" %>
 <%@ taglib prefix="WStags" uri="http://webShopTags.com" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,12 +24,13 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/web-shop.css">
+    <link rel="stylesheet" type="text/css" href="css/webShop.css">
     <!--===============================================================================================-->
 </head>
 <body>
 
 <div class="limiter">
+    <a href="filter">Show products</a>
     <div class="container-login100">
         <div class="wrap-login100">
             <WStags:loginTag/>
