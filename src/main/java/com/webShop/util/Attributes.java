@@ -23,6 +23,6 @@ public class Attributes {
     public static final String PRODUCTS = "products";
     public static final String COUNT_PRODUCTS = "countProducts";
     public static final String URL = "url";
-    public static final String CART = "cart";
+    public static final String CART = "cartService";
     public static final String QUERY_STRING = "queryString";
 }

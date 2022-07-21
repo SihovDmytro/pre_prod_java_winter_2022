@@ -1,7 +1,6 @@
 <%@page import="com.webShop.entity.SortOption" %>
 <%@page import="com.webShop.util.Attributes" %>
 <%@page import="com.webShop.util.Constants" %>
-<%@page import="com.webShop.service.CartService" %>
 <%@page import="com.webShop.util.Messages" %>
 <%@page import="java.lang.String" %>
 <%@page import="java.lang.Math" %>
@@ -87,7 +86,7 @@
     <div class="container-products">
         <div>
             <a href="cart.jsp"><img id="cart-img" src="images/icons/cart.png" width="64" height="64"></a>
-            <label id="cart-size" for="cart-img">${sessionScope.cart.count()}</label>
+            <label id="cart-size" for="cart-img">${sessionScope.cartService.count()}</label>
         </div>
         <c:choose>
             <c:when test="${requestScope.products.size() > 0}">

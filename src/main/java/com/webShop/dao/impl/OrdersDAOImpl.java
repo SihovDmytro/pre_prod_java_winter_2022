@@ -19,7 +19,9 @@ public class OrdersDAOImpl implements OrdersDAO {
 
     @Override
     public boolean add(Order order, Connection connection) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(SQLCommands.INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                SQLCommands.INSERT_ORDER,
+                Statement.RETURN_GENERATED_KEYS)) {
             mapOrder(statement, order);
             statement.executeUpdate();
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
@@ -30,7 +32,7 @@ public class OrdersDAOImpl implements OrdersDAO {
             }
         } catch (SQLException exception) {
             LOG.error("Cannot add order", exception);
-            throw new SQLException();
+            throw new SQLException("Cannot add order");
         }
         return true;
     }

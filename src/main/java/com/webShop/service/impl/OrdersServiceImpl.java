@@ -16,6 +16,6 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public void add(Order order) {
-        transactionManager.doInTransaction((connection -> ordersDAO.add(order, connection)));
+        transactionManager.doInTransaction(connection -> ordersDAO.add(order, connection));
     }
 }
