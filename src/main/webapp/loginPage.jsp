@@ -28,7 +28,7 @@
     <!--===============================================================================================-->
 </head>
 <body>
-
+<WStags:languageTag/>
 <div class="limiter">
     <a href="filter">Show products</a>
     <div class="container-login100">
@@ -38,8 +38,6 @@
     </div>
 </div>
 
-
-<!--===============================================================================================-->
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
 <script src="vendor/animsition/js/animsition.min.js"></script>
@@ -54,7 +52,7 @@
 <!--===============================================================================================-->
 <script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
+<script src="js/localization.js"></script>
 <script src="js/validateLogin.js"></script>
-
 </body>
 </html>

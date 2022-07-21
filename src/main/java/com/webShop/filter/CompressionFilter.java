@@ -1,7 +1,9 @@
 package com.webShop.filter;
 
+import com.task5.subtask2.util.FilterUtil;
 import com.webShop.entity.ResponseWrapper;
 import com.webShop.util.Constants;
+import com.webShop.util.ListenersUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,35 +19,30 @@ public class CompressionFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        LOG.trace("CompressionFilter start");
-        chain.doFilter(request, response);
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if (!isGzipSupported(httpRequest) || contentTypeIsText(httpRequest)) {
-            chain.doFilter(request, response);
-        } else {
-            LOG.trace("Response compressing");
-            httpResponse.setHeader(Constants.CONTENT_ENCODING_HEADER, Constants.GZIP);
+        if (isGzipSupported(httpRequest)) {
+            LOG.info("CompressionFilter started: " + httpRequest.getRequestURL());
             ResponseWrapper responseWrapper = new ResponseWrapper(httpResponse);
-            chain.doFilter(request, responseWrapper);
+            chain.doFilter(httpRequest, responseWrapper);
             responseWrapper.close();
-            try (OutputStreamWriter tempOut = new OutputStreamWriter(new GZIPOutputStream(httpResponse.getOutputStream()))) {
-                LOG.debug("response: " + responseWrapper);
-                tempOut.write(responseWrapper.toString());
-            } catch (IOException exception) {
-                LOG.error("Cannot send response", exception);
+            LOG.info("contentType: " + httpResponse.getContentType());
+            if (ListenersUtil.isContentTypeHTML(httpResponse)) {
+                LOG.trace("compress content");
+                httpResponse.setHeader(Constants.CONTENT_ENCODING_HEADER, Constants.GZIP);
+                try (OutputStreamWriter tempOut = new OutputStreamWriter(new GZIPOutputStream(httpResponse.getOutputStream()))) {
+                    tempOut.write(responseWrapper.toString());
+                } catch (IOException exception) {
+                    LOG.error("Cannot send response", exception);
+                }
             }
         }
+        chain.doFilter(httpRequest, httpResponse);
 
     }
 
     private boolean isGzipSupported(HttpServletRequest request) {
         String encodings = request.getHeader(Constants.ACCEPT_ENCODING_HEADER);
         return encodings != null && encodings.contains(Constants.GZIP);
-    }
-
-    private boolean contentTypeIsText(HttpServletRequest request) {
-        String contentType = request.getHeader(Constants.CONTENT_TYPE_HEADER);
-        return contentType != null && contentType.startsWith(Constants.TEXT);
     }
 }

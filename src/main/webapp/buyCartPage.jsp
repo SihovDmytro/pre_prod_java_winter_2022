@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/webShop.css">
 </head>
 <body>
+<WStags:languageTag/>
 <div class="limit">
     <div class="content-container">
         <form class="buy-cart-form" method="post" action="${Constants.BUY_CART_SERVLET}">
@@ -62,5 +63,6 @@
 
 </div>
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="js/localization.js"></script>
 </body>
 </html>

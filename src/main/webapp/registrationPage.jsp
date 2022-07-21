@@ -31,7 +31,7 @@
     <!--===============================================================================================-->
 </head>
 <body>
-
+<WStags:languageTag/>
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
@@ -148,6 +148,6 @@
 <script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 <script src="js/validateRegistration.js"></script>
-
+<script src="js/localization.js"></script>
 </body>
 </html>

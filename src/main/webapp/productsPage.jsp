@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/webShop.css">
 </head>
 <body>
+<WStags:languageTag/>
 <div class="limit">
     <div class="container-filters">
         <form class="filter-form" id="filter-form" name="filter-form"
@@ -85,6 +86,7 @@
     </div>
 </div>
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="js/localization.js"></script>
 <script src="js/productsPage.js"></script>
 </body>
 </html>

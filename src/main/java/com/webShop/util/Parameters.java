@@ -21,4 +21,8 @@ public class Parameters {
     public static final String SORT_TYPE = "sortType";
     public static final String PRODUCT_ID = "productID";
     public static final String COUNT = "count";
+    public static final String COOKIE_MAX_AGE = "cookieMaxAge";
+    public static final String SUPPORTED_LOCALES = "supportedLocales";
+    public static final String DEFAULT_LOCALE = "defaultLocale";
+    public static final String LANG = "lang";
 }

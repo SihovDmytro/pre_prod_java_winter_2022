@@ -29,6 +29,11 @@
         <tag-class>com.webShop.customTag.CartTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>languageTag</name>
+        <tag-class>com.webShop.customTag.LanguageTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 
 
     <!-- Invoke 'Generate' action to add tags or functions -->

@@ -15,6 +15,7 @@ public class Constants {
     public static final String RESULT_PAGE_PATH = "resultPage.jsp";
     public static final String IMAGE = "image/";
     public static final String TEXT = "text/";
+    public static final String TEXT_HTML = "text/html";
     public static final String SORT_BY_NAME_ASC = "by name ascending";
     public static final String SORT_BY_NAME_DESC = "by name descending";
     public static final String SORT_BY_PRICE_ASC = "by price ascending";
@@ -34,4 +35,7 @@ public class Constants {
     public static final String ACCEPT_ENCODING_HEADER = "Accept-Encoding";
     public static final String CONTENT_ENCODING_HEADER = "Content-Encoding";
     public static final String GZIP = "gzip";
+    public static final String ACCEPT_HEADER = "Accept";
+    public static final String CURRENT_LOCALE = "currentLocale";
+    public static final String ACCEPT_LANGUAGE = "accept-language";
 }

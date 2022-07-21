@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/webShop.css">
 </head>
 <body>
+<WStags:languageTag/>
 <div class="limit">
     <div class="content-container">
         Your order was created
@@ -16,6 +17,7 @@
     </div>
 
 </div>
+<script src="js/localization.js"></script>
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 </body>
 </html>
