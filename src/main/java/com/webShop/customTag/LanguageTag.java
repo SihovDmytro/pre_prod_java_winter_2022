@@ -1,6 +1,5 @@
 package com.webShop.customTag;
 
-import com.webShop.listener.ContextListener;
 import com.webShop.util.Parameters;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

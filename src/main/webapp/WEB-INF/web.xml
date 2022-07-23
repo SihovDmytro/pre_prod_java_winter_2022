@@ -21,7 +21,7 @@
         <init-param>
             <param-name>localizationProvider</param-name>
             <!-- cookie|session -->
-            <param-value>session</param-value>
+            <param-value>cookie</param-value>
         </init-param>
     </filter>
     <filter>
@@ -30,11 +30,15 @@
     </filter>
     <filter-mapping>
         <filter-name>cacheFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>localizationFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>compressionFilter</filter-name>

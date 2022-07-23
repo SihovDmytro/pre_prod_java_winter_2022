@@ -1,12 +1,9 @@
 <%@page import="com.webShop.entity.SortOption" %>
 <%@page import="com.webShop.util.Attributes" %>
 <%@page import="com.webShop.util.Constants" %>
-<%@page import="com.webShop.service.CartService" %>
-<%@ taglib prefix="WStags" uri="http://webShopTags.com" %>
 <%@page import="com.webShop.util.WebShopUtil" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en">
+
+<%@ include file="/WEB-INF/jspf/page.jspf" %>
 <head>
     <title>Products</title>
     <meta charset="UTF-8">

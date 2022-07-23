@@ -24,5 +24,6 @@ public class Parameters {
     public static final String COOKIE_MAX_AGE = "cookieMaxAge";
     public static final String SUPPORTED_LOCALES = "supportedLocales";
     public static final String DEFAULT_LOCALE = "defaultLocale";
+    public static final String LOCALIZATION_PROVIDER = "localizationProvider";
     public static final String LANG = "lang";
 }

@@ -5,57 +5,60 @@ import com.webShop.localization.strategy.LocalizationProvider;
 import com.webShop.localization.strategy.impl.CookieLocalizationProviderImpl;
 import com.webShop.localization.strategy.impl.SessionLocalizationProviderImpl;
 import com.webShop.util.Constants;
-import com.webShop.util.ListenersUtil;
 import com.webShop.util.Parameters;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class LocalizationFilter implements Filter {
     private static final Logger LOG = LogManager.getLogger(LocalizationFilter.class);
-    private static final String LOCALIZATION_PROVIDER = "localizationProvider";
     private List<Locale> supportedLocales;
     private Locale defaultLocale;
     private LocalizationProvider localizationProvider;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        try {
+        String supportedLocalesInitParam = filterConfig.getInitParameter(Parameters.SUPPORTED_LOCALES);
+        String[] supportedLocales = supportedLocalesInitParam.split("\\|");
+        String defaultLocale = filterConfig.getInitParameter(Parameters.DEFAULT_LOCALE);
+        LOG.info("supportedLocales: " + Arrays.toString(supportedLocales));
+        LOG.info("defaultLocale: " + defaultLocale);
 
+        this.supportedLocales = new ArrayList<>();
+        for (String language : supportedLocales) {
+            this.supportedLocales.add(Locale.forLanguageTag(language));
+        }
+        this.defaultLocale = Locale.forLanguageTag(defaultLocale);
+        validateLocales(this.supportedLocales, this.defaultLocale);
+        filterConfig.getServletContext().setAttribute(Parameters.SUPPORTED_LOCALES, this.supportedLocales);
 
-            String supportedLocalesInitParam = filterConfig.getInitParameter(Parameters.SUPPORTED_LOCALES);
-            String[] supportedLocales = supportedLocalesInitParam.split("\\|");
-            String defaultLocale = filterConfig.getInitParameter(Parameters.DEFAULT_LOCALE);
-            LOG.info("supportedLocales: " + Arrays.toString(supportedLocales));
-            LOG.info("defaultLocale: " + defaultLocale);
-
-            this.supportedLocales = new ArrayList<>();
-            for (String language : supportedLocales) {
-                this.supportedLocales.add(Locale.forLanguageTag(language));
-            }
-            this.defaultLocale = Locale.forLanguageTag(defaultLocale);
-            validateLocales(this.supportedLocales, this.defaultLocale);
-            filterConfig.getServletContext().setAttribute(Parameters.SUPPORTED_LOCALES, this.supportedLocales);
-
-            String localizationProviderInitParam = filterConfig.getInitParameter(LOCALIZATION_PROVIDER);
-            LOG.trace("localizationProviderInitParam: " + localizationProviderInitParam);
-            Map<String, LocalizationProvider> localizationProviderMap = getLocalizationProviderMap();
-            localizationProvider = localizationProviderMap.getOrDefault(localizationProviderInitParam, new SessionLocalizationProviderImpl());
-            LOG.info("localizationProvider: " + localizationProvider);
-        }catch (Exception e){LOG.info(e);}
+        String localizationProviderInitParam = filterConfig.getInitParameter(Parameters.LOCALIZATION_PROVIDER);
+        LOG.trace("localizationProviderInitParam: " + localizationProviderInitParam);
+        Map<String, LocalizationProvider> localizationProviderMap = getLocalizationProviderMap();
+        localizationProvider = localizationProviderMap.getOrDefault(localizationProviderInitParam, new SessionLocalizationProviderImpl());
+        LOG.info("localizationProvider: " + localizationProvider);
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        if (!ListenersUtil.acceptsHTML(httpServletRequest)) {
-            chain.doFilter(httpServletRequest, httpServletResponse);
-        }
+
         LOG.trace("LocalizationFilter started: " + httpServletRequest.getRequestURL());
 
         Locale currLocale = null;
@@ -108,8 +111,8 @@ public class LocalizationFilter implements Filter {
 
     private Map<String, LocalizationProvider> getLocalizationProviderMap() {
         Map<String, LocalizationProvider> map = new HashMap<>();
-        map.put("session", new SessionLocalizationProviderImpl());
-        map.put("cookie", new CookieLocalizationProviderImpl());
+        map.put(LocalizationProvider.SESSION, new SessionLocalizationProviderImpl());
+        map.put(LocalizationProvider.COOKIE, new CookieLocalizationProviderImpl());
         return map;
     }
 }

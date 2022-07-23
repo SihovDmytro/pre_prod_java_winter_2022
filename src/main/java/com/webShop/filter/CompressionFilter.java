@@ -1,13 +1,16 @@
 package com.webShop.filter;
 
-import com.task5.subtask2.util.FilterUtil;
 import com.webShop.entity.ResponseWrapper;
 import com.webShop.util.Constants;
 import com.webShop.util.ListenersUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,7 +30,7 @@ public class CompressionFilter implements Filter {
             chain.doFilter(httpRequest, responseWrapper);
             responseWrapper.close();
             LOG.info("contentType: " + httpResponse.getContentType());
-            if (ListenersUtil.isContentTypeHTML(httpResponse)) {
+            if (ListenersUtil.isContentTypeHtml(httpResponse)) {
                 LOG.trace("compress content");
                 httpResponse.setHeader(Constants.CONTENT_ENCODING_HEADER, Constants.GZIP);
                 try (OutputStreamWriter tempOut = new OutputStreamWriter(new GZIPOutputStream(httpResponse.getOutputStream()))) {

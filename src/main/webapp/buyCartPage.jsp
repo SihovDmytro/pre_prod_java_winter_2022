@@ -1,8 +1,5 @@
 <%@page import="com.webShop.util.Constants" %>
-<%@ taglib prefix="WStags" uri="http://webShopTags.com" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@ include file="/WEB-INF/jspf/page.jspf" %>
 <head>
     <title>Cart</title>
     <meta charset="UTF-8">

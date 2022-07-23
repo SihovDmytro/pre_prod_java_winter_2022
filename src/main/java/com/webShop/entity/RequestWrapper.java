@@ -1,16 +1,14 @@
 package com.webShop.entity;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Locale;
 
 public class RequestWrapper extends HttpServletRequestWrapper {
     private Locale locale;
-
 
     /**
      * Constructs a request object wrapping the given request.

@@ -1,9 +1,7 @@
-<%@ taglib prefix="WStags" uri="http://webShopTags.com" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@ include file="/WEB-INF/jspf/page.jspf" %>
 <head>
-    <title>Sign In</title>
-    <meta charset="UTF-8">
+    <title><fmt:message key="loginPage.title"/></title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
