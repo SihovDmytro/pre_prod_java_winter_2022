@@ -17,7 +17,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderID, OrderStatus status, String statusDescription, Calendar date, User user, List<ProductInfo> products) {
+    public Order(int orderID, OrderStatus status,
+                 String statusDescription, Calendar date,
+                 User user, List<ProductInfo> products) {
         this.orderID = orderID;
         this.status = status;
         this.statusDescription = statusDescription;
@@ -26,7 +28,9 @@ public class Order {
         this.products = products;
     }
 
-    public Order(OrderStatus status, String statusDescription, Calendar date, User user, List<ProductInfo> products) {
+    public Order(OrderStatus status, String statusDescription,
+                 Calendar date, User user,
+                 List<ProductInfo> products) {
         this.status = status;
         this.statusDescription = statusDescription;
         this.date = date;

@@ -49,7 +49,11 @@ class CartServletTest {
 
     @Test
     public void shouldAddProductToCart() throws IOException, ServletException {
-        Product product = new Product(1, "bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1");
+        Product product = new Product(
+                1, "bnm",
+                new BigDecimal("321"), "cat1",
+                "prod1", "desk1",
+                "img1");
         when(cartServlet.getServletContext()).thenReturn(servletContext);
         when(servletContext.getAttribute(Attributes.PRODUCTS_SERVICE)).thenReturn(productsService);
         when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn("1");
@@ -71,7 +75,10 @@ class CartServletTest {
 
     @Test
     public void shouldDeleteProductFromCart() throws IOException, ServletException {
-        Product product = new Product(1, "bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1");
+        Product product = new Product(1, "bnm",
+                new BigDecimal("321"), "cat1",
+                "prod1", "desk1",
+                "img1");
         when(cartServlet.getServletContext()).thenReturn(servletContext);
         when(servletContext.getAttribute(Attributes.PRODUCTS_SERVICE)).thenReturn(productsService);
         when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn("1");
@@ -93,7 +100,10 @@ class CartServletTest {
 
     @Test
     public void shouldChangeProductNumber() throws IOException, ServletException {
-        Product product = new Product(1, "bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1");
+        Product product = new Product(1, "bnm",
+                new BigDecimal("321"), "cat1",
+                "prod1", "desk1",
+                "img1");
         when(cartServlet.getServletContext()).thenReturn(servletContext);
         when(servletContext.getAttribute(Attributes.PRODUCTS_SERVICE)).thenReturn(productsService);
         when(request.getParameter(Parameters.PRODUCT_ID)).thenReturn("1");

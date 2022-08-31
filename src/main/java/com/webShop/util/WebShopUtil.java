@@ -2,7 +2,10 @@ package com.webShop.util;
 
 import com.task1.subtask2.ArrayList;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WebShopUtil {
     private static final String AND = "&";
@@ -15,9 +18,19 @@ public class WebShopUtil {
         return Arrays.asList(array).contains(value);
     }
 
+    public static int getLastPage(int countProducts, int pageSize) {
+        return (int) Math.ceil((double) countProducts / pageSize);
+    }
+
+    public static String updatePage(String params, int page) {
+        Map<String, List<String>> paramsMap = extractParams(params);
+        paramsMap.put(Parameters.PAGE, Arrays.asList(String.valueOf(page)));
+        return paramsToString(paramsMap);
+    }
+
     public static Map<String, List<String>> extractParams(String url) {
         Map<String, List<String>> map = new LinkedHashMap<>();
-        if (url == null) {
+        if (url == null || url.length() == 0) {
             return map;
         }
         String[] params = url.split(AND);
@@ -41,7 +54,7 @@ public class WebShopUtil {
         StringBuilder paramsString = new StringBuilder();
         String and = "";
         for (Map.Entry<String, List<String>> entry : params.entrySet()) {
-            for(String value : entry.getValue()){
+            for (String value : entry.getValue()) {
                 paramsString.append(and).append(entry.getKey()).append(EQUAL).append(value);
             }
             and = AND;

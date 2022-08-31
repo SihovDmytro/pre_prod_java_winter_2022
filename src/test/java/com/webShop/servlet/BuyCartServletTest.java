@@ -52,7 +52,10 @@ class BuyCartServletTest {
         User user = new User("dmytro", "Dmytro", "Sihov",
                 "abrakadabra", "Dmytro_Sihov@epam.com", false);
         Map<Product, Integer> cart = new HashMap<>();
-        Product product = new Product(1, "bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1");
+        Product product = new Product(1, "bnm",
+                new BigDecimal("321"), "cat1",
+                "prod1", "desk1",
+                "img1");
         cart.put(product, 2);
 
         when(buyCartServlet.getServletContext()).thenReturn(servletContext);
