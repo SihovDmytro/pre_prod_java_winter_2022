@@ -8,50 +8,52 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 public class ResponseWrapper extends HttpServletResponseWrapper {
-
-    private ServletOutputStream outputStream;
-    private PrintWriter printWriter;
-    private CustomServletOutputStream customServletOutputStream;
+    protected HttpServletResponse origResponse;
+    protected ServletOutputStream stream = null;
+    protected PrintWriter writer = null;
 
     public ResponseWrapper(HttpServletResponse response) {
         super(response);
+        origResponse = response;
     }
 
-    public void close() throws IOException {
-        if (printWriter != null) {
-            printWriter.close();
-        }
-        if (outputStream != null) {
-            outputStream.close();
-        }
-        customServletOutputStream.close();
+    public ServletOutputStream createOutputStream() throws IOException {
+        return new CustomServletOutputStream(origResponse);
     }
 
-    @Override
+    public void finishResponse() throws IOException {
+        if (writer != null) {
+            writer.close();
+        } else if (stream != null) {
+            stream.close();
+        }
+    }
+
+    public void flushBuffer() throws IOException {
+        stream.flush();
+    }
+
     public ServletOutputStream getOutputStream() throws IOException {
-        if (printWriter != null) {
-            throw new IllegalStateException();
+        if (writer != null) {
+            throw new IllegalStateException("getWriter() has already been called!");
         }
-        if (outputStream == null) {
-            outputStream = customServletOutputStream = new CustomServletOutputStream();
-        }
-        return outputStream;
+
+        if (stream == null)
+            stream = createOutputStream();
+        return stream;
     }
 
-    @Override
     public PrintWriter getWriter() throws IOException {
-        if (outputStream != null) {
-            throw new IllegalStateException();
+        if (writer != null) {
+            return writer;
         }
-        if (printWriter == null) {
-            customServletOutputStream = new CustomServletOutputStream();
-            printWriter = new PrintWriter(new OutputStreamWriter(customServletOutputStream, getResponse().getCharacterEncoding()));
-        }
-        return printWriter;
-    }
 
-    @Override
-    public String toString() {
-        return customServletOutputStream.toString();
+        if (stream != null) {
+            throw new IllegalStateException("getOutputStream() has already been called!");
+        }
+
+        stream = createOutputStream();
+        writer = new PrintWriter(new OutputStreamWriter(stream, "UTF-8"));
+        return writer;
     }
 }

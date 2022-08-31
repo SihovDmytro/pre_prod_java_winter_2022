@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ListenersUtil {
     public static boolean isContentTypeHtml(HttpServletResponse response) {
-        return response.getContentType().startsWith(Constants.TEXT_HTML);
+        String contentType = response.getContentType();
+        return contentType != null && contentType.startsWith(Constants.TEXT_HTML);
     }
 }

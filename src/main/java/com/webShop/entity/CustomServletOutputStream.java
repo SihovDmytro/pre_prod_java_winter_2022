@@ -2,55 +2,80 @@ package com.webShop.entity;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.zip.GZIPOutputStream;
 
 public class CustomServletOutputStream extends ServletOutputStream {
-    final AtomicBoolean open = new AtomicBoolean(true);
+    public static final String CONTENT_ENCODING = "Content-Encoding";
+    public static final String GZIP = "gzip";
 
-    private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    protected ByteArrayOutputStream byteArrayOutputStream;
+    protected GZIPOutputStream gzipstream;
+    protected boolean closed;
+    protected HttpServletResponse response;
+    protected ServletOutputStream output;
 
-    public CustomServletOutputStream() throws IOException {
-        super();
+    public CustomServletOutputStream(HttpServletResponse response) throws IOException {
+        closed = false;
+        this.response = response;
+        output = response.getOutputStream();
+        byteArrayOutputStream = new ByteArrayOutputStream();
+        gzipstream = new GZIPOutputStream(byteArrayOutputStream);
     }
 
-
-    @Override
-    public void write(byte[] b) throws IOException {
-        outputStream.write(b);
-    }
-
-    @Override
-    public void write(byte[] b, int off, int len) throws IOException {
-        outputStream.write(b, off, len);
-
-    }
-
-    @Override
-    public void write(int b) throws IOException {
-
-        outputStream.write(b);
-    }
-
-    @Override
     public void close() throws IOException {
-        if (open.compareAndSet(true, false)) {
-            outputStream.close();
+        if (closed) {
+            throw new IOException("This output stream has already been closed");
         }
+        gzipstream.finish();
+
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+
+        response.addHeader(CONTENT_ENCODING, GZIP);
+        output.write(bytes);
+        output.flush();
+        output.close();
+        closed = true;
+    }
+
+    public void flush() throws IOException {
+        if (closed) {
+            throw new IOException("Cannot flush a closed output stream");
+        }
+        gzipstream.flush();
+    }
+
+    public void write(int b) throws IOException {
+        if (closed) {
+            throw new IOException("Cannot write to a closed output stream");
+        }
+        gzipstream.write((byte)b);
+    }
+
+    public void write(byte b[]) throws IOException {
+        write(b, 0, b.length);
+    }
+
+    public void write(byte b[], int off, int len) throws IOException {
+        if (closed) {
+            throw new IOException("Cannot write to a closed output stream");
+        }
+        gzipstream.write(b, off, len);
+    }
+
+    public boolean closed() {
+        return (this.closed);
     }
 
     @Override
     public boolean isReady() {
-        return open.get();
+        return false;
     }
 
     @Override
     public void setWriteListener(WriteListener writeListener) {
-    }
 
-    @Override
-    public String toString() {
-        return outputStream.toString();
     }
 }
