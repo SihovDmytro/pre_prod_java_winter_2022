@@ -62,6 +62,10 @@ public class Validator {
         return errors;
     }
 
+    public static boolean validateCount(int count) {
+        return count > 0 && count < 100;
+    }
+
     private static boolean validateLogin(String login) {
         String loginPattern = "^[\\w_-]{3,20}$";
         return login != null && login.length() <= 20 && login.length() >= 3 && login.matches(loginPattern);

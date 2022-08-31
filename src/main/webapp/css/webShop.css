@@ -39,3 +39,27 @@
     display: flex;
     justify-content: space-between;
 }
+
+
+.cart, td{
+    border: 1px solid black;
+}
+
+.content-container{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
+.buy-cart-form{
+    padding-left: 30px;
+    padding-right: 15px;
+    border: 1px solid black;
+    height: 650px;
+    width: 500px;
+    position: relative;
+}
+
+.wrap-input{
+    margin-bottom: 15px;
+}

@@ -5,17 +5,20 @@ import com.webShop.captcha.strategy.impl.CaptchaProviderCookieStrategyImpl;
 import com.webShop.captcha.strategy.impl.CaptchaProviderHiddenFieldStrategyImpl;
 import com.webShop.captcha.strategy.impl.CaptchaProviderSessionStrategyImpl;
 import com.webShop.dao.impl.CategoriesDAOImpl;
+import com.webShop.dao.impl.OrdersDAOImpl;
 import com.webShop.dao.impl.ProducersDAOImpl;
 import com.webShop.dao.impl.UsersDAOImpl;
 import com.webShop.entity.SortOption;
 import com.webShop.entity.SortOrder;
 import com.webShop.repository.impl.ProductsRepositoryImpl;
 import com.webShop.service.CategoriesService;
+import com.webShop.service.OrdersService;
 import com.webShop.service.ProducersService;
 import com.webShop.service.ProductsService;
 import com.webShop.service.UsersService;
 import com.webShop.service.impl.CaptchaServiceImpl;
 import com.webShop.service.impl.CategoriesServiceImpl;
+import com.webShop.service.impl.OrdersServiceImpl;
 import com.webShop.service.impl.ProducersServiceImpl;
 import com.webShop.service.impl.ProductsServiceImpl;
 import com.webShop.service.impl.UsersServiceImpl;
@@ -79,7 +82,8 @@ public class ContextListener implements ServletContextListener {
         context.setAttribute(Attributes.PRODUCERS_SERVICE, producersService);
         ProductsService productsService = new ProductsServiceImpl(transactionManager, new ProductsRepositoryImpl());
         context.setAttribute(Attributes.PRODUCTS_SERVICE, productsService);
-
+        OrdersService ordersService = new OrdersServiceImpl(transactionManager, new OrdersDAOImpl());
+        context.setAttribute(Attributes.ORDERS_SERVICE, ordersService);
 
         List<Integer> pageSizes = getPageSizes();
         LOG.debug("pageSizes: " + pageSizes);

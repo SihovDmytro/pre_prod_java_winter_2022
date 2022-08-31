@@ -35,27 +35,29 @@ class ProductsRepositoryImplTest {
 
     @Test
     public void shouldReturnProducts() throws SQLException {
-        Product product1 = new Product("bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1");
-        Product product2 = new Product("Abc", new BigDecimal("123"), "cat2", "prod2", "desk2", "img2");
+        Product product1 = new Product(1,"bnm", new BigDecimal("321"), "cat1", "prod1", "desk1", "img1");
+        Product product2 = new Product(2, "Abc", new BigDecimal("123"), "cat2", "prod2", "desk2", "img2");
         List<Product> expected = new ArrayList<>();
         expected.add(product1);
         expected.add(product2);
         when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(resultSet.getString(1)).thenReturn(product1.getName()).thenReturn(product2.getName());
-        when(resultSet.getBigDecimal(2)).thenReturn(product1.getPrice()).thenReturn(product2.getPrice());
-        when(resultSet.getString(3)).thenReturn(product1.getCategory()).thenReturn(product2.getCategory());
-        when(resultSet.getString(4)).thenReturn(product1.getProducer()).thenReturn(product2.getProducer());
-        when(resultSet.getString(5)).thenReturn(product1.getDescription()).thenReturn(product2.getDescription());
-        when(resultSet.getString(6)).thenReturn(product1.getImage()).thenReturn(product2.getImage());
+        when(resultSet.getInt(1)).thenReturn(1).thenReturn(2);
+        when(resultSet.getString(2)).thenReturn(product1.getName()).thenReturn(product2.getName());
+        when(resultSet.getBigDecimal(3)).thenReturn(product1.getPrice()).thenReturn(product2.getPrice());
+        when(resultSet.getString(4)).thenReturn(product1.getCategory()).thenReturn(product2.getCategory());
+        when(resultSet.getString(5)).thenReturn(product1.getProducer()).thenReturn(product2.getProducer());
+        when(resultSet.getString(6)).thenReturn(product1.getDescription()).thenReturn(product2.getDescription());
+        when(resultSet.getString(7)).thenReturn(product1.getImage()).thenReturn(product2.getImage());
         ProductsPageBean bean = new ProductsPageBean();
         bean.setSortType(ProductsPageConfig.DEFAULT_SORT_OPTION);
         bean.setPage(1);
         bean.setPageSize(5);
 
         List<Product> actual = productsRepository.getProducts(bean, connection);
-
+        for (Product p : actual) System.out.println(p);
+        for (Product p : expected) System.out.println(p);
         boolean check = actual.get(0).equals(expected.get(0)) && actual.get(1).equals(expected.get(1));
 
         Assertions.assertTrue(check);

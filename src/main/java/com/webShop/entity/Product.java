@@ -10,17 +10,38 @@ public class Product {
     private String producer;
     private String description;
     private String image;
+    private int id;
 
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, String category, String producer, String description, String image) {
+    public Product(Product product) {
+        this.name = product.getName();
+        this.price = product.getPrice();
+        this.category = product.getCategory();
+        this.producer = product.getProducer();
+        this.description = product.getDescription();
+        this.image = product.getImage();
+        this.id = product.getId();
+    }
+
+
+    public Product(int id, String name, BigDecimal price, String category, String producer, String description, String image) {
         this.name = name;
         this.price = price;
         this.category = category;
         this.producer = producer;
         this.description = description;
         this.image = image;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

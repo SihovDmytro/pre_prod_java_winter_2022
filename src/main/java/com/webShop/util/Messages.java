@@ -13,4 +13,6 @@ public class Messages {
     public static final String LOGIN_FAIL = "Wrong login or password";
     public static final String INVALID_AVATAR = "Invalid avatar";
     public static final String DID_NOT_MATCH = "Sorry, your search did not match any products.";
+    public static final String ORDER_ACCEPTED = "Your order was accepted";
+    public static final String EMPTY_ORDER = "Your order is empty";
 }
