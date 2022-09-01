@@ -6,5 +6,5 @@ public class AvatarConfig {
     public static final int MAX_FILE_SIZE = 1024 * 1024 * 15;
     public static final int MAX_REQUEST_SIZE = 1024 * 1024 * 30;
     public static final String AVATAR_EXTENSION = ".png";
-    public static final String AVATARS_FOLDER = "uploads";
+    public static final String AVATARS_FOLDER = "images/icons";
 }

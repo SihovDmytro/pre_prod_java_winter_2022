@@ -5,38 +5,50 @@ import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class CustomServletOutputStream extends ServletOutputStream {
     public static final String CONTENT_ENCODING = "Content-Encoding";
     public static final String GZIP = "gzip";
+    public static final String CONTENT_LENGTH = "Content-Length";
 
     protected ByteArrayOutputStream byteArrayOutputStream;
-    protected GZIPOutputStream gzipstream;
+    protected OutputStream gzipstream;
     protected boolean closed;
     protected HttpServletResponse response;
-    protected ServletOutputStream output;
+    protected ServletOutputStream servletOutput;
+    boolean useCompression;
 
-    public CustomServletOutputStream(HttpServletResponse response) throws IOException {
+    public CustomServletOutputStream(HttpServletResponse response, boolean useCompression) throws IOException {
         closed = false;
+        this.useCompression = useCompression;
         this.response = response;
-        output = response.getOutputStream();
+        servletOutput = response.getOutputStream();
         byteArrayOutputStream = new ByteArrayOutputStream();
-        gzipstream = new GZIPOutputStream(byteArrayOutputStream);
+        if (useCompression) {
+            gzipstream = new GZIPOutputStream(byteArrayOutputStream);
+        } else {
+            gzipstream = byteArrayOutputStream;
+        }
+
     }
 
     public void close() throws IOException {
         if (closed) {
             throw new IOException("This output stream has already been closed");
         }
-        gzipstream.finish();
+        if (useCompression) {
+            response.addHeader(CONTENT_ENCODING, GZIP);
+            ((GZIPOutputStream) gzipstream).finish();
+        }
 
         byte[] bytes = byteArrayOutputStream.toByteArray();
-
-        response.addHeader(CONTENT_ENCODING, GZIP);
-        output.write(bytes);
-        output.flush();
-        output.close();
+        response.addHeader(CONTENT_LENGTH,
+                Integer.toString(bytes.length));
+        servletOutput.write(bytes);
+        servletOutput.flush();
+        servletOutput.close();
         closed = true;
     }
 
@@ -51,14 +63,14 @@ public class CustomServletOutputStream extends ServletOutputStream {
         if (closed) {
             throw new IOException("Cannot write to a closed output stream");
         }
-        gzipstream.write((byte)b);
+        gzipstream.write((byte) b);
     }
 
-    public void write(byte b[]) throws IOException {
+    public void write(byte[] b) throws IOException {
         write(b, 0, b.length);
     }
 
-    public void write(byte b[], int off, int len) throws IOException {
+    public void write(byte[] b, int off, int len) throws IOException {
         if (closed) {
             throw new IOException("Cannot write to a closed output stream");
         }

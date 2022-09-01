@@ -1,4 +1,8 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
+<%@page import="java.math.BigDecimal" %>
+<%@page import="java.lang.Long" %>
+<%@page import="com.webShop.util.Constants" %>
+<%@page import="java.lang.String" %>
 <head>
     <title>Cart</title>
     <meta charset="UTF-8">

@@ -20,6 +20,7 @@ public class LocalizationUtil {
                 MissingResourceException exception) {
             LOG.error("Cannot find resource bundle", exception);
         }
-        return null;
+        LOG.info("Return default bundle");
+        return ResourceBundle.getBundle(BASENAME);
     }
 }

@@ -1,6 +1,10 @@
 <%@page import="com.webShop.entity.SortOption" %>
 <%@page import="com.webShop.util.Attributes" %>
 <%@page import="com.webShop.util.Constants" %>
+<%@page import="com.webShop.util.Messages" %>
+<%@page import="java.lang.String" %>
+<%@page import="java.lang.Math" %>
+<%@page import="com.webShop.util.ProductsPageConfig" %>
 <%@page import="com.webShop.util.WebShopUtil" %>
 
 <%@ include file="/WEB-INF/jspf/page.jspf" %>

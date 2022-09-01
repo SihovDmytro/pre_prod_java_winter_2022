@@ -52,7 +52,7 @@
     <context-param>
         <!-- seconds -->
         <param-name>cookieMaxAge</param-name>
-        <param-value>60</param-value>
+        <param-value>30</param-value>
     </context-param>
 
 </web-app>

@@ -11,6 +11,7 @@ import javax.servlet.http.Part;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class Validator {
 
@@ -30,34 +31,35 @@ public class Validator {
 
     public static Map<String, String> validateRegistration(RegistrationFormBean bean, UsersService usersService, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
+        ResourceBundle bundle = LocalizationUtil.getResourceBundle(request.getLocale());
         if (isPageExpired(request)) {
-            errors.put(Attributes.PAGE_GENERATION_TIME, Messages.EXPIRED_PAGE);
+            errors.put(Attributes.PAGE_GENERATION_TIME, bundle.getString(Messages.EXPIRED_PAGE));
         }
         if (!validateLogin(bean.getLogin())) {
-            errors.put(Parameters.LOGIN, Messages.INVALID_LOGIN);
+            errors.put(Parameters.LOGIN, bundle.getString(Messages.INVALID_LOGIN));
         } else if (usersService.getUserByLogin(bean.getLogin()).isPresent()) {
-            errors.put(Parameters.LOGIN, Messages.LOGIN_EXISTS);
+            errors.put(Parameters.LOGIN, bundle.getString(Messages.LOGIN_EXISTS));
         }
         if (!validateCaptcha(bean.getUserCaptcha(), request)) {
-            errors.put(Parameters.USER_CAPTCHA, Messages.WRONG_CAPTCHA);
+            errors.put(Parameters.USER_CAPTCHA, bundle.getString(Messages.WRONG_CAPTCHA));
         }
         if (!validatePassword(bean.getPassword())) {
-            errors.put(Parameters.PASSWORD, Messages.INVALID_PASSWORD);
+            errors.put(Parameters.PASSWORD, bundle.getString(Messages.INVALID_PASSWORD));
         }
         if (!validatePasswordRepeat(bean.getPassword(), bean.getPasswordRepeat())) {
-            errors.put(Parameters.REPEAT_PASSWORD, Messages.INVALID_PASSWORD_REPEAT);
+            errors.put(Parameters.REPEAT_PASSWORD, bundle.getString(Messages.INVALID_PASSWORD_REPEAT));
         }
         if (!validateEmail(bean.getEmail())) {
-            errors.put(Parameters.EMAIL, Messages.INVALID_EMAIL);
+            errors.put(Parameters.EMAIL, bundle.getString(Messages.INVALID_EMAIL));
         }
         if (!validateName(bean.getName())) {
-            errors.put(Parameters.NAME, Messages.INVALID_NAME);
+            errors.put(Parameters.NAME, bundle.getString(Messages.INVALID_NAME));
         }
         if (!validateSurname(bean.getSurname())) {
-            errors.put(Parameters.SURNAME, Messages.INVALID_SURNAME);
+            errors.put(Parameters.SURNAME, bundle.getString(Messages.INVALID_SURNAME));
         }
         if (!validateAvatar(bean.getAvatar())) {
-            errors.put(Parameters.AVATAR, Messages.INVALID_AVATAR);
+            errors.put(Parameters.AVATAR, bundle.getString(Messages.INVALID_AVATAR));
         }
         return errors;
     }
