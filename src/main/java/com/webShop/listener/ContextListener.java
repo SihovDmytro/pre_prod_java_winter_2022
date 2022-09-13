@@ -92,8 +92,6 @@ public class ContextListener implements ServletContextListener {
         List<SortOption> sortOptions = getSortOptions();
         LOG.debug("sortOptions: " + sortOptions);
         context.setAttribute(Attributes.SORT_TYPE, sortOptions);
-
-
     }
 
     private List<SortOption> getSortOptions() {
